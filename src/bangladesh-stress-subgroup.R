@@ -39,7 +39,7 @@ d <- readRDS(here("replication objects/simulated_stress_dataset.rds"))
 
 dim(d)
 
-
+#test
 
 # re-order the treatment factor for convenience, dropping the arms not included in stress
 d$tr <- factor(d$tr,levels=c("Control","Nutrition + WSH"))
