@@ -39,57 +39,52 @@ d$age <- as.factor(d$age)
 d$tr <- c("Control v. Nutrition + Water + Sanitation + Handwashing")
 
 
-  p <- ggplot(d, (aes(x=name, y=Mean.difference))) + 
-    geom_point(size=3) +
-    geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
-                   width = 0.3, size = 1) +
-    geom_hline(yintercept = 0) +
-    facet_wrap(~age, ncol=2, scales="free_y") +
-    coord_flip() +
-    #labs(y = " ", x = "", title=d$name, fill=" ") +
-    #coord_cartesian(ylim=c(d$`ci.l`[1]-(0.5*abs(dfci.l)), d$`ci.u`[1]+(0.5*abs(d$ci.l)))) +
-    theme(axis.ticks.x=element_blank(),
-          legend.position = "bottom",
-          plot.title = element_text(hjust = 0.5, face = "plain", size=9),
-          panel.spacing = unit(0, "lines")) 
-  p
+#split data for multiple plot panels
+d14 <- d %>% filter(age==14)
+d_res <- d %>% filter(name %in% c(""))
 
-  
-  
-  
-  p <- ggplot(d, (aes(x=name, y=Mean.difference))) + 
-    geom_point(size=3) +
-    geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
-                  width = 0.3, size = 1) +
-    geom_hline(yintercept = 0) +
-    facet_wrap(name~age, ncol=2, scales="free") +
-    coord_flip() +
-    #labs(y = " ", x = "", title=d$name, fill=" ") +
-    #coord_cartesian(ylim=c(d$`ci.l`[1]-(0.5*abs(dfci.l)), d$`ci.u`[1]+(0.5*abs(d$ci.l)))) +
-    theme(axis.ticks.x=element_blank(),
-          legend.position = "bottom",
-          plot.title = element_text(hjust = 0.5, face = "plain", size=9),
-          panel.spacing = unit(0, "lines")) 
-  p
-  
-  
-  p <- ggplot(d[d$age=="28",], (aes(x=name, y=Mean.difference))) + 
-    geom_point(size=3) +
-    geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
-                  width = 0.3, size = 1) +
-    geom_hline(yintercept = 0) +
-    facet_wrap(~name, ncol=1, scales="free") +
-    coord_flip() +
-    #labs(y = " ", x = "", title=d$name, fill=" ") +
-    #coord_cartesian(ylim=c(d$`ci.l`[1]-(0.5*abs(dfci.l)), d$`ci.u`[1]+(0.5*abs(d$ci.l)))) +
-    theme(axis.ticks.x=element_blank(),
-          legend.position = "bottom",
-          plot.title = element_text(hjust = 0.5, face = "plain", size=9),
-          panel.spacing = unit(0, "lines")) 
-  p
-  
-  #Drop residualized gain score
-  
-  
-ggsave(p1, file = here::here("figures/stress_unadjusted_diff.png"), height=9, width=14)
+unique(d$var)
+
+
+
+p <- ggplot(d, (aes(x=name, y=Mean.difference))) + 
+  geom_point(size=3) +
+  geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
+                width = 0.3, size = 1) +
+  geom_hline(yintercept = 0) +
+  facet_wrap(~age, ncol=2, scales="free_y") +
+  coord_flip() +
+  #labs(y = " ", x = "", title=d$name, fill=" ") +
+  #coord_cartesian(ylim=c(d$`ci.l`[1]-(0.5*abs(dfci.l)), d$`ci.u`[1]+(0.5*abs(d$ci.l)))) +
+  theme(axis.ticks.x=element_blank(),
+        legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5, face = "plain", size=9),
+        panel.spacing = unit(0, "lines")) 
+p
+
+
+
+
+p <- ggplot(d, (aes(x=name, y=Mean.difference))) + 
+  geom_point(size=3) +
+  geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
+                width = 0.3, size = 1) +
+  geom_hline(yintercept = 0) +
+  facet_wrap(name~age, ncol=2, scales="free") +
+  coord_flip() +
+  #labs(y = " ", x = "", title=d$name, fill=" ") +
+  #coord_cartesian(ylim=c(d$`ci.l`[1]-(0.5*abs(dfci.l)), d$`ci.u`[1]+(0.5*abs(d$ci.l)))) +
+  theme(axis.ticks.x=element_blank(),
+        legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5, face = "plain", size=9),
+        panel.spacing = unit(0, "lines")) 
+p
+
+
+
+#Drop residualized gain score
+
+
+#ggsave(p, file = here::here("figures/stress_forest_mean.png"), height=9, width=14)
+#ggsave(p, file = here::here("figures/stress_forest_diff.png"), height=9, width=14)
 
