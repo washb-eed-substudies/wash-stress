@@ -71,9 +71,15 @@ d <- d %>%
     t2_f2_23d=log(t2_f2_23d), 
     t2_f2_VI=log(t2_f2_VI),
     t2_f2_12i=log(t2_f2_12i), 
-    t3_gcr_mean=logit(t3_gcr_mean), 
-    t3_gcr_cpg12=logit(t3_gcr_cpg12))
-  
+    t3_gcr_mean2=logit(t3_gcr_mean/100), 
+    t3_gcr_cpg12=logit(t3_gcr_cpg12/100))
+
+
+#Clean inf values
+d <- do.call(data.frame,lapply(d, function(x) replace(x, is.infinite(x),NA)))
+
+
+
 
 plotdf <- bind_rows(
   data.frame(Y=d$t3_map, outcome="Mean arterial pressure"),
@@ -115,11 +121,11 @@ colnames(d)
 #---------------------------------------------------------------------------------------------
 
 d$childid <- as.numeric(d$childid)
-d <- d %>% subset(., select = -c(tr, birthord))
+d <- d %>% subset(., select = -c(tr, block, birthord))
 fulld <- read.csv(paste0(dropboxDir,"Data/Cleaned/Andrew/EE-BD_fulldata.csv"))
 
 #subset to needed variables
-fulld <- fulld %>% subset(., select = c(childid,sex,birthord,tr))#, wall:hfias))
+fulld <- fulld %>% subset(., select = c(childid,block,sex,birthord,tr))#, wall:hfias))
 
 dim(fulld)
 dim(d)
@@ -130,6 +136,8 @@ dim(df)
 df <- df %>% filter(tr %in% c("Control","Nutrition + WSH"))
 
 df$tr <- factor(df$tr, levels = c("Control","Nutrition + WSH"))
+
+table(is.na(df$block))
 
 
 #---------------------------------------------------------------------------------------------
@@ -143,6 +151,8 @@ df$tr <- factor(df$tr, levels = c("Control","Nutrition + WSH"))
 
 colnames(df)
 library(lubridate)
+df$samplecoldate_ut2 <- dmy(df$samplecoldate_ut2)
+
 df$samplecoldate_t3_vital <- dmy(df$samplecoldate_t3_vital)
 df$samplecoldate_t3_salimetrics <- dmy(df$samplecoldate_t3_salimetrics)
 df$samplecoldate_t3_oragene <- dmy(df$samplecoldate_t3_oragene)
@@ -151,20 +161,20 @@ summary(as.numeric(df$samplecoldate_t3_vital-df$samplecoldate_t3_oragene))
 summary(as.numeric(df$samplecoldate_t3_salimetrics-df$samplecoldate_t3_vital))
 summary(as.numeric(df$samplecoldate_t3_oragene-df$samplecoldate_t3_vital))
 
-#Add in measure-specific monsoon status
-df <- df %>% mutate(monsoon3_vital = ifelse(month(samplecoldate_t3_vital) > 4 & month(samplecoldate_t3_vital) < 11, "1", "0"),
-                    monsoon3_oragene = ifelse(month(samplecoldate_t3_oragene) > 4 & month(samplecoldate_t3_oragene) < 11, "1", "0"),
-                    monsoon3_salimetrics = ifelse(month(samplecoldate_t3_salimetrics) > 4 & month(samplecoldate_t3_salimetrics) < 11, "1", "0"),
-                    monsoon3_vital = ifelse(is.na(monsoon3_vital),"missing", monsoon3_vital),
-                    monsoon3_oragene = ifelse(is.na(monsoon3_oragene),"missing", monsoon3_oragene),
-                    monsoon3_salimetrics = ifelse(is.na(monsoon3_salimetrics),"missing", monsoon3_salimetrics),
-                    monsoon3_vital = factor(monsoon3_vital),
-                    monsoon3_oragene = factor(monsoon3_oragene),
-                    monsoon3_salimetrics = factor(monsoon3_salimetrics))
+# #Add in measure-specific monsoon status
+# df <- df %>% mutate(monsoon3_vital = ifelse(month(samplecoldate_t3_vital) > 4 & month(samplecoldate_t3_vital) < 11, "1", "0"),
+#                     monsoon3_oragene = ifelse(month(samplecoldate_t3_oragene) > 4 & month(samplecoldate_t3_oragene) < 11, "1", "0"),
+#                     monsoon3_salimetrics = ifelse(month(samplecoldate_t3_salimetrics) > 4 & month(samplecoldate_t3_salimetrics) < 11, "1", "0"),
+#                     monsoon3_vital = ifelse(is.na(monsoon3_vital),"missing", monsoon3_vital),
+#                     monsoon3_oragene = ifelse(is.na(monsoon3_oragene),"missing", monsoon3_oragene),
+#                     monsoon3_salimetrics = ifelse(is.na(monsoon3_salimetrics),"missing", monsoon3_salimetrics),
+#                     monsoon3_vital = factor(monsoon3_vital),
+#                     monsoon3_oragene = factor(monsoon3_oragene),
+#                     monsoon3_salimetrics = factor(monsoon3_salimetrics))
 
-table(df$monsoon3_oragene)
-table(df$monsoon3_vital)
-table(df$monsoon3_salimetrics)
+table(df$monsoon_t3_oragene)
+table(df$monsoon_t3_vital)
+table(df$monsoon_t3_salimetrics)
 
 
 #Calculate age at measurement time
@@ -180,6 +190,7 @@ table(df$monsoon3_salimetrics)
 #rename variables to match old format
 df <- df %>%
   rename(
+    ur_agem2=agemth_ut2,
     vital_aged3=ageday_t3_vital,
     salimetrics_aged3=ageday_t3_salimetrics,
     oragene_aged3=ageday_t3_oragene,

@@ -5,7 +5,7 @@ library(ggpubr)
 
 
 # Load results
-load(here::here("andrew results/stress_results.Rdata"))
+load(here::here("results/stress_results.Rdata"))
 
 # Function for helping make table with name and age attached
 readjustfunc <- function(data, var){

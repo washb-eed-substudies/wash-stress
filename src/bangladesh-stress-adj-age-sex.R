@@ -34,8 +34,8 @@ setwd(paste0(dropboxDir,"Data/Cleaned/Audrie/")) #Set working directory
 # Load the analysis dataset,
 # the baseline covariate dataset
 #---------------------------------------
+d<-readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset.RDS"))
 
-d <- readRDS(here("replication objects/simulated_stress_dataset.rds"))
 
 #---------------------------------------
 # subset to the relevant measurement
@@ -51,8 +51,8 @@ d$tr <- factor(d$tr,levels=c("Control","Nutrition + WSH"))
 
 
 # subset to columns needed for unadjusted 
-df = d[,c("block", "tr", "t2_ipf2a3", "t2_23dinor", "t2_ipf2a6", "t2_812iso", "t3_pre_saa", "t3_pre_cort",
-          "t3_post_saa", "t3_post_cort", "t3_sys", "t3_dia", "t3_heart", "t3_nr3c1", "t3_cpg12")]
+# df = d[,c("block", "tr", "t2_ipf2a3", "t2_23dinor", "t2_ipf2a6", "t2_812iso", "t3_pre_saa", "t3_pre_cort",
+#           "t3_post_saa", "t3_post_cort", "t3_sys", "t3_dia", "t3_heart", "t3_nr3c1", "t3_cpg12")]
 df$block=as.factor(df$block)
 
 # Set up the WASHB function

@@ -142,7 +142,6 @@ t3_cort_z01_N
 t3_saa_z02_N
 t3_cort_z03_N
 t3_map_N
-t3_dia_N
 t3_hr_mean_N
 t3_gcr_mean_N
 t3_gcr_cpg12_N
@@ -200,7 +199,7 @@ save(t2_f2_8ip_N_L,
      t3_cort_slope_N_tr,
      t3_residual_saa_N_tr, 
      t3_residual_cort_N_tr, 
-     file=here::here("audrie results/stress_N_means.RData")) #Save as R objects for the compare
+     file=here::here("results/stress_N_means.RData")) #Save as R objects for the compare
 
 
 ur_ages<-lab %>% rename(ur_agemth_bt2=ur_agem2, ur_agemth_bt3=ur_agem3)
@@ -263,7 +262,7 @@ stress_age_t3_L
 
 
 #save R objects
-save(stress_age_t2_L, stress_age_t3_L, file=here::here("audrie results/stress-age-stats.RData"))
+save(stress_age_t2_L, stress_age_t3_L, file=here::here("results/stress-age-stats.RData"))
 
 
 
@@ -285,7 +284,7 @@ washb_function <- function(df,x) {
   
   temp <- washb_tmle(Y=df[,x], tr=df$tr, pair=NULL, W=NULL, id=df$block, family="gaussian",contrast = c("Control","Nutrition + WSH"),
                      Q.SL.library=SL.library,g.SL.library=SL.library, pval=0.2, seed=12345, print=TRUE)
-  temp_metric <-t(as.matrix(unlist(temp$estimates$ATE)))
+  temp_metric <-as.data.frame(t(as.matrix(unlist(temp$estimates$ATE))))
   rownames(temp_metric) <- c("Nutrition + WSH v C")
   return(temp_metric)
 }
@@ -298,8 +297,9 @@ list_stress <- lapply(names(df)[grep('t2_', names(df))],  function(x) washb_func
 names(list_stress) <- names(df)[grep('t2_', names(df))]
 
 #Compile into data.frame for easier comparison in replication
-unadj_stress_t2 <- t(bind_rows(list_stress))
+unadj_stress_t2 <- bind_rows(list_stress)
 colnames(unadj_stress_t2) <-c("RD","var","ci.lb","ci.ub","P-value")
+rownames(unadj_stress_t2) <- NULL
 unadj_stress_t2 <- as.data.frame(unadj_stress_t2)
 unadj_stress_t2$var <- names(df)[grep('t2_', names(df))]
 
@@ -318,8 +318,9 @@ list_stress <- lapply(names(df)[grep('t3_', names(df))],  function(x) washb_func
 names(list_stress) <- names(df)[grep('t3_', names(df))]
 
 #Compile into data.frame for easier comparison in replication
-unadj_stress_t3 <- t(bind_rows(list_stress))
+unadj_stress_t3 <- (bind_rows(list_stress))
 colnames(unadj_stress_t3) <-c("RD","var","ci.lb","ci.ub","P-value")
+rownames(unadj_stress_t3) <- NULL
 unadj_stress_t3 <- as.data.frame(unadj_stress_t3)
 unadj_stress_t3$var <- names(df)[grep('t3_', names(df))]
 #view results file

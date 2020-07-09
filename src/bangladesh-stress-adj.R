@@ -65,7 +65,6 @@ SL.library=c("SL.mean","SL.glm","SL.bayesglm","SL.gam","SL.glmnet")
 
 
 # ensure that variables are coded as factors
-d$monsoon_bt2 <- factor(d$monsoon_bt2)
 d$sex <- factor(d$sex, labels = c("female", "male"))
 
 
@@ -88,7 +87,7 @@ d <- d[order(d$block,d$clusterid,d$dataid,d$childid),]
 
 
 #Select adjustment covariates 
-Wvars<-c("monsoon_bt2","ageday_bt2", "sex","birthord", "momage","momheight","momedu", "hfiacat", "Nlt18","Ncomp", "watmin", "walls", "floor", "elec", "asset_wardrobe", "asset_table", "asset_chair", "asset_clock","asset_khat", "asset_chouki", "asset_radio", "asset_tv", "asset_refrig", "asset_bike", "asset_moto", "asset_sewmach", "asset_mobile", "n_cattle", "n_goat", "n_chicken")
+Wvars<-c("monsoon_ut2","ageday_ut2", "sex","birthord", "momage","momheight","momedu", "hfiacat", "Nlt18","Ncomp", "watmin", "walls", "floor", "elec", "asset_wardrobe", "asset_table", "asset_chair", "asset_clock","asset_khat", "asset_chouki", "asset_radio", "asset_tv", "asset_refrig", "asset_bike", "asset_moto", "asset_sewmach", "asset_mobile", "n_cattle", "n_goat", "n_chicken")
 
 #subset the main dataframe and create a new W dataframe
 W<- subset(d, select=Wvars)
@@ -105,14 +104,14 @@ for(i in 1:ncol(W)){
 
 #Looks good. Use this if any need to be changes:
 
-W$monsoon_bt2<-as.factor(W$monsoon_bt2)
+W$monsoon_ut2<-as.factor(W$monsoon_ut2)
 #If already a factor:
-d$monsoon_bt2<-addNA(d$monsoon_bt2)
-levels(d$monsoon_bt2)[length(levels(d$monsoon_bt2))]<-"Missing"
+d$monsoon_ut2<-addNA(d$monsoon_ut2)
+levels(d$monsoon_ut2)[length(levels(d$monsoon_ut2))]<-"Missing"
 
 
 W$momage<-as.numeric(W$momage)
-W$ageday_bt2<-as.numeric(W$ageday_bt2)
+W$ageday_ut2<-as.numeric(W$ageday_ut2)
 W$momheight<-as.numeric(W$momheight)
 W$sex<-as.factor(W$sex)
 W$birthord<-as.factor(W$birthord)
@@ -202,7 +201,7 @@ dim(d)
 d$tr <- factor(d$tr,levels=c("Control","Nutrition + WSH"))
 
 
-# subset to columns needed for unadjusted 
+# subset to columns needed for adjusted 
 df = d[,c("block", "tr", "t2_ipf2a3", "t2_23dinor", "t2_ipf2a6", "t2_812iso", "t3_pre_saa", "t3_pre_cort",
           "t3_post_saa", "t3_post_cort", "t3_sys", "t3_dia", "t3_heart", "t3_nr3c1", "t3_cpg12")]
 df$block=as.factor(df$block)

@@ -4,9 +4,9 @@ source(here::here("0-config.R"))
 
 d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.RDS"))
 data_y1 <- read.csv(here("tables/stress/stress_table1.csv"))
-load(here("andrew results/stress_results.RData"))
-load("~/ee-secondary/andrew results/andrew_stress_ipcw.rdata")
-load(here("audrie results/stress_subgroup.RData"))
+load(here("results/stress_results.RData"))
+load("results/stress_ipcw.rdata")
+load(here("results/stress_subgroup.RData"))
 
 
 #### Table S1 ####
