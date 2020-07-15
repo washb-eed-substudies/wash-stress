@@ -6,7 +6,7 @@ d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.
 data_y1 <- read.csv(here("tables/stress/stress_table1.csv"))
 load(here("results/stress_results.RData"))
 load("results/stress_ipcw.rdata")
-load(here("results/stress_subgroup.RData"))
+
 
 
 #### Table S1 ####
@@ -363,111 +363,201 @@ write.csv(tbls6, here('tables/stress/miso9-stress-supplementarytable6.csv'))
 
 ####Table S 7: subgroup analyses by sex at t2#####
 
-# source(here::here("0-config.R"))
-# load("/Users/zbutzindozier/Documents/GitHub/ee-secondary/wash-stress/audrie results/stress_subgroup.RData")
-
 #Outcomes
 
-outcomes7 <- c( "", "iPF(2α)-III", "2,3-dinor-iPF(2α±)-III", "iPF(2α±)-VI", "8,12-iso-iPF(2α±)-VI")
+outcomes7 <- c( "Biomarker", "iPF(2α)-III", "2,3-dinor-iPF(2α±)-III", "iPF(2α±)-VI", "8,12-iso-iPF(2α±)-VI")
 
-#####female
+#N
+n7.0 <- c("n", as.character(round(absolute_mean_sd_sex$n[1], 2)), as.character(round(absolute_mean_sd_sex$n[3], 2)), as.character(round(absolute_mean_sd_sex$n[5], 2)), as.character(round(absolute_mean_sd_sex$n[7], 2)))
 
-#RD
-rdf7 <- c((as.character(round(subgroup_stress_t2_f$RD[1], 2))), as.character(round(subgroup_stress_t2_f$RD[2], 2)), as.character(round(subgroup_stress_t2_f$RD[3], 2)), as.character(round(subgroup_stress_t2_f$RD[4], 2)))
-
-#Variance
-varf7 <- c( "Variance", (as.character(round(subgroup_stress_t2_f$var[1], 2))), as.character(round(subgroup_stress_t2_f$var[2], 2)), as.character(round(subgroup_stress_t2_f$var[3], 2)), as.character(round(subgroup_stress_t2_f$var[4], 2)))
-
-#95% CI
-
-#lower bound
-lbf7 <- c((as.character(round(subgroup_stress_t2_f$ci.lb[1], 2))), as.character(round(subgroup_stress_t2_f$ci.lb[2], 2)), as.character(round(subgroup_stress_t2_f$ci.lb[3], 2)), as.character(round(subgroup_stress_t2_f$ci.lb[4], 2)))
-
-#upper bound
-ubf7 <- c((as.character(round(subgroup_stress_t2_f$ci.ub[1], 2))), as.character(round(subgroup_stress_t2_f$ci.ub[2], 2)), as.character(round(subgroup_stress_t2_f$ci.ub[3], 2)), as.character(round(subgroup_stress_t2_f$ci.ub[4], 2)))
+n7.1 <- c("n", as.character(round(absolute_mean_sd_sex$n[2], 2)), as.character(round(absolute_mean_sd_sex$n[4], 2)), as.character(round(absolute_mean_sd_sex$n[6], 2)), as.character(round(absolute_mean_sd_sex$n[8], 2)))
 
 
-#P-value
+#mean
+mean7.0 <- c("Mean", as.character(round(absolute_mean_sd_sex$mean[1], 2)), as.character(round(absolute_mean_sd_sex$mean[3], 2)), as.character(round(absolute_mean_sd_sex$mean[5], 2)), as.character(round(absolute_mean_sd_sex$mean[7], 2)))
 
-pvalf7 <- c( "P-value", (as.character(round(subgroup_stress_t2_f$`P-value`[1] , 2))), as.character(round(subgroup_stress_t2_f$`P-value`[2], 2)), as.character(round(subgroup_stress_t2_f$`P-value`[3], 2)), as.character(round(subgroup_stress_t2_f$`P-value`[4], 2)))
+mean7.1 <- c("Mean", as.character(round(absolute_mean_sd_sex$mean[2], 2)), as.character(round(absolute_mean_sd_sex$mean[4], 2)), as.character(round(absolute_mean_sd_sex$mean[6], 2)), as.character(round(absolute_mean_sd_sex$mean[8], 2)))
 
-####male
+#sd
 
-#RD
-rdm7 <- c((as.character(round(subgroup_stress_t2_m$RD[1], 2))), as.character(round(subgroup_stress_t2_m$RD[2], 2)), as.character(round(subgroup_stress_t2_m$RD[3], 2)), as.character(round(subgroup_stress_t2_m$RD[4], 2)))
+sd7.0 <- c("SD", as.character(round(absolute_mean_sd_sex$sd[1], 2)), as.character(round(absolute_mean_sd_sex$sd[3], 2)), as.character(round(absolute_mean_sd_sex$sd[5], 2)), as.character(round(absolute_mean_sd_sex$sd[7], 2)))
 
-#Variance
-varm7 <- c( "Variance",(as.character(round(subgroup_stress_t2_m$var[1], 2))), as.character(round(subgroup_stress_t2_m$var[2], 2)), as.character(round(subgroup_stress_t2_m$var[3], 2)), as.character(round(subgroup_stress_t2_m$var[4], 2)))
+sd7.1 <- c("SD", as.character(round(absolute_mean_sd_sex$sd[2], 2)), as.character(round(absolute_mean_sd_sex$sd[4], 2)), as.character(round(absolute_mean_sd_sex$sd[6], 2)), as.character(round(absolute_mean_sd_sex$sd[8], 2)))
 
-#95% CI
+#Difference measures - Female (0)
 
-#lower bound
-lbm7 <- c((as.character(round(subgroup_stress_t2_m$ci.lb[1], 2))), as.character(round(subgroup_stress_t2_m$ci.lb[2], 2)), as.character(round(subgroup_stress_t2_m$ci.lb[3], 2)), as.character(round(subgroup_stress_t2_m$ci.lb[4], 2)))
+#RD (mean difference) 
 
-#upper bound
-ubm7 <- c((as.character(round(subgroup_stress_t2_m$ci.ub[1], 2))), as.character(round(subgroup_stress_t2_m$ci.ub[2], 2)), as.character(round(subgroup_stress_t2_m$ci.ub[3], 2)), as.character(round(subgroup_stress_t2_m$ci.ub[4], 2)))
+rd7.0 <- c(as.character(round(res_sub$RD[1], 2)), as.character(round(res_sub$RD[3], 2)), as.character(round(res_sub$RD[5], 2)), as.character(round(res_sub$RD[7], 2)))
 
+#lb
 
-#P-value
+lb7.0 <- c(as.character(round(res_sub$ci.l[1], 2)), as.character(round(res_sub$ci.l[3], 2)), as.character(round(res_sub$ci.l[5], 2)), as.character(round(res_sub$ci.l[7], 2)))
 
-pvalm7 <- c( "P-value", (as.character(round(subgroup_stress_t2_m$`P-value`[1] , 2))), as.character(round(subgroup_stress_t2_m$`P-value`[2], 2)), as.character(round(subgroup_stress_t2_m$`P-value`[3], 2)), as.character(round(subgroup_stress_t2_m$`P-value`[4], 2)))
+#ub
+
+ub7.0 <- c(as.character(round(res_sub$ci.u[1], 2)), as.character(round(res_sub$ci.u[3], 2)), as.character(round(res_sub$ci.u[5], 2)), as.character(round(res_sub$ci.u[7], 2)))
+
+#P value
+pval7.0 <- c("P-value", as.character(round(res_sub$Pval[1], 2)), as.character(round(res_sub$Pval[3], 2)), as.character(round(res_sub$Pval[5], 2)), as.character(round(res_sub$Pval[7], 2)))
 
 #Combine RD and CI vectors
-RD_CI_f7 <- paste0(rdf7, "(", lbf7, ", ", ubf7,")")
-RD_CI_f7 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_f7)
+RD_CI_7.0 <- paste0(rd7.0, "(", lb7.0, ",", ub7.0,")")
+RD_CI_7.0 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_7.0)
 
-RD_CI_m7  <- paste0(rdm7, "(", lbm7, ", ", ubm7,")")
-RD_CI_m7  <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_m7)
-RD_CI_m7
+#Difference measures - Male (1)
 
+#RD (mean difference) 
+
+rd7.1 <- c(as.character(round(res_sub$RD[2], 2)), as.character(round(res_sub$RD[4], 2)), as.character(round(res_sub$RD[6], 2)), as.character(round(res_sub$RD[8], 2)))
+
+#lb
+
+lb7.1 <- c(as.character(round(res_sub$ci.l[2], 2)), as.character(round(res_sub$ci.l[4], 2)), as.character(round(res_sub$ci.l[6], 2)), as.character(round(res_sub$ci.l[8], 2)))
+
+#ub
+
+ub7.1 <- c(as.character(round(res_sub$ci.u[2], 2)), as.character(round(res_sub$ci.u[4], 2)), as.character(round(res_sub$ci.u[6], 2)), as.character(round(res_sub$ci.u[8], 2)))
+
+#P value
+pval7.1 <- c("P-value", as.character(round(res_sub$Pval[2], 2)), as.character(round(res_sub$Pval[4], 2)), as.character(round(res_sub$Pval[6], 2)), as.character(round(res_sub$Pval[8], 2)))
+
+#Combine RD and CI vectors
+RD_CI_7.1 <- paste0(rd7.1, "(", lb7.1, ",", ub7.1,")")
+RD_CI_7.1 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_7.1)
+
+
+
+####
+#RD (mean difference) (for interaction or main effect? res_sex)
+
+rd7 <- c(as.character(round(res_sex$`Mean difference`[1], 2)), as.character(round(res_sex$`Mean difference`[2], 2)), as.character(round(res_sex$`Mean difference`[3], 2)), as.character(round(res_sex$`Mean difference`[4], 2)))
+
+#lb
+
+lb7 <- c(as.character(round(res_sex$ci.l[1], 2)), as.character(round(res_sex$ci.l[2], 2)), as.character(round(res_sex$ci.l[3], 2)), as.character(round(res_sex$ci.l[4], 2)))
+
+#ub
+
+ub7 <- c(as.character(round(res_sex$ci.u[1], 2)), as.character(round(res_sex$ci.u[2], 2)), as.character(round(res_sex$ci.u[3], 2)), as.character(round(res_sex$ci.u[4], 2)))
+
+#P value
+pval7 <- c("P-value", as.character(round(res_sex$Pval[1], 2)), as.character(round(res_sex$Pval[2], 2)), as.character(round(res_sex$Pval[3], 2)), as.character(round(res_sex$Pval[4], 2)))
+
+#Combine RD and CI vectors
+RD_CI_7 <- paste0(rd7, " (", lb7, ",", ub7,")")
+RD_CI_7 <- c("Unadjusted difference: Male vs. Female (95% CI)", RD_CI_7)
+#Question - is the CI for res_sex the main effect of sex?
 
 #create table 7
 tbls7 <- data.table( 
   " " = outcomes7,
-  "Female " =  RD_CI_f7, 
-  " " = varf7,
-  " " = pvalf7,
-  "Male " = RD_CI_m7,
-  " " = varm7,
-  " " = pvalm7
+  "Female" =  n7.0, 
+  " " = mean7.0,
+  " " = sd7.0,
+  " " = RD_CI_7.0,
+  " " = pval7.0,
+  "Male" =  n7.1, 
+  " " = mean7.1,
+  " " = sd7.1,
+  " " = RD_CI_7.1,
+  " " = pval7.1
+  # " " = RD_CI_7,
+  # " " = pval7
 )
 
-write.csv(tbls7, file=here('tables/stress/miso9-stress-supplementarytable7.csv'))
-print(xtable(tbls7), type="html", file=here('tables/stress/miso9-stress-supplementarytable7.html'))
 
-###Table S 7: subgroup analysis by sex at t3
+# unable to write code to this location - I think I need to create a new folder in Git
+# write.csv(tbls7, file=here('tables/stress/miso9-stress-supplementarytable7.csv'))
+# print(xtable(tbls7), type="html", file=here('tables/stress/miso9-stress-supplementarytable7.html'))
+
+###Table S 8: subgroup analysis by sex at t3#######
 
 #outcomes
 
-outcomes8 <- c("Pre-stressor salivary alpha-amylase",
-               "Pre-stressor salivary cortisol",
-               "Post-stressor salivary alpha-amylase",
-               "Post-stressor salivary cortisol",
-               "Mean systolic arterial Pressure",
-               "Mean diastolic arterial Pressure",
-               "Resting heart rate",
-               "NR3C1 exon 1F promoter methylation",
-               "NGFI-A transcription factor binding site")
+
+outcomes8 <- c("Stress biomarker", "Arterial pressure", "Resting heart rate", "SAA z01", "SAA z02", "Cortisol z01", "Cortisol z03", "GCR", "GCR CPG12", "SAA slope", "Cortisol slope", "SAA residualized gain score", "Cortisol residualized gain score")
+
+# Previous outcome labels
+# outcomes8 <- c("Pre-stressor salivary alpha-amylase",
+#                "Pre-stressor salivary cortisol",
+#                "Post-stressor salivary alpha-amylase",
+#                "Post-stressor salivary cortisol",
+#                "Mean systolic arterial Pressure",
+#                "Mean diastolic arterial Pressure",
+#                "Resting heart rate",
+#                "NR3C1 exon 1F promoter methylation",
+#                "NGFI-A transcription factor binding site")
+
+#N
+n8.0 <- c("n", as.character(round(absolute_mean_sd_sex$n[9], 2)), as.character(round(absolute_mean_sd_sex$n[11], 2)), as.character(round(absolute_mean_sd_sex$n[13], 2)), as.character(round(absolute_mean_sd_sex$n[15], 2)), as.character(round(absolute_mean_sd_sex$n[17], 2)), as.character(round(absolute_mean_sd_sex$n[19], 2)), as.character(round(absolute_mean_sd_sex$n[21], 2)), as.character(round(absolute_mean_sd_sex$n[23], 2)), as.character(round(absolute_mean_sd_sex$n[25], 2)), as.character(round(absolute_mean_sd_sex$n[27], 2)), as.character(round(absolute_mean_sd_sex$n[29], 2)), as.character(round(absolute_mean_sd_sex$n[31], 2)))
+
+n8.1 <- c("n", as.character(round(absolute_mean_sd_sex$n[10], 2)), as.character(round(absolute_mean_sd_sex$n[12], 2)), as.character(round(absolute_mean_sd_sex$n[14], 2)), as.character(round(absolute_mean_sd_sex$n[16], 2)), as.character(round(absolute_mean_sd_sex$n[18], 2)), as.character(round(absolute_mean_sd_sex$n[20], 2)), as.character(round(absolute_mean_sd_sex$n[22], 2)), as.character(round(absolute_mean_sd_sex$n[24], 2)), as.character(round(absolute_mean_sd_sex$n[26], 2)), as.character(round(absolute_mean_sd_sex$n[28], 2)), as.character(round(absolute_mean_sd_sex$n[30], 2)), as.character(round(absolute_mean_sd_sex$n[32], 2)))
 
 
-#####female
+#mean
+mean8.0 <- c("Mean", as.character(round(absolute_mean_sd_sex$mean[9], 2)), as.character(round(absolute_mean_sd_sex$mean[11], 2)), as.character(round(absolute_mean_sd_sex$mean[13], 2)), as.character(round(absolute_mean_sd_sex$mean[15], 2)), as.character(round(absolute_mean_sd_sex$mean[17], 2)), as.character(round(absolute_mean_sd_sex$mean[19], 2)), as.character(round(absolute_mean_sd_sex$mean[21], 2)), as.character(round(absolute_mean_sd_sex$mean[23], 2)), as.character(round(absolute_mean_sd_sex$mean[25], 2)), as.character(round(absolute_mean_sd_sex$mean[27], 2)), as.character(round(absolute_mean_sd_sex$mean[29], 2)), as.character(round(absolute_mean_sd_sex$mean[31], 2)))
 
-#RD
-rdf8 <- c((round(subgroup_stress_t3_f$RD[1], 2)), round(subgroup_stress_t3_f$RD[2], 2), round(subgroup_stress_t3_f$RD[3], 2), round(subgroup_stress_t3_f$RD[4], 2), round(subgroup_stress_t3_f$RD[5], 2), round(subgroup_stress_t3_f$RD[6], 2), round(subgroup_stress_t3_f$RD[7], 2), round(subgroup_stress_t3_f$RD[8], 2), round(subgroup_stress_t3_f$RD[9], 2))
+mean8.1 <- c("Mean", as.character(round(absolute_mean_sd_sex$mean[10], 2)), as.character(round(absolute_mean_sd_sex$mean[12], 2)), as.character(round(absolute_mean_sd_sex$mean[14], 2)), as.character(round(absolute_mean_sd_sex$mean[16], 2)), as.character(round(absolute_mean_sd_sex$mean[18], 2)), as.character(round(absolute_mean_sd_sex$mean[20], 2)), as.character(round(absolute_mean_sd_sex$mean[22], 2)), as.character(round(absolute_mean_sd_sex$mean[24], 2)), as.character(round(absolute_mean_sd_sex$mean[26], 2)), as.character(round(absolute_mean_sd_sex$mean[28], 2)), as.character(round(absolute_mean_sd_sex$mean[30], 2)), as.character(round(absolute_mean_sd_sex$mean[32], 2)))
 
+#sd
 
-#Variance
-varf8 <- c((round(subgroup_stress_t3_f$var[1], 2)), round(subgroup_stress_t3_f$var[2], 2), round(subgroup_stress_t3_f$var[3], 2), round(subgroup_stress_t3_f$var[4], 2), round(subgroup_stress_t3_f$var[5], 2), round(subgroup_stress_t3_f$var[6], 2), round(subgroup_stress_t3_f$var[7], 2), round(subgroup_stress_t3_f$var[8], 2), round(subgroup_stress_t3_f$var[9], 2))
+sd8.0 <- c("SD", as.character(round(absolute_mean_sd_sex$sd[9], 2)), as.character(round(absolute_mean_sd_sex$sd[11], 2)), as.character(round(absolute_mean_sd_sex$sd[13], 2)), as.character(round(absolute_mean_sd_sex$sd[15], 2)), as.character(round(absolute_mean_sd_sex$sd[17], 2)), as.character(round(absolute_mean_sd_sex$sd[19], 2)), as.character(round(absolute_mean_sd_sex$sd[21], 2)), as.character(round(absolute_mean_sd_sex$sd[23], 2)), as.character(round(absolute_mean_sd_sex$sd[25], 2)), as.character(round(absolute_mean_sd_sex$sd[27], 2)), as.character(round(absolute_mean_sd_sex$sd[29], 2)), as.character(round(absolute_mean_sd_sex$sd[31], 2)))
 
+sd8.1 <- c("SD", as.character(round(absolute_mean_sd_sex$sd[10], 2)), as.character(round(absolute_mean_sd_sex$sd[12], 2)), as.character(round(absolute_mean_sd_sex$sd[14], 2)), as.character(round(absolute_mean_sd_sex$sd[16], 2)), as.character(round(absolute_mean_sd_sex$sd[18], 2)), as.character(round(absolute_mean_sd_sex$sd[20], 2)), as.character(round(absolute_mean_sd_sex$sd[22], 2)), as.character(round(absolute_mean_sd_sex$sd[24], 2)), as.character(round(absolute_mean_sd_sex$sd[26], 2)), as.character(round(absolute_mean_sd_sex$sd[28], 2)), as.character(round(absolute_mean_sd_sex$sd[30], 2)), as.character(round(absolute_mean_sd_sex$sd[32], 2)))
 
-#upper bound
-ubf8 <- c((round(subgroup_stress_t3_f$ci.ub[1], 2)), round(subgroup_stress_t3_f$ci.ub[2], 2), round(subgroup_stress_t3_f$ci.ub[3], 2), round(subgroup_stress_t3_f$ci.ub[4], 2), round(subgroup_stress_t3_f$ci.ub[5], 2), round(subgroup_stress_t3_f$ci.ub[6], 2), round(subgroup_stress_t3_f$ci.ub[7], 2), round(subgroup_stress_t3_f$ci.ub[8], 2), round(subgroup_stress_t3_f$ci.ub[9], 2))
+#Difference measures - Female (0)
 
-#lower bound
-lbf8 <- c((round(subgroup_stress_t3_f$ci.lb[1], 2)), round(subgroup_stress_t3_f$ci.lb[2], 2), round(subgroup_stress_t3_f$ci.lb[3], 2), round(subgroup_stress_t3_f$ci.lb[4], 2), round(subgroup_stress_t3_f$ci.lb[5], 2), round(subgroup_stress_t3_f$ci.lb[6], 2), round(subgroup_stress_t3_f$ci.lb[7], 2), round(subgroup_stress_t3_f$ci.lb[8], 2), round(subgroup_stress_t3_f$ci.lb[9], 2))
+#RD (mean difference) 
 
-#p-value
-pvalf8 <- c((round(subgroup_stress_t3_f$`P-value`[1], 2)), round(subgroup_stress_t3_f$`P-value`[2], 2), round(subgroup_stress_t3_f$`P-value`[3], 2), round(subgroup_stress_t3_f$`P-value`[4], 2), round(subgroup_stress_t3_f$`P-value`[5], 2), round(subgroup_stress_t3_f$`P-value`[6], 2), round(subgroup_stress_t3_f$`P-value`[7], 2), round(subgroup_stress_t3_f$`P-value`[8], 2), round(subgroup_stress_t3_f$`P-value`[9], 2))
+rd8.0 <- c(as.character(round(res_sub$RD[9], 2)), as.character(round(res_sub$RD[11], 2)), as.character(round(res_sub$RD[13], 2)), as.character(round(res_sub$RD[15], 2)), as.character(round(res_sub$RD[17], 2)), as.character(round(res_sub$RD[19], 2)), as.character(round(res_sub$RD[21], 2)), as.character(round(res_sub$RD[23], 2)), as.character(round(res_sub$RD[25], 2)), as.character(round(res_sub$RD[27], 2)), as.character(round(res_sub$RD[29], 2)), as.character(round(res_sub$RD[31], 2)))
 
+rd8.1 <- c(as.character(round(res_sub$RD[10], 2)), as.character(round(res_sub$RD[12], 2)), as.character(round(res_sub$RD[14], 2)), as.character(round(res_sub$RD[16], 2)), as.character(round(res_sub$RD[18], 2)), as.character(round(res_sub$RD[20], 2)), as.character(round(res_sub$RD[22], 2)), as.character(round(res_sub$RD[24], 2)), as.character(round(res_sub$RD[26], 2)), as.character(round(res_sub$RD[28], 2)), as.character(round(res_sub$RD[30], 2)), as.character(round(res_sub$RD[32], 2)))
+
+#lb
+
+lb8.0 <- c(as.character(round(res_sub$ci.l[9], 2)), as.character(round(res_sub$ci.l[11], 2)), as.character(round(res_sub$ci.l[13], 2)), as.character(round(res_sub$ci.l[15], 2)), as.character(round(res_sub$ci.l[17], 2)), as.character(round(res_sub$ci.l[19], 2)), as.character(round(res_sub$ci.l[21], 2)), as.character(round(res_sub$ci.l[23], 2)), as.character(round(res_sub$ci.l[25], 2)), as.character(round(res_sub$ci.l[27], 2)), as.character(round(res_sub$ci.l[29], 2)), as.character(round(res_sub$ci.l[31], 2)))
+
+lb8.1 <- c(as.character(round(res_sub$ci.l[10], 2)), as.character(round(res_sub$ci.l[12], 2)), as.character(round(res_sub$ci.l[14], 2)), as.character(round(res_sub$ci.l[16], 2)), as.character(round(res_sub$ci.l[18], 2)), as.character(round(res_sub$ci.l[20], 2)), as.character(round(res_sub$ci.l[22], 2)), as.character(round(res_sub$ci.l[24], 2)), as.character(round(res_sub$ci.l[26], 2)), as.character(round(res_sub$ci.l[28], 2)), as.character(round(res_sub$ci.l[30], 2)), as.character(round(res_sub$ci.l[32], 2)))
+
+#ub
+
+ub8.0 <- c(as.character(round(res_sub$ci.u[9], 2)), as.character(round(res_sub$ci.u[11], 2)), as.character(round(res_sub$ci.u[13], 2)), as.character(round(res_sub$ci.u[15], 2)), as.character(round(res_sub$ci.u[17], 2)), as.character(round(res_sub$ci.u[19], 2)), as.character(round(res_sub$ci.u[21], 2)), as.character(round(res_sub$ci.u[23], 2)), as.character(round(res_sub$ci.u[25], 2)), as.character(round(res_sub$ci.u[27], 2)), as.character(round(res_sub$ci.u[29], 2)), as.character(round(res_sub$ci.u[31], 2)))
+
+ub8.1 <- c(as.character(round(res_sub$ci.u[10], 2)), as.character(round(res_sub$ci.u[12], 2)), as.character(round(res_sub$ci.u[14], 2)), as.character(round(res_sub$ci.u[16], 2)), as.character(round(res_sub$ci.u[18], 2)), as.character(round(res_sub$ci.u[20], 2)), as.character(round(res_sub$ci.u[22], 2)), as.character(round(res_sub$ci.u[24], 2)), as.character(round(res_sub$ci.u[26], 2)), as.character(round(res_sub$ci.u[28], 2)), as.character(round(res_sub$ci.u[30], 2)), as.character(round(res_sub$ci.u[32], 2)))
+
+#P value
+pval7.0 <- c("P-value", as.character(round(res_sub$Pval[1], 2)), as.character(round(res_sub$Pval[3], 2)), as.character(round(res_sub$Pval[5], 2)), as.character(round(res_sub$Pval[7], 2)))
+
+pval8.0 <- c("P-value", as.character(round(res_sub$Pval[9], 2)), as.character(round(res_sub$Pval[11], 2)), as.character(round(res_sub$Pval[13], 2)), as.character(round(res_sub$Pval[15], 2)), as.character(round(res_sub$Pval[17], 2)), as.character(round(res_sub$Pval[19], 2)), as.character(round(res_sub$Pval[21], 2)), as.character(round(res_sub$Pval[23], 2)), as.character(round(res_sub$Pval[25], 2)), as.character(round(res_sub$Pval[27], 2)), as.character(round(res_sub$Pval[29], 2)), as.character(round(res_sub$Pval[31], 2)))
+
+pval8.1 <- c("P-value", as.character(round(res_sub$Pval[10], 2)), as.character(round(res_sub$Pval[12], 2)), as.character(round(res_sub$Pval[14], 2)), as.character(round(res_sub$Pval[16], 2)), as.character(round(res_sub$Pval[18], 2)), as.character(round(res_sub$Pval[20], 2)), as.character(round(res_sub$Pval[22], 2)), as.character(round(res_sub$Pval[24], 2)), as.character(round(res_sub$Pval[26], 2)), as.character(round(res_sub$Pval[28], 2)), as.character(round(res_sub$Pval[30], 2)), as.character(round(res_sub$Pval[32], 2)))
+
+#Combine RD and CI vectors
+RD_CI_8.0 <- paste0(rd8.0, " (", lb8.0, ",", ub8.0,")")
+RD_CI_8.0 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_8.0)
+
+RD_CI_8.1 <- paste0(rd8.0, " (", lb8.1, ",", ub8.1,")")
+RD_CI_8.1 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_8.1)
+
+#create table 8
+tbls8 <- data.table( 
+  " " = outcomes8,
+  "Female" =  n8.0, 
+  " " = mean8.0,
+  " " = sd8.0,
+  " " = RD_CI_8.0,
+  " " = pval8.0,
+  "Male" =  n8.1, 
+  " " = mean8.1,
+  " " = sd8.1,
+  " " = RD_CI_8.1,
+  " " = pval8.1
+  # " " = RD_CI_7,
+  # " " = pval7
+)
+
+# write.csv(tbls8, file=here('tables/stress/miso9-stress-supplementarytable8.csv'))
+# print(xtable(tbls8), type="html", file=here('tables/stress/miso9-stress-supplementarytable8.html'))
 
 
