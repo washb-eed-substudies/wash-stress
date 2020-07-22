@@ -476,18 +476,8 @@ print(xtable(tbls7), type="html", file=here('tables/miso9-stress-supplementaryta
 #outcomes
 
 
-outcomes8 <- c("Stress biomarker", "Arterial pressure", "Resting heart rate", "SAA z01", "SAA z02", "Cortisol z01", "Cortisol z03", "GCR", "GCR CPG12", "SAA slope", "Cortisol slope", "SAA residualized gain score", "Cortisol residualized gain score")
+outcomes8 <- c("Stress biomarker", "Mean arterial pressure", "Resting heart rate", "Post-stressor alpha-amylase", "Post-stressor alpha-amylase", "Pre-stressor cortisol", "Post-stressor cortisol", "NR3C1 exon 1F promoter methylation", "NGFI-A transcription factor binding site", "Change in slope between pre- and post-stressor alpha-amylase", "Change in slope between pre- and post-stressor cortisol", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
 
-# Previous outcome labels
-# outcomes8 <- c("Pre-stressor salivary alpha-amylase",
-#                "Pre-stressor salivary cortisol",
-#                "Post-stressor salivary alpha-amylase",
-#                "Post-stressor salivary cortisol",
-#                "Mean systolic arterial Pressure",
-#                "Mean diastolic arterial Pressure",
-#                "Resting heart rate",
-#                "NR3C1 exon 1F promoter methylation",
-#                "NGFI-A transcription factor binding site")
 
 #N
 n8.0 <- c("n", as.character(round(absolute_mean_sd_sex$n[9], 2)), as.character(round(absolute_mean_sd_sex$n[11], 2)), as.character(round(absolute_mean_sd_sex$n[13], 2)), as.character(round(absolute_mean_sd_sex$n[15], 2)), as.character(round(absolute_mean_sd_sex$n[17], 2)), as.character(round(absolute_mean_sd_sex$n[19], 2)), as.character(round(absolute_mean_sd_sex$n[21], 2)), as.character(round(absolute_mean_sd_sex$n[23], 2)), as.character(round(absolute_mean_sd_sex$n[25], 2)), as.character(round(absolute_mean_sd_sex$n[27], 2)), as.character(round(absolute_mean_sd_sex$n[29], 2)), as.character(round(absolute_mean_sd_sex$n[31], 2)))
