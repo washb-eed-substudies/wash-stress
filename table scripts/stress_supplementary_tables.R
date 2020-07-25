@@ -3,9 +3,9 @@ library("xtable")
 source(here::here("0-config.R"))
 
 d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.RDS"))
-data_y1 <- read.csv(here("tables/stress/stress_table1.csv"))
+data_y1 <- read.csv(here("tables/main/stress_table1.csv"))
 load(here("results/stress_results.RData"))
-load("results/stress_ipcw.rdata")
+load(here("results/stress_ipcw.rdata"))
 
 
 
@@ -121,7 +121,7 @@ wsh<-c(paste("N + WSH Intervention (N=", Nlostwsh, ")", sep=""), " ", charobject
        " ", charobjectperc(handkitwater, 3), charobjectperc(handkitsoap, 3), 
        " ", charobjectperc(foodsecure, 3))
 
-# Table S1/S2
+# Table S1
 tbls1<-data.table(" "=c("No. of compounds:", "Maternal", "Age(years)", "Years of education", 
                         "Paternal", "Years of education", "Works in agriculture", 
                         "Household", "Number of people", "Has electricity", "Has a cement floor", "Acres of agricultural land owned", 
@@ -152,21 +152,13 @@ tbls1<-data.table(" "=c("No. of compounds:", "Maternal", "Age(years)", "Years of
                   " "=wsh
 )
 
-write.csv(tbls1, file=here('tables/stress/stress_supptable1.csv'))
-print(xtable(tbls1), type="html", file=here("tables/stress/stress_supptable1.html"))
+write.csv(tbls1, file=here('tables/supplementary/stress_supptable1.csv'))
+print(xtable(tbls1), type="html", file=here("tables/supplementary/stress_supptable1.html"))
 
 
 
 
 ### Table S2-S6 ####
-
-
-bonpval <- function(pval){
-  bon = round(pval * 2, 2)
-  if (pval >= .5)
-    bon = 1
-  bon 
-}
 
 #to be used for formatting ipcw variables for table
 ci_interval<-function(str, tbl){
@@ -547,7 +539,7 @@ tbls8 <- data.table(
   # " " = pval7
 )
 
-write.csv(tbls8, file=here('tables/miso9-stress-supplementarytable8.csv'))
-print(xtable(tbls8), type="html", file=here('tables/miso9-stress-supplementarytable8.html'))
+write.csv(tbls8, file=here('tables/supplementary/miso9-stress-supplementarytable8.csv'))
+print(xtable(tbls8), type="html", file=here('tables/supplementary/miso9-stress-supplementarytable8.html'))
 
 
