@@ -24,15 +24,15 @@ d <- rbind(
   data.frame(readjustfunc(res_unadj, "t3_saa_z01"), name="Pre-stressor salivary alpha-amylase", age=28, group="Salimetrics"),
   data.frame(readjustfunc(res_unadj, "t3_saa_z02"), name="Post-stressor salivary alpha-amylase", age=28, group="Salimetrics"),
   data.frame(readjustfunc(res_unadj, "t3_saa_slope"), name="Change in slope between pre- and \n post-stressor alpha-amylase", age=28, group="Salimetrics"),
-  data.frame(readjustfunc(res_unadj, "t3_residual_saa"), name="Residualized gain score for alpha-amylase", age=28, group="Salimetrics"),
+  data.frame(readjustfunc(res_unadj, "t3_residual_saa"), name="Residualized gain score for alpha-amylase", age=28, group="Salimetrics\ngain scores"),
   data.frame(readjustfunc(res_unadj, "t3_cort_z01"), name="Pre-stressor salivary cortisol", age=28, group="Salimetrics"),
   data.frame(readjustfunc(res_unadj, "t3_cort_z03"), name="Post-stressor salivary cortisol", age=28, group="Salimetrics"),
   data.frame(readjustfunc(res_unadj, "t3_cort_slope"), name="Change in slope between pre- and \n post-stressor cortisol", age=28, group="Salimetrics"),
-  data.frame(readjustfunc(res_unadj, "t3_residual_cort"), name="Residualized gain score for cortisol", age=28, group="Salimetrics"),
-  data.frame(readjustfunc(res_unadj, "t3_map"), name="Mean arterial pressure", age=28, group="Cardiac response"),
-  data.frame(readjustfunc(res_unadj, "t3_hr_mean"), name="Resting heart rate", age=28, group="Cardiac response"),
-  data.frame(readjustfunc(res_unadj, "t3_gcr_mean"), name="NR3C1 exon 1F promoter methylation", age=28, group="Cardiac response"),
-  data.frame(readjustfunc(res_unadj, "t3_gcr_cpg12"), name="NGFI-A transcription factor binding site", age=28, group="Cardiac response")
+  data.frame(readjustfunc(res_unadj, "t3_residual_cort"), name="Residualized gain score for cortisol", age=28, group="Salimetrics\ngain scores"),
+  data.frame(readjustfunc(res_unadj, "t3_map"), name="Mean arterial pressure", age=28, group="Vitals"),
+  data.frame(readjustfunc(res_unadj, "t3_hr_mean"), name="Resting heart rate", age=28, group="Vitals"),
+  data.frame(readjustfunc(res_unadj, "t3_gcr_mean"), name="NR3C1 exon 1F promoter methylation", age=28, group="Vitals"),
+  data.frame(readjustfunc(res_unadj, "t3_gcr_cpg12"), name="NGFI-A transcription factor binding site", age=28, group="Vitals")
 )
 
 d$age <- as.factor(d$age)
@@ -52,7 +52,7 @@ p <- ggplot(d, (aes(x=name, y=Mean.difference))) +
   geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
                 width = 0.3, size = 1) +
   geom_hline(yintercept = 0) +
-  facet_wrap(~group, ncol=2, scales="free_y") +
+  facet_wrap(~group, ncol=2, scales="free") +
   coord_flip() +
   #labs(y = " ", x = "", title=d$name, fill=" ") +
   #coord_cartesian(ylim=c(d$`ci.l`[1]-(0.5*abs(dfci.l)), d$`ci.u`[1]+(0.5*abs(d$ci.l)))) +
