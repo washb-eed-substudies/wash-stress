@@ -350,8 +350,8 @@ tbls6 <- data.table(
   "IPCW Adjusted Analysis" = ipcw_adj6
 )
 
-write.csv(tbls4, here('tables/stress/miso9-stress-supplementarytable4.csv'))
-write.csv(tbls6, here('tables/stress/miso9-stress-supplementarytable6.csv'))
+write.csv(tbls4, here('tables/supplementary/miso9-stress-supplementarytable2.csv'))
+write.csv(tbls6, here('tables/supplementary/miso9-stress-supplementarytable3.csv'))
 
 ####Table S 7: subgroup analyses by sex at t2#####
 
