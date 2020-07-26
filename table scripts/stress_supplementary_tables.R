@@ -3,9 +3,9 @@ library("xtable")
 source(here::here("0-config.R"))
 
 d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.RDS"))
-data_y1 <- read.csv(here("tables/stress/stress_table1.csv"))
+data_y1 <- read.csv(here("tables/main/stress_table1.csv"))
 load(here("results/stress_results.RData"))
-load("results/stress_ipcw.rdata")
+load(here("results/stress_ipcw.rdata"))
 
 
 
@@ -121,7 +121,7 @@ wsh<-c(paste("N + WSH Intervention (N=", Nlostwsh, ")", sep=""), " ", charobject
        " ", charobjectperc(handkitwater, 3), charobjectperc(handkitsoap, 3), 
        " ", charobjectperc(foodsecure, 3))
 
-# Table S1/S2
+# Table S1
 tbls1<-data.table(" "=c("No. of compounds:", "Maternal", "Age(years)", "Years of education", 
                         "Paternal", "Years of education", "Works in agriculture", 
                         "Household", "Number of people", "Has electricity", "Has a cement floor", "Acres of agricultural land owned", 
@@ -152,21 +152,13 @@ tbls1<-data.table(" "=c("No. of compounds:", "Maternal", "Age(years)", "Years of
                   " "=wsh
 )
 
-write.csv(tbls1, file=here('tables/stress/stress_supptable1.csv'))
-print(xtable(tbls1), type="html", file=here("tables/stress/stress_supptable1.html"))
+write.csv(tbls1, file=here('tables/supplementary/stress_supptable1.csv'))
+print(xtable(tbls1), type="html", file=here("tables/supplementary/stress_supptable1.html"))
 
 
 
 
 ### Table S2-S6 ####
-
-
-bonpval <- function(pval){
-  bon = round(pval * 2, 2)
-  if (pval >= .5)
-    bon = 1
-  bon 
-}
 
 #to be used for formatting ipcw variables for table
 ci_interval<-function(str, tbl){
@@ -476,18 +468,8 @@ print(xtable(tbls7), type="html", file=here('tables/miso9-stress-supplementaryta
 #outcomes
 
 
-outcomes8 <- c("Stress biomarker", "Arterial pressure", "Resting heart rate", "SAA z01", "SAA z02", "Cortisol z01", "Cortisol z03", "GCR", "GCR CPG12", "SAA slope", "Cortisol slope", "SAA residualized gain score", "Cortisol residualized gain score")
+outcomes8 <- c("Stress biomarker", "Mean arterial pressure", "Resting heart rate", "Post-stressor alpha-amylase", "Post-stressor alpha-amylase", "Pre-stressor cortisol", "Post-stressor cortisol", "NR3C1 exon 1F promoter methylation", "NGFI-A transcription factor binding site", "Change in slope between pre- and post-stressor alpha-amylase", "Change in slope between pre- and post-stressor cortisol", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
 
-# Previous outcome labels
-# outcomes8 <- c("Pre-stressor salivary alpha-amylase",
-#                "Pre-stressor salivary cortisol",
-#                "Post-stressor salivary alpha-amylase",
-#                "Post-stressor salivary cortisol",
-#                "Mean systolic arterial Pressure",
-#                "Mean diastolic arterial Pressure",
-#                "Resting heart rate",
-#                "NR3C1 exon 1F promoter methylation",
-#                "NGFI-A transcription factor binding site")
 
 #N
 n8.0 <- c("n", as.character(round(absolute_mean_sd_sex$n[9], 2)), as.character(round(absolute_mean_sd_sex$n[11], 2)), as.character(round(absolute_mean_sd_sex$n[13], 2)), as.character(round(absolute_mean_sd_sex$n[15], 2)), as.character(round(absolute_mean_sd_sex$n[17], 2)), as.character(round(absolute_mean_sd_sex$n[19], 2)), as.character(round(absolute_mean_sd_sex$n[21], 2)), as.character(round(absolute_mean_sd_sex$n[23], 2)), as.character(round(absolute_mean_sd_sex$n[25], 2)), as.character(round(absolute_mean_sd_sex$n[27], 2)), as.character(round(absolute_mean_sd_sex$n[29], 2)), as.character(round(absolute_mean_sd_sex$n[31], 2)))
@@ -557,7 +539,7 @@ tbls8 <- data.table(
   # " " = pval7
 )
 
-write.csv(tbls8, file=here('tables/miso9-stress-supplementarytable8.csv'))
-print(xtable(tbls8), type="html", file=here('tables/miso9-stress-supplementarytable8.html'))
+write.csv(tbls8, file=here('tables/supplementary/miso9-stress-supplementarytable8.csv'))
+print(xtable(tbls8), type="html", file=here('tables/supplementary/miso9-stress-supplementarytable8.html'))
 
 

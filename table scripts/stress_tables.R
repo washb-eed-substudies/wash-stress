@@ -2,7 +2,7 @@ rm(list=ls())
 library("xtable")
 source(here::here("0-config.R"))
 
-load(here("andrew results/stress_results.RData"))
+load(here("results/stress_results.RData"))
 d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.RDS"))
 
 #### TABLE 1 ####
@@ -207,8 +207,8 @@ tbl1 <- data.table(
   " " = wshy2
 )
 
-write.csv(tbl1, file=here('tables/stress/stress_table1.csv'))
-print(xtable(tbl1), type="html", file=here("tables/stress/stress_table1.html"))
+write.csv(tbl1, file=here('tables/main/stress_table1.csv'))
+print(xtable(tbl1), type="html", file=here("tables/main/stress_table1.html"))
 
 
 #### TABLE 2/3 ####
@@ -397,8 +397,8 @@ tbls3 <- data.table(
   "Full Adjusted Analysis" = full_adj3
 )
 
-write.csv(tbls2, here('tables/stress/miso9-stress-table2.csv'))
-write.csv(tbls3, here('tables/stress/miso9-stress-table3.csv'))
+write.csv(tbls2, here('tables/main/miso9-stress-table2.csv'))
+write.csv(tbls3, here('tables/main/miso9-stress-table3.csv'))
 
 
 
