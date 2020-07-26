@@ -460,8 +460,8 @@ tbls7 <- data.table(
 
 
 # unable to write code to this location - I think I need to create a new folder in Git
-write.csv(tbls7, file=here('tables/miso9-stress-supplementarytable7.csv'))
-print(xtable(tbls7), type="html", file=here('tables/miso9-stress-supplementarytable7.html'))
+write.csv(tbls7, file=here('tables/miso9-stress-supplementarytable4.csv'))
+print(xtable(tbls7), type="html", file=here('tables/miso9-stress-supplementarytable4.html'))
 
 ###Table S 8: subgroup analysis by sex at t3#######
 
@@ -539,7 +539,7 @@ tbls8 <- data.table(
   # " " = pval7
 )
 
-write.csv(tbls8, file=here('tables/supplementary/miso9-stress-supplementarytable8.csv'))
-print(xtable(tbls8), type="html", file=here('tables/supplementary/miso9-stress-supplementarytable8.html'))
+write.csv(tbls8, file=here('tables/supplementary/miso9-stress-supplementarytable5.csv'))
+print(xtable(tbls8), type="html", file=here('tables/supplementary/miso9-stress-supplementarytable5.html'))
 
 
