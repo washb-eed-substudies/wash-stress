@@ -120,7 +120,7 @@ wsh<-c(paste("N + WSH Intervention (N=", Nlostwsh, ")", sep=""), " ", charobject
        " ", " ", charobjectperc(handlatwater, 3), charobjectperc(handlatsoap, 3), 
        " ", charobjectperc(handkitwater, 3), charobjectperc(handkitsoap, 3), 
        " ", charobjectperc(foodsecure, 3))
-
+ 
 # Table S1
 tbls1<-data.table(" "=c("No. of compounds:", "Maternal", "Age(years)", "Years of education", 
                         "Paternal", "Years of education", "Works in agriculture", 
