@@ -120,7 +120,7 @@ wsh<-c(paste("N + WSH Intervention (N=", Nlostwsh, ")", sep=""), " ", charobject
        " ", " ", charobjectperc(handlatwater, 3), charobjectperc(handlatsoap, 3), 
        " ", charobjectperc(handkitwater, 3), charobjectperc(handkitsoap, 3), 
        " ", charobjectperc(foodsecure, 3))
-
+ 
 # Table S1
 tbls1<-data.table(" "=c("No. of compounds:", "Maternal", "Age(years)", "Years of education", 
                         "Paternal", "Years of education", "Works in agriculture", 
@@ -350,8 +350,8 @@ tbls6 <- data.table(
   "IPCW Adjusted Analysis" = ipcw_adj6
 )
 
-write.csv(tbls4, here('tables/stress/miso9-stress-supplementarytable4.csv'))
-write.csv(tbls6, here('tables/stress/miso9-stress-supplementarytable6.csv'))
+write.csv(tbls4, here('tables/supplementary/miso9-stress-supplementarytable2.csv'))
+write.csv(tbls6, here('tables/supplementary/miso9-stress-supplementarytable3.csv'))
 
 ####Table S 7: subgroup analyses by sex at t2#####
 
@@ -460,8 +460,8 @@ tbls7 <- data.table(
 
 
 # unable to write code to this location - I think I need to create a new folder in Git
-write.csv(tbls7, file=here('tables/miso9-stress-supplementarytable7.csv'))
-print(xtable(tbls7), type="html", file=here('tables/miso9-stress-supplementarytable7.html'))
+write.csv(tbls7, file=here('tables/miso9-stress-supplementarytable4.csv'))
+print(xtable(tbls7), type="html", file=here('tables/miso9-stress-supplementarytable4.html'))
 
 ###Table S 8: subgroup analysis by sex at t3#######
 
@@ -539,7 +539,7 @@ tbls8 <- data.table(
   # " " = pval7
 )
 
-write.csv(tbls8, file=here('tables/supplementary/miso9-stress-supplementarytable8.csv'))
-print(xtable(tbls8), type="html", file=here('tables/supplementary/miso9-stress-supplementarytable8.html'))
+write.csv(tbls8, file=here('tables/supplementary/miso9-stress-supplementarytable5.csv'))
+print(xtable(tbls8), type="html", file=here('tables/supplementary/miso9-stress-supplementarytable5.html'))
 
 
