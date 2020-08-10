@@ -126,6 +126,32 @@ mean_sd_tr <- data.frame(tr=mean_sd_tr[1:n,1], Y=gsub("_mean","",mean_sd_tr[1:n,
 # max(N_comp$sd.diff)
 
 
+
+
+#------------------------------------------------------------------------------------------------
+# transformed means with 95% CI's for figure
+#------------------------------------------------------------------------------------------------
+
+washb_mean_y <- function(x, y="block"){washb_mean(Y=x, id=y)}
+
+
+#Mean and 95%CI by treatment arm
+mean_ci_tr<-NULL
+for(i in outcomes){
+  wshn <- d %>% filter(tr=="Nutrition + WSH") %>% 
+    subset(., select=c("block",i)) %>% as.data.frame() %>%
+    do(as.data.frame(washb_mean(Y=.[,2], id=.$block,  print=F)))
+  control <- d %>% filter(tr=="Control") %>% 
+    subset(., select=c("block",i)) %>% as.data.frame() %>%
+    do(as.data.frame(washb_mean(Y=.[,2], id=.$block,  print=F)))
+  mean_ci_tr<-bind_rows(
+    mean_ci_tr,
+    data.frame(outcome=i, tr="Nutrition + WSH", control),
+    data.frame(outcome=i, tr="Control", wshn))
+}
+
+
+
 #------------------------------------------------------------------------------------------------
 # Unadjusted tmle
 #------------------------------------------------------------------------------------------------
@@ -447,5 +473,5 @@ res_sub <- res_sub %>% mutate(subgroup = case_when(sex==1 ~ "male", sex==0 ~ "fe
 ##############################################
 
 #save results
-save(stress_age_t2_M, stress_age_t3_M, mean_sd, mean_sd_tr, absolute_mean_sd, absolute_mean_sd_tr, absolute_mean_sd_sex,
+save(stress_age_t2_M, stress_age_t3_M, mean_sd, mean_sd_tr, mean_ci_tr, absolute_mean_sd, absolute_mean_sd_tr, absolute_mean_sd_sex,
      res_unadj, res_sex, res_adj, res_sub, file=here::here("results/stress_results.Rdata"))
