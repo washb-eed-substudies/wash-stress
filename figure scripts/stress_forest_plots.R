@@ -39,35 +39,75 @@ d$age <- as.factor(d$age)
 d$tr <- c("Control v. Nutrition + Water + Sanitation + Handwashing")
 
 
-#split data for multiple plot panels
-d14 <- d %>% filter(age==14)
-d_res <- d %>% filter(name %in% c(""))
+#drop salimetrics
+plotdf <- d %>% filter(group!="Salimetrics\ngain scores")
 
-unique(d$var)
-
-
-
-p <- ggplot(d, (aes(x=name, y=Mean.difference))) + 
+p <- ggplot(plotdf, (aes(x=name, y=Mean.difference))) + 
   geom_point(size=3) +
   geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
                 width = 0.3, size = 1) +
   geom_hline(yintercept = 0) +
-  facet_wrap(~group, ncol=2, scales="free") +
+  facet_wrap(~group, ncol=1, scales="free") +
   coord_flip() +
-  #labs(y = " ", x = "", title=d$name, fill=" ") +
-  #coord_cartesian(ylim=c(d$`ci.l`[1]-(0.5*abs(dfci.l)), d$`ci.u`[1]+(0.5*abs(d$ci.l)))) +
+  labs(y = "Mean difference", x = "Biomarker") +
   theme(axis.ticks.x=element_blank(),
         legend.position = "bottom",
         plot.title = element_text(hjust = 0.5, face = "plain", size=9),
         panel.spacing = unit(0, "lines")) 
 p
 
+ggsave(p, file = here::here("figures/stress_forest_diff.png"), height=9, width=8)
 
 
+#### FIGURE TREATMENT SPECIFIC MEANS ####
 
-#Drop residualized gain score
+mean_ci_tr <- mean_ci_tr %>% 
+                rename(
+                  Y=outcome,
+                  ci.l=Lower.95.CI,
+                  ci.u=Upper.95.CI,
+                  Treatment=tr
+                ) %>%
+              mutate(Treatment=factor(Treatment, levels=c("Nutrition + WSH", "Control")))
 
+d <- rbind(
+  data.frame(readjustfunc(mean_ci_tr, "t2_f2_8ip"), name="iPF(2a)-III ", age=14, group="F2 Isoprostanes"),
+  data.frame(readjustfunc(mean_ci_tr, "t2_f2_23d"), name="2,3-dinor-iPF(2a)-III", age=14, group="F2 Isoprostanes"),
+  data.frame(readjustfunc(mean_ci_tr, "t2_f2_VI"), name="iPF(2a)-VI", age=14, group="F2 Isoprostanes"),
+  data.frame(readjustfunc(mean_ci_tr, "t2_f2_12i"), name="8,12-iso-iPF(2a)-VI", age=14, group="F2 Isoprostanes"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_saa_z01"), name="Pre-stressor salivary alpha-amylase", age=28, group="Salimetrics"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_saa_z02"), name="Post-stressor salivary alpha-amylase", age=28, group="Salimetrics"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_saa_slope"), name="Change in slope between pre- and \n post-stressor alpha-amylase", age=28, group="Salimetrics"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_residual_saa"), name="Residualized gain score for alpha-amylase", age=28, group="Salimetrics\ngain scores"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_cort_z01"), name="Pre-stressor salivary cortisol", age=28, group="Salimetrics"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_cort_z03"), name="Post-stressor salivary cortisol", age=28, group="Salimetrics"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_cort_slope"), name="Change in slope between pre- and \n post-stressor cortisol", age=28, group="Salimetrics"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_residual_cort"), name="Residualized gain score for cortisol", age=28, group="Salimetrics\ngain scores"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_map"), name="Mean arterial pressure", age=28, group="Vitals"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_hr_mean"), name="Resting heart rate", age=28, group="Vitals"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_gcr_mean"), name="NR3C1 exon 1F promoter methylation", age=28, group="Vitals"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_gcr_cpg12"), name="NGFI-A transcription factor binding site", age=28, group="Vitals")
+)
 
-#ggsave(p, file = here::here("figures/stress_forest_mean.png"), height=9, width=14)
-#ggsave(p, file = here::here("figures/stress_forest_diff.png"), height=9, width=14)
+d$age <- as.factor(d$age)
+plotdf <- d %>% filter(group!="Salimetrics\ngain scores")
+
+p <- ggplot(plotdf, (aes(x=name, y=Mean, group=Treatment, color=Treatment, fill=Treatment))) + 
+  geom_point(size=3, position = position_dodge(0.5)) +
+  geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
+                width = 0.3, size = 1, position = position_dodge(0.5)) +
+  facet_wrap(~group, ncol=1, scales="free") +
+  coord_flip() +
+  scale_color_manual(values = tableau10[c(2,1)]) +
+  scale_fill_manual(values = tableau10[c(2,1)]) +
+  labs(y = "Log-transformed Mean", x = "Biomarker") +
+  theme(axis.ticks.x=element_blank(),
+        legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5, face = "plain", size=9),
+        panel.spacing = unit(0, "lines"))  +
+  guides(colour=guide_legend(reverse=TRUE), fill=guide_legend(reverse=TRUE))
+
+p
+
+ggsave(p, file = here::here("figures/stress_forest_mean.png"), height=9, width=8)
 
