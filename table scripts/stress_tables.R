@@ -296,7 +296,7 @@ tbls2 <- data.table(
 )
 
 outcomes3<-c("Pre-stressor Salivary alpha-amylase (U/ml)" ,"Control", "Nutrition + WSH",
-             "Post-stressor Salivary alpha-amylase","Control (U/ml)", "Nutrition + WSH",
+             "Post-stressor Salivary alpha-amylase (U/ml)","Control", "Nutrition + WSH",
              "Change in slope between pre- and post-stressor alpha-amylase","Control", "Nutrition + WSH",
              "Residualized gain score for alpha-amylase","Control", "Nutrition + WSH",
              "Pre-stressor salivary cortisol (ug/dl)","Control", "Nutrition + WSH",
