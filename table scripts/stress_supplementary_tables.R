@@ -357,7 +357,7 @@ write.csv(tbls6, here('tables/supplementary/miso9-stress-supplementarytable3.csv
 
 #Outcomes
 
-outcomes7 <- c( "Biomarker", "iPF(2α)-III", "2,3-dinor-iPF(2α±)-III", "iPF(2α±)-VI", "8,12-iso-iPF(2α±)-VI")
+outcomes7 <- c( "Biomarker", "iPF(2α)-III (ng/mg creatinine)", "2,3-dinor-iPF(2α±)-III (ng/mg creatinine)", "iPF(2α±)-VI (ng/mg creatinine)", "8,12-iso-iPF(2α±)-VI (ng/mg creatinine)")
 
 #N
 n7.0 <- c("n", as.character(round(absolute_mean_sd_sex$n[1], 2)), as.character(round(absolute_mean_sd_sex$n[3], 2)), as.character(round(absolute_mean_sd_sex$n[5], 2)), as.character(round(absolute_mean_sd_sex$n[7], 2)))
@@ -468,7 +468,7 @@ print(xtable(tbls7), type="html", file=here('tables/supplementary/miso9-stress-s
 #outcomes
 
 
-outcomes8 <- c("Stress biomarker", "Mean arterial pressure", "Resting heart rate", "Post-stressor alpha-amylase", "Post-stressor alpha-amylase", "Pre-stressor cortisol", "Post-stressor cortisol", "NR3C1 exon 1F promoter methylation", "NGFI-A transcription factor binding site", "Change in slope between pre- and post-stressor alpha-amylase", "Change in slope between pre- and post-stressor cortisol", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
+outcomes8 <- c("Stress biomarker", "Mean arterial pressure (mmHg)", "Resting heart rate (bpm)", "Pre-stressor alpha-amylase (U/ml)", "Post-stressor alpha-amylase (U/ml)", "Pre-stressor cortisol (ug/dl)", "Post-stressor cortisol (ug/dl)", "NR3C1 exon 1F promoter methylation", "NGFI-A transcription factor binding site", "Change in slope between pre- and post-stressor alpha-amylase", "Change in slope between pre- and post-stressor cortisol", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
 
 
 #N
