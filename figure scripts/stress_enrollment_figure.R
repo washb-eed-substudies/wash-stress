@@ -4,6 +4,7 @@ library(dplyr)
 
 d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.RDS"))
 
+#function for filtering for only participants with at least one outcome
 filtering <- function(row){
   any(!is.na(row))}
 
