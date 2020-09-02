@@ -188,8 +188,8 @@ n <- function(str, str1, tbl){
 }
 
 
-outcomes4<-c("iPF(2α)-III", "Control", "Nutrition + WSH", "2,3-dinor-iPF(2α±)-III", 
-             "Control", "Nutrition + WSH", "iPF(2α±)-VI", "Control", "Nutrition + WSH", "8,12-iso-iPF(2α±)-VI", 
+outcomes4<-c("iPF(2α)-III (ng/mg creatinine)", "Control", "Nutrition + WSH", "2,3-dinor-iPF(2α±)-III (ng/mg creatinine)", 
+             "Control", "Nutrition + WSH", "iPF(2α±)-VI (ng/mg creatinine)", "Control", "Nutrition + WSH", "8,12-iso-iPF(2α±)-VI (ng/mg creatinine)", 
              "Control","Nutrition + WSH")
 
 unadj_diff <-c("","", ci_interval("t2_f2_8ip", res_unadj), "","", 
@@ -240,16 +240,16 @@ tbls4 <- data.table(
   "IPCW Adjusted Analysis" = ipcw_adj
 )
 
-outcomes6<-c("Pre-stressor Salivary alpha-amylase" ,"Control", "Nutrition + WSH",
-             "Post-stressor Salivary alpha-amylase","Control", "Nutrition + WSH",
+outcomes6<-c("Pre-stressor Salivary alpha-amylase (U/ml)" ,"Control", "Nutrition + WSH",
+             "Post-stressor Salivary alpha-amylase (U/ml)","Control", "Nutrition + WSH",
              "Change in slope between pre- and post-stressor alpha-amylase","Control", "Nutrition + WSH",
              "Residualized gain score for alpha-amylase","Control", "Nutrition + WSH",
-             "Pre-stressor salivary cortisol","Control", "Nutrition + WSH",
-             "Post-stressor salivary cortisol","Control", "Nutrition + WSH",
+             "Pre-stressor salivary cortisol (ug/dl)","Control", "Nutrition + WSH",
+             "Post-stressor salivary cortisol (ug/dl)","Control", "Nutrition + WSH",
              "Change in slope between pre- and post-stressor cortisol","Control", "Nutrition + WSH",
              "Residualized gain score for cortisol","Control", "Nutrition + WSH",
-             "Mean arterial Pressure","Control", "Nutrition + WSH",
-             "Resting heart rate","Control", "Nutrition + WSH",
+             "Mean arterial pressure (mmHg)","Control", "Nutrition + WSH",
+             "Resting heart rate (bpm)","Control", "Nutrition + WSH",
              "NR3C1 exon 1F promoter methylation","Control", "Nutrition + WSH",
              "NGFI-A transcription factor binding site","Control", "Nutrition + WSH"
 )
@@ -357,7 +357,7 @@ write.csv(tbls6, here('tables/supplementary/miso9-stress-supplementarytable3.csv
 
 #Outcomes
 
-outcomes7 <- c( "Biomarker", "iPF(2α)-III", "2,3-dinor-iPF(2α±)-III", "iPF(2α±)-VI", "8,12-iso-iPF(2α±)-VI")
+outcomes7 <- c( "Biomarker", "iPF(2α)-III (ng/mg creatinine)", "2,3-dinor-iPF(2α±)-III (ng/mg creatinine)", "iPF(2α±)-VI (ng/mg creatinine)", "8,12-iso-iPF(2α±)-VI (ng/mg creatinine)")
 
 #N
 n7.0 <- c("n", as.character(round(absolute_mean_sd_sex$n[1], 2)), as.character(round(absolute_mean_sd_sex$n[3], 2)), as.character(round(absolute_mean_sd_sex$n[5], 2)), as.character(round(absolute_mean_sd_sex$n[7], 2)))
@@ -460,15 +460,15 @@ tbls7 <- data.table(
 
 
 # unable to write code to this location - I think I need to create a new folder in Git
-write.csv(tbls7, file=here('tables/miso9-stress-supplementarytable4.csv'))
-print(xtable(tbls7), type="html", file=here('tables/miso9-stress-supplementarytable4.html'))
+write.csv(tbls7, file=here('tables/supplementary/miso9-stress-supplementarytable4.csv'))
+print(xtable(tbls7), type="html", file=here('tables/supplementary/miso9-stress-supplementarytable4.html'))
 
 ###Table S 8: subgroup analysis by sex at t3#######
 
 #outcomes
 
 
-outcomes8 <- c("Stress biomarker", "Mean arterial pressure", "Resting heart rate", "Post-stressor alpha-amylase", "Post-stressor alpha-amylase", "Pre-stressor cortisol", "Post-stressor cortisol", "NR3C1 exon 1F promoter methylation", "NGFI-A transcription factor binding site", "Change in slope between pre- and post-stressor alpha-amylase", "Change in slope between pre- and post-stressor cortisol", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
+outcomes8 <- c("Stress biomarker", "Mean arterial pressure (mmHg)", "Resting heart rate (bpm)", "Pre-stressor alpha-amylase (U/ml)", "Post-stressor alpha-amylase (U/ml)", "Pre-stressor cortisol (ug/dl)", "Post-stressor cortisol (ug/dl)", "NR3C1 exon 1F promoter methylation", "NGFI-A transcription factor binding site", "Change in slope between pre- and post-stressor alpha-amylase", "Change in slope between pre- and post-stressor cortisol", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
 
 
 #N
