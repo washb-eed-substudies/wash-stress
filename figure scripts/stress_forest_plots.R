@@ -44,7 +44,7 @@ d <- rbind(
 
 d$age <- as.factor(d$age)
 d$group <- factor(d$group, levels=unique(d$group))
-d$name <- factor(d$name, levels=unique(d$name))
+d$name <- factor(d$name, levels=rev(unique(d$name)))
 
 d$tr <- c("Control v. Nutrition + Water + Sanitation + Handwashing")
 
@@ -101,6 +101,9 @@ d <- rbind(
 )
 
 d$age <- as.factor(d$age)
+d$group <- factor(d$group, levels=unique(d$group))
+d$name <- factor(d$name, levels=rev(unique(d$name)))
+                 
 plotdf <- d %>% filter(group!="Salimetrics\ngain scores")
 
 p <- ggplot(plotdf, (aes(x=name, y=Mean, group=Treatment, color=Treatment, fill=Treatment))) + 
