@@ -66,6 +66,11 @@ d$monsoon_t3_salimetrics[is.na(d$monsoon_t3_salimetrics)] <- "missing"
 d$monsoon_t3_oragene <- as.character(d$monsoon_t3_oragene)
 d$monsoon_t3_oragene[is.na(d$monsoon_t3_oragene)] <- "missing"
 
+d$monsoon_ut2 <- factor(d$monsoon_ut2)
+d$monsoon_t3_vital <- factor(d$monsoon_t3_vital)
+d$monsoon_t3_salimetrics <- factor(d$monsoon_t3_salimetrics)
+d$monsoon_t3_oragene <- factor(d$monsoon_t3_oragene)
+
 #calculate overall medians/modes:
 ur_agem2_median <-    median(d$ur_agem2, na.rm = T)
 vital_aged3_median <-    median(d$vital_aged3, na.rm = T)
@@ -150,79 +155,93 @@ table(d$n_chickens)
 
 #Relevel all factors
 table(d$sex)
-d$sex<-addNA(d$sex)
+#d$sex<-addNA(d$sex)
 levels(d$sex)[3]<-"missing"
 table(d$sex)
 d$momedu=relevel(d$momedu,ref="No education")
 d$hfiacat=relevel(d$hfiacat,ref="Food Secure")
-d$hfiacat<-addNA(d$hfiacat)
+#d$hfiacat<-addNA(d$hfiacat)
 d$wall<-factor(d$wall)
-d$wall<-addNA(d$wall)
+#d$wall<-addNA(d$wall)
 levels(d$wall)<-c("No improved wall","Improved wall","Missing")
 d$wall=relevel(d$wall,ref="No improved wall")
 d$floor<-factor(d$floor)
-d$floor<-addNA(d$floor)
+#d$floor<-addNA(d$floor)
 levels(d$floor)<-c("No improved floor","Improved floor","Missing")
 d$floor=relevel(d$floor,ref="No improved floor")
 d$elec<-factor(d$elec)
-d$elec<-addNA(d$elec)
+#d$elec<-addNA(d$elec)
 levels(d$elec)<-c("No electricity","Electricity","Missing")
 d$elec=relevel(d$elec,ref="No electricity")
 d$asset_wardrobe<-factor(d$asset_wardrobe)
-d$asset_wardrobe<-addNA(d$asset_wardrobe)
+#d$asset_wardrobe<-addNA(d$asset_wardrobe)
 levels(d$asset_wardrobe)<-c("No wardrobe","Wardrobe","Missing")
 d$asset_wardrobe=relevel(d$asset_wardrobe,ref="No wardrobe")
 d$asset_table<-factor(d$asset_table)
-d$asset_table<-addNA(d$asset_table)
+#d$asset_table<-addNA(d$asset_table)
 levels(d$asset_table)<-c("No table","Improved table","Missing")
 d$asset_table=relevel(d$asset_table,ref="No table")
 d$asset_chair<-factor(d$asset_chair)
-d$asset_chair<-addNA(d$asset_chair)
+#d$asset_chair<-addNA(d$asset_chair)
 levels(d$asset_chair)<-c("No chair","Chair","Missing")
 d$asset_chair=relevel(d$asset_chair,ref="No chair")
-d$asset_clock[is.na(d$asset_clock)]<-99
+#d$asset_clock[is.na(d$asset_clock)]<-99
 d$asset_clock<-factor(d$asset_clock)
-d$asset_clock<-addNA(d$asset_clock)
+#d$asset_clock<-addNA(d$asset_clock)
 levels(d$asset_clock)<-c("No clock","Clock","Missing", "Missing")
 d$asset_clock=relevel(d$asset_clock,ref="No clock")
 d$asset_khat<-factor(d$asset_khat)
-d$asset_khat<-addNA(d$asset_khat)
+#d$asset_khat<-addNA(d$asset_khat)
 levels(d$asset_khat)<-c("No khat","Khat","Missing")
 d$asset_khat=relevel(d$asset_khat,ref="No khat")
 d$asset_chouki<-factor(d$asset_chouki)
-d$asset_chouki<-addNA(d$asset_chouki)
+#d$asset_chouki<-addNA(d$asset_chouki)
 levels(d$asset_chouki)<-c("No chouki","Chouki","Missing")
 d$asset_chouki=relevel(d$asset_chouki,ref="No chouki")
 d$asset_tv<-factor(d$asset_tv)
-d$asset_tv<-addNA(d$asset_tv)
+#d$asset_tv<-addNA(d$asset_tv)
 levels(d$asset_tv)<-c("No TV","Improved TV","Missing")
 d$asset_tv=relevel(d$asset_tv,ref="No TV")
 d$asset_refrig<-factor(d$asset_refrig)
-d$asset_refrig<-addNA(d$asset_refrig)
+#d$asset_refrig<-addNA(d$asset_refrig)
 levels(d$asset_refrig)<-c("No refrigerator","Refrigerator","Missing")
 d$asset_refrig=relevel(d$asset_refrig,ref="No refrigerator")
 d$asset_bike<-factor(d$asset_bike)
-d$asset_bike<-addNA(d$asset_bike)
+#d$asset_bike<-addNA(d$asset_bike)
 levels(d$asset_bike)<-c("No bicycle","Bicycle","Missing")
 d$asset_bike=relevel(d$asset_bike,ref="No bicycle")
 d$asset_moto<-factor(d$asset_moto)
-d$asset_moto<-addNA(d$asset_moto)
+#d$asset_moto<-addNA(d$asset_moto)
 levels(d$asset_moto)<-c("No motorcycle","Motorcycle","Missing")
 d$asset_moto=relevel(d$asset_moto,ref="No motorcycle")
 d$asset_sewmach<-factor(d$asset_sewmach)
-d$asset_sewmach<-addNA(d$asset_sewmach)
+#d$asset_sewmach<-addNA(d$asset_sewmach)
 levels(d$asset_sewmach)<-c("No sewing machine","Sewing machine","Missing")
 d$asset_sewmach=relevel(d$asset_sewmach,ref="No sewing machine")
 d$asset_mobile<-factor(d$asset_mobile)
-d$asset_mobile<-addNA(d$asset_mobile)
+#d$asset_mobile<-addNA(d$asset_mobile)
 levels(d$asset_mobile)<-c("No mobile phone","Mobile phone","Missing")
 d$asset_mobile=relevel(d$asset_mobile,ref="No mobile phone")    
 
 #Re-subset W so new re-leveled factors are included
 W<- subset(d, select=Wvars)
 
+#median/missing impute other missingness
+for(i in 1:ncol(W)){
+  if(!is.factor(W[,i])){
+    W[is.na(W[,i]),i] <- median(W[,i], na.rm=T)
+  }else{
+    lev<-levels(W[,i])
+    W[,i]<-as.character(W[,i])
+    W[is.na(W[,i]),i]<- "missing"
+    W[,i]<-factor(W[,i], levels=unique(c(lev,"missing")))
+  }
+}
+W<-droplevels(W)
+head(W)
+table(is.na(W))
 
-#Add in time-varying covariates
+
 #Add in time-varying covariates
 W2<- cbind(W, subset(d, select=Wvars2))
 W3_vital<- cbind(W, subset(d, select=Wvars3_vital))
@@ -230,6 +249,10 @@ W3_salimetrics<- cbind(W, subset(d, select=Wvars3_salimetrics))
 W3_oragene<- cbind(W, subset(d, select=Wvars3_oragene))
 
 
+table(is.na(W2))
+table(is.na(W3_vital))
+table(is.na(W3_salimetrics))
+table(is.na(W3_oragene))
 
 
 #Create indicators for missingness
@@ -252,23 +275,24 @@ d <- cbind(d, miss)
 
 
 
-
+table(is.na(Y))
+table(is.na(miss))
 
 
 #Run the adjusted ipcw analysis
 res_ipcw <- NULL
 for(i in outcomes){
   if(grepl("t2_", i)){
-    temp<-washb_tmle(Y=(d[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W2, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+    temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W2, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
   }else{
     if(i %in% c("t3_map","t3_hr_mean" )){
-      temp<-washb_tmle(Y=(d[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_vital, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+      temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_vital, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
     }
     if(i %in% c("t3_saa_z01","t3_saa_z02","t3_cort_z01","t3_cort_z03","t3_saa_slope","t3_cort_slope","t3_residual_saa",  "t3_residual_cort")){
-      temp<-washb_tmle(Y=(d[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_salimetrics, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+      temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_salimetrics, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
     }
     if(i %in% c("t3_gcr_mean", "t3_gcr_cpg12")){
-      temp<-washb_tmle(Y=(d[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_oragene, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+      temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_oragene, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
     }
   }
   res_ipcw<-rbind(res_ipcw, unlist(temp$estimates$ATE))
