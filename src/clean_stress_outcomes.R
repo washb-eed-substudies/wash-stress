@@ -197,6 +197,18 @@ df <- df %>%
     wall=walls
   )
 
+# convert time of day of pre-stressor measurement of cortisol and sAA into continuous variable
+time_day <- df$t3_col_time_z01
+time_split <- str_split(time_day, ":")
+cont_time <- function(list_hr_min){
+  # takes in list of time
+  # first number is hour of the day
+  # second number in list is minute of the hour
+  num_time <- as.numeric(unlist(list_hr_min))
+  num_time[1]+num_time[2]/60
+}
+df$t3_col_time_z01_cont <- sapply(time_split, cont_time)
+df$t3_col_time_z01_period <- hm(time_day)
 
 #---------------------------------------------------------------------------------------------
 # (temporary) blind treatment assignment

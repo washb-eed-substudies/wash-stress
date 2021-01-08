@@ -260,6 +260,7 @@ Wvars<-c('sex', 'birthord',
 Wvars2<-c("ur_agem2", "monsoon_ut2") 
 Wvars3_vital<-c("vital_aged3", "monsoon_t3_vital") 
 Wvars3_salimetrics<-c("salimetrics_aged3", "monsoon_t3_salimetrics") 
+Wvars3_salimetrics_time<-c("salimetrics_aged3", "monsoon_t3_salimetrics", "t3_col_time_z01_cont")
 Wvars3_oragene<-c("oragene_aged3", "monsoon_t3_oragene") 
 
 
@@ -331,8 +332,8 @@ d$asset_chair<-addNA(d$asset_chair)
 levels(d$asset_chair)<-c("No chair","Chair","Missing")
 d$asset_chair=relevel(factor(d$asset_chair),ref="No chair")
 d$asset_clock<-factor(d$asset_clock)
-d$asset_clock=relevel(factor(d$asset_clock),ref="No clock")
-levels(d$asset_clock)<-c("No clock","Clock","Missing", "Missing")
+# d$asset_clock=relevel(factor(d$asset_clock),ref="No clock")
+levels(d$asset_clock)<-c("No clock","Clock","Missing")
 d$asset_clock=relevel(factor(d$asset_clock),ref="No clock")
 d$asset_khat<-factor(d$asset_khat)
 d$asset_khat<-addNA(d$asset_khat)
@@ -376,6 +377,7 @@ W<- subset(d, select=Wvars)
 W2<- cbind(W, subset(d, select=Wvars2))
 W3_vital<- cbind(W, subset(d, select=Wvars3_vital))
 W3_salimetrics<- cbind(W, subset(d, select=Wvars3_salimetrics))
+W3_salimetrics_time<-cbind(W, subset(d, select=Wvars3_salimetrics_time))
 W3_oragene<- cbind(W, subset(d, select=Wvars3_oragene))
 
 
@@ -395,7 +397,10 @@ for(i in outcomes){
     if(i %in% c("t3_map","t3_hr_mean" )){
       temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_vital, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
     }
-    if(i %in% c("t3_saa_z01","t3_saa_z02","t3_cort_z01","t3_cort_z03","t3_saa_slope","t3_cort_slope","t3_residual_saa",  "t3_residual_cort")){
+    if(i %in% c("t3_saa_z01","t3_saa_z02","t3_cort_z01","t3_cort_z03","t3_saa_slope","t3_cort_slope")){
+      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_salimetrics_time, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+    }
+    if(i %in% c("t3_residual_saa",  "t3_residual_cort")){
       temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_salimetrics, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
     }
     if(i %in% c("t3_gcr_mean", "t3_gcr_cpg12")){
@@ -475,3 +480,6 @@ res_sub <- res_sub %>% mutate(subgroup = case_when(sex==1 ~ "male", sex==0 ~ "fe
 #save results
 save(stress_age_t2_M, stress_age_t3_M, mean_sd, mean_sd_tr, mean_ci_tr, absolute_mean_sd, absolute_mean_sd_tr, absolute_mean_sd_sex,
      res_unadj, res_sex, res_adj, res_sub, file=here::here("results/stress_results.Rdata"))
+
+# save(stress_age_t2_M, stress_age_t3_M, mean_sd, mean_sd_tr, mean_ci_tr, absolute_mean_sd, absolute_mean_sd_tr, absolute_mean_sd_sex,
+#      res_unadj, res_sex, res_adj, res_sub, file=here::here("results/stress_results_newcovariate.Rdata"))
