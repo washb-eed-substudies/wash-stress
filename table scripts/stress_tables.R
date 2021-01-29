@@ -2,7 +2,7 @@ rm(list=ls())
 library("xtable")
 source(here::here("0-config.R"))
 
-load(here("results/stress_results.RData"))
+load(here("results/stress_results_newcovariate.RData"))
 d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.RDS"))
 
 #### TABLE 1 ####
@@ -213,17 +213,12 @@ print(xtable(tbl1), type="html", file=here("tables/main/stress_table1.html"))
 
 #### TABLE 2/3 ####
 
-bonpval <- function(pval){
-  bon = round(pval * 2, 2)
-  if (pval >= .5)
-    bon = 1
-  bon 
-}
-
-#to be used for formatting ipcw variables for table
+#to be used for formatting point difference and confidence interval
 ci_interval<-function(str, tbl){
   filter<-tbl[tbl$Y == str,]
-  paste(round(filter[1], 2), " (", round(filter[3], 2), ", ", round(filter[4], 2), ")", sep="")
+  if(round(filter[1], 2)==0){ci <- paste(round(filter[1], 3), " (", round(filter[3], 3), ", ", round(filter[4], 3), ")", sep="")
+  }else{ci<-paste(round(filter[1], 2), " (", round(filter[3], 2), ", ", round(filter[4], 2), ")", sep="")}
+  return{ci}
 }
 
 #mean
@@ -247,39 +242,57 @@ n <- function(str, str1, tbl){
   paste(round(filter2[5], 2))
 }
 
+#pval
+pval <- function(str, tbl){
+  filter<-tbl[tbl$Y == str,]
+  paste(round(filter[5], 2))
+}
 
-outcomes2<-c("iPF(2α)-III (ng/mg creatinine)", "Control", "Nutrition + WSH", "2,3-dinor-iPF(2α±)-III (ng/mg creatinine)", 
-              "Control", "Nutrition + WSH", "iPF(2α±)-VI (ng/mg creatinine)", "Control", "Nutrition + WSH", "8,12-iso-iPF(2α±)-VI (ng/mg creatinine)", 
+
+outcomes2<-c("", "iPF(2a)-III (ng/mg creatinine)", "Control", "Nutrition + WSH", "2,3-dinor-iPF(2a)-III (ng/mg creatinine)", 
+              "Control", "Nutrition + WSH", "iPF(2a)-VI (ng/mg creatinine)", "Control", "Nutrition + WSH", "8,12-iso-iPF(2a)-VI (ng/mg creatinine)", 
               "Control","Nutrition + WSH")
 
-unadj_diff <-c("","", ci_interval("t2_f2_8ip", res_unadj), "","", 
+unadj_diff <-c("95% CI","","", ci_interval("t2_f2_8ip", res_unadj), "","", 
                           ci_interval("t2_f2_23d", res_unadj), "","",ci_interval("t2_f2_VI", res_unadj), "","",
                           ci_interval("t2_f2_12i", res_unadj))
 
-age_sex_adj <- c("","", ci_interval("t2_f2_8ip", res_sex),"","", 
+unadj_pval <-c("P-value","","", pval("t2_f2_8ip", res_unadj), "","", 
+               pval("t2_f2_23d", res_unadj), "","",pval("t2_f2_VI", res_unadj), "","",
+               pval("t2_f2_12i", res_unadj))
+
+age_sex_adj <- c("95% CI","","", ci_interval("t2_f2_8ip", res_sex),"","", 
                  ci_interval("t2_f2_23d", res_sex), "","",ci_interval("t2_f2_VI", res_sex), "","",
                  ci_interval("t2_f2_12i", res_sex))
 
-full_adj <- c("","", ci_interval("t2_f2_8ip", res_adj),"","", 
+age_sex_adj_pval <-c("P-value","","", pval("t2_f2_8ip", res_sex), "","", 
+               pval("t2_f2_23d", res_sex), "","",pval("t2_f2_VI", res_sex), "","",
+               pval("t2_f2_12i", res_sex))
+
+full_adj <- c("95% CI", "","", ci_interval("t2_f2_8ip", res_adj),"","", 
               ci_interval("t2_f2_23d", res_adj), "","",ci_interval("t2_f2_VI", res_adj), "","",
               ci_interval("t2_f2_12i", res_adj))
 
-n_t2 <- c("", n("t2_f2_8ip", "Control", mean_sd_tr), n("t2_f2_8ip", "Nutrition + WSH", mean_sd_tr),"",
+adj_pval <-c("P-value","","", pval("t2_f2_8ip", res_adj), "","", 
+               pval("t2_f2_23d", res_adj), "","",pval("t2_f2_VI", res_adj), "","",
+               pval("t2_f2_12i", res_adj))
+
+n_t2 <- c("","", n("t2_f2_8ip", "Control", mean_sd_tr), n("t2_f2_8ip", "Nutrition + WSH", mean_sd_tr),"",
            n("t2_f2_23d", "Control", mean_sd_tr), n("t2_f2_23d", "Nutrition + WSH", mean_sd_tr), "",
           n("t2_f2_VI", "Control", mean_sd_tr),n("t2_f2_VI", "Nutrition + WSH", mean_sd_tr), "",
            n("t2_f2_12i", "Control", mean_sd_tr), n("t2_f2_12i", "Nutrition + WSH", mean_sd_tr))
 
-mean_tr <- c("", mean("t2_f2_8ip", "Control", mean_sd_tr), mean("t2_f2_8ip", "Nutrition + WSH", mean_sd_tr),"",
+mean_tr <- c("","", mean("t2_f2_8ip", "Control", mean_sd_tr), mean("t2_f2_8ip", "Nutrition + WSH", mean_sd_tr),"",
              mean("t2_f2_23d", "Control", mean_sd_tr), mean("t2_f2_23d", "Nutrition + WSH", mean_sd_tr), "",
              mean("t2_f2_VI", "Control", mean_sd_tr),mean("t2_f2_VI", "Nutrition + WSH", mean_sd_tr), "",
              mean("t2_f2_12i", "Control", mean_sd_tr), mean("t2_f2_12i", "Nutrition + WSH", mean_sd_tr))
 
-sd_t2 <- c("", sd("t2_f2_8ip", "Control", mean_sd_tr), sd("t2_f2_8ip", "Nutrition + WSH", mean_sd_tr),"",
+sd_t2 <- c("","", sd("t2_f2_8ip", "Control", mean_sd_tr), sd("t2_f2_8ip", "Nutrition + WSH", mean_sd_tr),"",
            sd("t2_f2_23d", "Control", mean_sd_tr), sd("t2_f2_23d", "Nutrition + WSH", mean_sd_tr), "",
            sd("t2_f2_VI", "Control", mean_sd_tr),sd("t2_f2_VI", "Nutrition + WSH", mean_sd_tr), "",
            sd("t2_f2_12i", "Control", mean_sd_tr), sd("t2_f2_12i", "Nutrition + WSH", mean_sd_tr))
 
-abs_mean <- c("", mean("t2_f2_8ip_raw", "Control", absolute_mean_sd_tr), mean("t2_f2_8ip_raw", "Nutrition + WSH", absolute_mean_sd_tr),"",
+abs_mean <- c("","", mean("t2_f2_8ip_raw", "Control", absolute_mean_sd_tr), mean("t2_f2_8ip_raw", "Nutrition + WSH", absolute_mean_sd_tr),"",
               mean("t2_f2_23d_raw", "Control", absolute_mean_sd_tr), mean("t2_f2_23d_raw", "Nutrition + WSH", absolute_mean_sd_tr), "",
               mean("t2_f2_VI_raw", "Control", absolute_mean_sd_tr),mean("t2_f2_VI_raw", "Nutrition + WSH", absolute_mean_sd_tr), "",
               mean("t2_f2_12i_raw", "Control", absolute_mean_sd_tr), mean("t2_f2_12i_raw", "Nutrition + WSH", absolute_mean_sd_tr))
@@ -289,13 +302,17 @@ tbls2 <- data.table(
   "N" = n_t2,
   "Absolute Mean" = abs_mean,
   "Mean" = mean_tr,
-  "Standard Deviation" = sd_t2,
-  "Unadjusted Analysis" = unadj_diff, 
-  "Age and Sex Adjusted Analysis" = age_sex_adj,
-  "Fully Adjusted Analysis" = full_adj
+  "SD" = sd_t2,
+  "Unadjusted difference: Intervention v. Control" = unadj_diff, 
+  " " = unadj_pval,
+  "Age- and sex-adjusted difference: Intervention v. Control" = age_sex_adj,
+  " " = age_sex_adj_pval, 
+  "Fully adjusted difference: Intervention v. Control" = full_adj,
+  " " = adj_pval
 )
 
-outcomes3<-c("Pre-stressor Salivary alpha-amylase (U/ml)" ,"Control", "Nutrition + WSH",
+outcomes3<-c("",
+             "Pre-stressor Salivary alpha-amylase (U/ml)" ,"Control", "Nutrition + WSH",
              "Post-stressor Salivary alpha-amylase (U/ml)","Control", "Nutrition + WSH",
              "Change in slope between pre- and post-stressor alpha-amylase","Control", "Nutrition + WSH",
              "Residualized gain score for alpha-amylase","Control", "Nutrition + WSH",
@@ -309,7 +326,7 @@ outcomes3<-c("Pre-stressor Salivary alpha-amylase (U/ml)" ,"Control", "Nutrition
              "NGFI-A transcription factor binding site","Control", "Nutrition + WSH"
 )
 
-unadj_diff3 <-c("","", ci_interval("t3_saa_z01", res_unadj), "","", 
+unadj_diff3 <-c("95% CI","","", ci_interval("t3_saa_z01", res_unadj), "","", 
                ci_interval("t3_saa_z02", res_unadj), "","",ci_interval("t3_saa_slope", res_unadj), "","",
                ci_interval("t3_residual_saa", res_unadj),
                "","",ci_interval("t3_cort_z01", res_unadj),"","",ci_interval("t3_cort_z03", res_unadj),
@@ -317,7 +334,15 @@ unadj_diff3 <-c("","", ci_interval("t3_saa_z01", res_unadj), "","",
                "","",ci_interval("t3_map", res_unadj),"","",ci_interval("t3_hr_mean", res_unadj),
                "","",ci_interval("t3_gcr_mean", res_unadj),"","",ci_interval("t3_gcr_cpg12", res_unadj))
 
-age_sex_adj3 <- c("","", ci_interval("t3_saa_z01", res_sex), "","", 
+unadj_pval3 <-c("P-value","","", pval("t3_saa_z01", res_unadj), "","", 
+                pval("t3_saa_z02", res_unadj), "","",pval("t3_saa_slope", res_unadj), "","",
+                pval("t3_residual_saa", res_unadj),
+                "","",pval("t3_cort_z01", res_unadj),"","",pval("t3_cort_z03", res_unadj),
+                "","",pval("t3_cort_slope", res_unadj),"","",pval("t3_residual_cort", res_unadj),
+                "","",pval("t3_map", res_unadj),"","",pval("t3_hr_mean", res_unadj),
+                "","",pval("t3_gcr_mean", res_unadj),"","",pval("t3_gcr_cpg12", res_unadj))
+
+age_sex_adj3 <- c("95% CI","","", ci_interval("t3_saa_z01", res_sex), "","", 
                   ci_interval("t3_saa_z02", res_sex), "","",ci_interval("t3_saa_slope", res_sex), "","",
                   ci_interval("t3_residual_saa", res_sex),
                   "","",ci_interval("t3_cort_z01", res_sex),"","",ci_interval("t3_cort_z03", res_sex),
@@ -325,7 +350,16 @@ age_sex_adj3 <- c("","", ci_interval("t3_saa_z01", res_sex), "","",
                   "","",ci_interval("t3_map", res_sex),"","",ci_interval("t3_hr_mean", res_sex),
                   "","",ci_interval("t3_gcr_mean", res_sex),"","",ci_interval("t3_gcr_cpg12", res_sex))
 
-full_adj3 <- c("","", ci_interval("t3_saa_z01", res_adj), "","", 
+age_sex_pval3 <-c("P-value","","", pval("t3_saa_z01", res_sex), "","", 
+                pval("t3_saa_z02", res_sex), "","",pval("t3_saa_slope", res_sex), "","",
+                pval("t3_residual_saa", res_sex),
+                "","",pval("t3_cort_z01", res_sex),"","",pval("t3_cort_z03", res_sex),
+                "","",pval("t3_cort_slope", res_sex),"","",pval("t3_residual_cort", res_sex),
+                "","",pval("t3_map", res_sex),"","",pval("t3_hr_mean", res_sex),
+                "","",pval("t3_gcr_mean", res_sex),"","",pval("t3_gcr_cpg12", res_sex))
+
+
+full_adj3 <- c("95% CI","","", ci_interval("t3_saa_z01", res_adj), "","", 
                ci_interval("t3_saa_z02", res_adj), "","",ci_interval("t3_saa_slope", res_adj), "","",
                ci_interval("t3_residual_saa", res_adj),
                "","",ci_interval("t3_cort_z01", res_adj),"","",ci_interval("t3_cort_z03", res_adj),
@@ -333,7 +367,16 @@ full_adj3 <- c("","", ci_interval("t3_saa_z01", res_adj), "","",
                "","",ci_interval("t3_map", res_adj),"","",ci_interval("t3_hr_mean", res_adj),
                "","",ci_interval("t3_gcr_mean", res_adj),"","",ci_interval("t3_gcr_cpg12", res_adj))
 
-mean_tr3 <- c("", mean("t3_saa_z01", "Control", mean_sd_tr), mean("t3_saa_z01", "Nutrition + WSH", mean_sd_tr),"",
+adj_pval3 <-c("P-value","","", pval("t3_saa_z01", res_adj), "","", 
+                  pval("t3_saa_z02", res_adj), "","",pval("t3_saa_slope", res_adj), "","",
+                  pval("t3_residual_saa", res_adj),
+                  "","",pval("t3_cort_z01", res_adj),"","",pval("t3_cort_z03", res_adj),
+                  "","",pval("t3_cort_slope", res_adj),"","",pval("t3_residual_cort", res_adj),
+                  "","",pval("t3_map", res_adj),"","",pval("t3_hr_mean", res_adj),
+                  "","",pval("t3_gcr_mean", res_adj),"","",pval("t3_gcr_cpg12", res_adj))
+
+
+mean_tr3 <- c("","", mean("t3_saa_z01", "Control", mean_sd_tr), mean("t3_saa_z01", "Nutrition + WSH", mean_sd_tr),"",
              mean("t3_saa_z02", "Control", mean_sd_tr), mean("t3_saa_z02", "Nutrition + WSH", mean_sd_tr), "",
              mean("t3_saa_slope", "Control", mean_sd_tr),mean("t3_saa_slope", "Nutrition + WSH", mean_sd_tr), "",
              mean("t3_residual_saa", "Control", mean_sd_tr), mean("t3_residual_saa", "Nutrition + WSH", mean_sd_tr), "",
@@ -346,7 +389,7 @@ mean_tr3 <- c("", mean("t3_saa_z01", "Control", mean_sd_tr), mean("t3_saa_z01", 
              mean("t3_gcr", "Control", mean_sd_tr),mean("t3_gcr", "Nutrition + WSH", mean_sd_tr), "",
              mean("t3_gcr_cpg12", "Control", mean_sd_tr),mean("t3_gcr_cpg12", "Nutrition + WSH", mean_sd_tr) )
 
-n_t3 <- c("", n("t3_saa_z01", "Control", mean_sd_tr), n("t3_saa_z01", "Nutrition + WSH", mean_sd_tr),"",
+n_t3 <- c("","", n("t3_saa_z01", "Control", mean_sd_tr), n("t3_saa_z01", "Nutrition + WSH", mean_sd_tr),"",
            n("t3_saa_z02", "Control", mean_sd_tr), n("t3_saa_z02", "Nutrition + WSH", mean_sd_tr), "",
            n("t3_saa_slope", "Control", mean_sd_tr),n("t3_saa_slope", "Nutrition + WSH", mean_sd_tr), "",
            n("t3_residual_saa", "Control", mean_sd_tr), n("t3_residual_saa", "Nutrition + WSH", mean_sd_tr), "",
@@ -359,7 +402,7 @@ n_t3 <- c("", n("t3_saa_z01", "Control", mean_sd_tr), n("t3_saa_z01", "Nutrition
            n("t3_gcr", "Control", mean_sd_tr),n("t3_gcr", "Nutrition + WSH", mean_sd_tr), "",
            n("t3_gcr_cpg12", "Control", mean_sd_tr), n("t3_gcr_cpg12", "Nutrition + WSH", mean_sd_tr) )
 
-sd_t3 <- c("", sd("t3_saa_z01", "Control", mean_sd_tr), sd("t3_saa_z01", "Nutrition + WSH", mean_sd_tr),"",
+sd_t3 <- c("","", sd("t3_saa_z01", "Control", mean_sd_tr), sd("t3_saa_z01", "Nutrition + WSH", mean_sd_tr),"",
            sd("t3_saa_z02", "Control", mean_sd_tr), sd("t3_saa_z02", "Nutrition + WSH", mean_sd_tr), "",
            sd("t3_saa_slope", "Control", mean_sd_tr),sd("t3_saa_slope", "Nutrition + WSH", mean_sd_tr), "",
            sd("t3_residual_saa", "Control", mean_sd_tr), sd("t3_residual_saa", "Nutrition + WSH", mean_sd_tr), "",
@@ -372,7 +415,7 @@ sd_t3 <- c("", sd("t3_saa_z01", "Control", mean_sd_tr), sd("t3_saa_z01", "Nutrit
            sd("t3_gcr", "Control", mean_sd_tr),sd("t3_gcr", "Nutrition + WSH", mean_sd_tr), "",
            sd("t3_gcr_cpg12", "Control", mean_sd_tr), sd("t3_gcr_cpg12", "Nutrition + WSH", mean_sd_tr) )
 
-abs_mean_t3 <- c("", mean("t3_saa_z01_raw", "Control", absolute_mean_sd_tr), mean("t3_saa_z01_raw", "Nutrition + WSH", absolute_mean_sd_tr),"",
+abs_mean_t3 <- c("","", mean("t3_saa_z01_raw", "Control", absolute_mean_sd_tr), mean("t3_saa_z01_raw", "Nutrition + WSH", absolute_mean_sd_tr),"",
                  mean("t3_saa_z02_raw", "Control", absolute_mean_sd_tr), mean("t3_saa_z02_raw", "Nutrition + WSH", absolute_mean_sd_tr), "",
                  mean("t3_saa_slope", "Control", absolute_mean_sd_tr),mean("t3_saa_slope", "Nutrition + WSH", absolute_mean_sd_tr), "",
                  mean("t3_residual_saa", "Control", absolute_mean_sd_tr), mean("t3_residual_saa", "Nutrition + WSH", absolute_mean_sd_tr), "",
@@ -391,14 +434,17 @@ tbls3 <- data.table(
   "N" = n_t3,
   "Absolute Mean" = abs_mean_t3,
   "Mean" = mean_tr3,
-  "Standard Deviation" = sd_t3,
-  "Unadjusted Analysis" = unadj_diff3, 
-  "Age and Sex Adjusted Analysis" = age_sex_adj3,
-  "Full Adjusted Analysis" = full_adj3
+  "SD" = sd_t3,
+  "Unadjusted difference: Intervention v. Control" = unadj_diff3, 
+  " " = unadj_pval3,
+  "Age- and sex-adjusted difference: Intervention v. Control" = age_sex_adj3,
+  " " = age_sex_pval3,
+  "Full adjusted difference: Intervention v. Control" = full_adj3,
+  " " = adj_pval3
 )
 
-write.csv(tbls2, here('tables/main/miso9-stress-table2.csv'))
-write.csv(tbls3, here('tables/main/miso9-stress-table3.csv'))
+write.csv(tbls2, file=here('tables/main/miso9-stress-table2.csv'), row.names = F)
+write.csv(tbls3, file=here('tables/main/miso9-stress-table3.csv'), row.names = F)
 
 
 
