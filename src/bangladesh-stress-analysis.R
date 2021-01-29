@@ -168,6 +168,8 @@ for(i in outcomes){
 res_unadj <- NULL
 for(i in outcomes){
   print(i)
+  #compare to GLM
+  #temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"))
   temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
   res_unadj<-rbind(res_unadj, unlist(temp$estimates$ATE))
 }
@@ -177,6 +179,12 @@ res_unadj
 colnames(res_unadj)<-c("Mean difference","var","ci.l","ci.u", "Pval")
 res_unadj$Y <- outcomes
 res_unadj
+
+# i="t3_gcr_cpg12_raw"
+# table(is.na(d$t3_gcr_cpg12))
+# d <- d %>% filter(!is.na(t3_gcr_cpg12_raw))
+# temp<-washb_tmle(Y=1*(d[,i]>0), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="binomial", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+
 
 # # #Compare to Audrie's objects
 # load(here::here("audrie results/stress_unadj_glm.RData"))

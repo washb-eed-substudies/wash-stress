@@ -47,6 +47,16 @@ p <- ggplot(plotdf, aes(x=Y)) + geom_density() + facet_wrap(~outcome, scales = "
              
 ggsave(p, file = here::here("figures/raw_outcome_distributions.png"), height=6, width=14)                                                  
   
+#Check cpg-12
+df <- d %>% 
+  mutate(logit_t3_gcr_cpg12=logit(t3_gcr_cpg12/100))
+
+df %>% group_by(tr) %>% filter(tr!="Handwashing") %>%
+  summarise(mean(t3_gcr_cpg12, na.rm=T),
+            mean(logit_t3_gcr_cpg12, na.rm=T))
+
+plot(density(df$t3_gcr_cpg12, na.rm=T))
+plot(density(df$logit_t3_gcr_cpg12, na.rm=T))            
 
 #---------------------------------------------------------------------------------------------
 # transform outcome distributions
