@@ -218,7 +218,7 @@ ci_interval<-function(str, tbl){
   filter<-tbl[tbl$Y == str,]
   if(round(filter[1], 2)==0){ci <- paste(round(filter[1], 3), " (", round(filter[3], 3), ", ", round(filter[4], 3), ")", sep="")
   }else{ci<-paste(round(filter[1], 2), " (", round(filter[3], 2), ", ", round(filter[4], 2), ")", sep="")}
-  return{ci}
+  return(ci)
 }
 
 #mean
