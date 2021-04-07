@@ -24,10 +24,11 @@ d <- d %>%
     childid, dataid,
     #childNo, 
     clusterid,
-    ur_agem2, monsoon_ut2, 
+    ageday_ut2, monsoon_ut2, 
     vital_aged3, monsoon_t3_vital,
     salimetrics_aged3, monsoon_t3_salimetrics, 
     oragene_aged3, monsoon_t3_oragene,
+    t3_col_time_z01_cont,
     t2_f2_8ip,t2_f2_23d,t2_f2_VI, t2_f2_12i,
     t3_map,t3_hr_mean,
     t3_saa_z01,t3_saa_z02,t3_cort_z01,t3_cort_z03,
@@ -72,14 +73,14 @@ d$monsoon_t3_salimetrics <- factor(d$monsoon_t3_salimetrics)
 d$monsoon_t3_oragene <- factor(d$monsoon_t3_oragene)
 
 #calculate overall medians/modes:
-ur_agem2_median <-    median(d$ur_agem2, na.rm = T)
+ageday_ut2_median <-    median(d$ageday_ut2, na.rm = T)
 vital_aged3_median <-    median(d$vital_aged3, na.rm = T)
 salimetrics_aged3_median <-    median(d$salimetrics_aged3, na.rm = T)
 oragene_aged3_median <-    median(d$oragene_aged3, na.rm = T)
 
 
 #impute child age with overall median
-d$ur_agem2[is.na(d$ur_agem2)] <-  ur_agem2_median
+d$ageday_ut2[is.na(d$ageday_ut2)] <-  ageday_ut2_median
 d$vital_aged3[is.na(d$vital_aged3)] <-  vital_aged3_median
 d$salimetrics_aged3[is.na(d$salimetrics_aged3)] <-  salimetrics_aged3_median
 d$oragene_aged3[is.na(d$oragene_aged3)] <-  oragene_aged3_median
@@ -107,9 +108,10 @@ Wvars<-c('sex', 'birthord',
 
 
 #Add in time varying covariates:
-Wvars2<-c("ur_agem2", "monsoon_ut2") 
+Wvars2<-c("ageday_ut2", "monsoon_ut2") 
 Wvars3_vital<-c("vital_aged3", "monsoon_t3_vital") 
-Wvars3_salimetrics<-c("salimetrics_aged3", "monsoon_t3_salimetrics") 
+Wvars3_salimetrics<-c("salimetrics_aged3", "monsoon_t3_salimetrics")
+Wvars3_salimetrics_time<-c(Wvars3_salimetrics, "t3_col_time_z01_cont") 
 Wvars3_oragene<-c("oragene_aged3", "monsoon_t3_oragene") 
 
 
@@ -246,12 +248,14 @@ table(is.na(W))
 W2<- cbind(W, subset(d, select=Wvars2))
 W3_vital<- cbind(W, subset(d, select=Wvars3_vital))
 W3_salimetrics<- cbind(W, subset(d, select=Wvars3_salimetrics))
+W3_salimetrics_time<- cbind(W, subset(d, select=c(Wvars3_salimetrics, "t3_col_time_z01_cont")))
 W3_oragene<- cbind(W, subset(d, select=Wvars3_oragene))
 
 
 table(is.na(W2))
 table(is.na(W3_vital))
 table(is.na(W3_salimetrics))
+table(is.na(W3_salimetrics_time))
 table(is.na(W3_oragene))
 
 
@@ -288,8 +292,11 @@ for(i in outcomes){
     if(i %in% c("t3_map","t3_hr_mean" )){
       temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_vital, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
     }
-    if(i %in% c("t3_saa_z01","t3_saa_z02","t3_cort_z01","t3_cort_z03","t3_saa_slope","t3_cort_slope","t3_residual_saa",  "t3_residual_cort")){
+    if(i %in% c("t3_saa_z01","t3_saa_z02","t3_cort_z01","t3_cort_z03","t3_saa_slope","t3_cort_slope")){
       temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_salimetrics, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
+    }
+    if(i %in% c("t3_residual_saa",  "t3_residual_cort")){
+      temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_salimetrics_time, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
     }
     if(i %in% c("t3_gcr_mean", "t3_gcr_cpg12")){
       temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_oragene, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
