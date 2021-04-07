@@ -143,9 +143,9 @@ df <- left_join(fulld, d, by="childid")
 dim(df)
 
 #drop treatment arms where outcome was not samples
-df <- df %>% filter(tr %in% c("Control","Nutrition + WSH"))
+df <- df %>% filter(tr %in% c("Control","Nutrition + WSH","Nutrition","WSH"))
 
-df$tr <- factor(df$tr, levels = c("Control","Nutrition + WSH"))
+df$tr <- factor(df$tr, levels = c("Control","Nutrition","Nutrition + WSH","WSH"))
 
 table(is.na(df$block))
 
