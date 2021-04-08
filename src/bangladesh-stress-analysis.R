@@ -537,7 +537,7 @@ res_sub <- res_sub %>% mutate(subgroup = case_when(sex==1 ~ "male", sex==0 ~ "fe
 save(stress_age_t2_M, stress_age_t3_M, mean_sd, mean_sd_tr, mean_ci_tr, absolute_mean_sd, absolute_mean_sd_tr, absolute_mean_sd_sex,
      res_unadj, res_sex, res_adj, res_sub, file=here::here("results/stress_results.Rdata"))
 
-save(vitals_adj, vitals_unadj, vitals_adj, file=here('results/vitals_all_arms/vitals_results.Rdata'))
+save(vitals_age_sex_adj, vitals_unadj, vitals_adj, file=here('results/vitals_all_arms/vitals_results.Rdata'))
 
 # save(stress_age_t2_M, stress_age_t3_M, mean_sd, mean_sd_tr, mean_ci_tr, absolute_mean_sd, absolute_mean_sd_tr, absolute_mean_sd_sex,
 #      res_unadj, res_sex, res_adj, res_sub, file=here::here("results/stress_results_newcovariate.Rdata"))
