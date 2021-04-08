@@ -2,7 +2,7 @@ rm(list=ls())
 library("xtable")
 source(here::here("0-config.R"))
 
-load(here("results/stress_results_newcovariate.RData"))
+load(here("results/stress_results.RData"))
 d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.RDS"))
 
 #### TABLE 1 ####
