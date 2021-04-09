@@ -51,7 +51,7 @@ raw_outcomes <- c("t2_f2_8ip_raw","t2_f2_23d_raw","t2_f2_VI_raw", "t2_f2_12i_raw
 #Function to count non-missing outcomes
 N_y <- function(x, na.rm=T){ sum(!is.na(x),na.rm=na.rm)}
 
-absolute_mean_sd <- d %>% subset(., select=c(raw_outcomes)) %>% 
+absolute_mean_sd <- d %>% filter(tr %in% c("Nutrition + WSH", "Control")) %>% subset(., select=c(raw_outcomes)) %>% 
   summarise_all(tibble::lst(mean, sd, N_y), na.rm=T) %>% 
   gather() %>% as.data.frame()
 n <-nrow(absolute_mean_sd)/3
@@ -67,7 +67,7 @@ absolute_mean_sd_tr <- d %>% group_by(tr) %>%
 
 
 #Mean and SD by sex
-absolute_mean_sd_sex <- d %>% group_by(sex) %>%
+absolute_mean_sd_sex <- d %>% filter(tr %in% c("Nutrition + WSH", "Control")) %>% group_by(sex) %>%
   subset(., select=c("sex",raw_outcomes))%>% 
   summarise_all(tibble::lst(mean, sd, N_y), na.rm=T) %>% 
   gather(.,  stat, measurement, t2_f2_8ip_raw_mean:t3_residual_cort_N_y, factor_key=TRUE) %>%
@@ -78,6 +78,7 @@ n <-nrow(absolute_mean_sd_tr)/3
 #split mean and SD into different columns
 absolute_mean_sd_tr <- data.frame(tr=absolute_mean_sd_tr[1:n,1], Y=gsub("_mean","",absolute_mean_sd_tr[1:n,2]), mean=absolute_mean_sd_tr[1:n,3], sd=absolute_mean_sd_tr[(n+1):(2*n),3],  n=absolute_mean_sd_tr[(2*n+1):(3*n),3]) 
 
+n<-nrow(absolute_mean_sd_sex)/3
 absolute_mean_sd_sex <- data.frame(sex=absolute_mean_sd_sex[1:n,1], Y=gsub("_mean","",absolute_mean_sd_sex[1:n,2]), mean=absolute_mean_sd_sex[1:n,3], sd=absolute_mean_sd_sex[(n+1):(2*n),3],  n=absolute_mean_sd_sex[(2*n+1):(3*n),3]) 
 
 
