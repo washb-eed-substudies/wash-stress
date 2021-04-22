@@ -45,7 +45,7 @@ d <- left_join(d, treatment, by = c("clusterid"))
 table(is.na(d$tr))
 
 #Subset to immune analysis arms
-d <- subset(d, tr=="Control" | tr=="Nutrition + WSH")
+d <- subset(d, tr=="Control" | tr=="Nutrition + WSH" | tr=="Nutrition" | tr=="WSH")
 d$tr <- factor(d$tr)
 table(d$tr)
 
@@ -77,13 +77,14 @@ ageday_ut2_median <-    median(d$ageday_ut2, na.rm = T)
 vital_aged3_median <-    median(d$vital_aged3, na.rm = T)
 salimetrics_aged3_median <-    median(d$salimetrics_aged3, na.rm = T)
 oragene_aged3_median <-    median(d$oragene_aged3, na.rm = T)
-
+col_time <- median(d$t3_col_time_z01_cont, na.rm=T)
 
 #impute child age with overall median
 d$ageday_ut2[is.na(d$ageday_ut2)] <-  ageday_ut2_median
 d$vital_aged3[is.na(d$vital_aged3)] <-  vital_aged3_median
 d$salimetrics_aged3[is.na(d$salimetrics_aged3)] <-  salimetrics_aged3_median
 d$oragene_aged3[is.na(d$oragene_aged3)] <-  oragene_aged3_median
+d$t3_col_time_z01_cont[is.na(d$t3_col_time_z01_cont)] <-  col_time
 
 
 #Clean covariates for adjusted analysis
@@ -293,10 +294,10 @@ for(i in outcomes){
       temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_vital, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
     }
     if(i %in% c("t3_saa_z01","t3_saa_z02","t3_cort_z01","t3_cort_z03","t3_saa_slope","t3_cort_slope")){
-      temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_salimetrics, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
+      temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_salimetrics_time, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
     }
     if(i %in% c("t3_residual_saa",  "t3_residual_cort")){
-      temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_salimetrics_time, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
+      temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_salimetrics, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))
     }
     if(i %in% c("t3_gcr_mean", "t3_gcr_cpg12")){
       temp<-washb_tmle(Y=(Y[,i]), Delta=miss[,paste0(i,".miss")], tr=d$tr, W=W3_oragene, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345, Q.SL.library = c("SL.glm"))

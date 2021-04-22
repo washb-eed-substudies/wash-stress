@@ -146,9 +146,9 @@ tbls1<-data.table(" "=c("No. of compounds:", "Maternal", "Age(years)", "Years of
                          " ", "367 (53%)", "621 (94%)", "155 (27%)", "298 (46%)", "30 (4%)", 
                          " ", "49 (8%)", "7 (1%)", 
                          " ", " ", "72 (11%)", "36 (6%)", " ", "60 (9%)", "18 (3%)", " ", "485 (71%)"), 
-                  "Immune Status Study: Had outcomes at Year 1"=data_y1$Children.measured.at.Year.1,
+                  "Stress Status Study: Had outcomes at Year 1"=data_y1$Children.measured.at.Year.1,
                   " "=data_y1$X..1, 
-                  "Immune Status Study: Lost to follow-up at Year 2"=ctrl,
+                  "Stress Status Study: Lost to follow-up at Year 2"=ctrl,
                   " "=wsh
 )
 
