@@ -470,7 +470,7 @@ for(i in c("t3_hr_mean", "t3_map")){
     vitals_adj<-rbind(vitals_adj, unlist(temp$estimates$ATE))
   }
 }
-
+temp$fit
 vitals_adj <- as.data.frame(vitals_adj) %>% mutate(tr = rep(c("Nutrition", "WSH"), 2),
                                                                    Y = c("t3_hr_mean", "t3_hr_mean", "t3_map", "t3_map"))
 colnames(vitals_adj)<-c("Mean difference","var","ci.l","ci.u", "Pval","tr","Y")
@@ -503,10 +503,16 @@ vitals_adj
 #sex stratified glm models
 res_sub <- NULL
 for(i in outcomes){
-  temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex), V="sex", id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F)
-  res_sub<-rbind(res_sub, temp$lincom)
+  temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex), V="sex", id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, verbose = F)
+  lincom <- temp$lincom
+  fit <- temp$fit
+  int.P <- fit[grepl("\\:",rownames(fit)),6]
+  lincom$int.P <- int.P
+  res_sub<-rbind(res_sub, lincom)
 }
 res_sub <- as.data.frame(res_sub)
+res_sub
+
 
 colnames(res_sub)<-c("sex","RD","ci.l","ci.u", "Std. Error", "z value", "Pval")
 res_sub$Y <-rep(outcomes, each=2)
