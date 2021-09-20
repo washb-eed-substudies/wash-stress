@@ -578,7 +578,7 @@ pval8.0 <- c("P-value", pval(res_sub$Pval[9]), pval(res_sub$Pval[11]), pval(res_
 
 pval8.1 <- c("P-value", pval(res_sub$Pval[10]), pval(res_sub$Pval[12]), pval(res_sub$Pval[14]), pval(res_sub$Pval[16]), pval(res_sub$Pval[18]), pval(res_sub$Pval[20]), pval(res_sub$Pval[22]), pval(res_sub$Pval[24]), pval(res_sub$Pval[26]), pval(res_sub$Pval[28]), pval(res_sub$Pval[30]), pval(res_sub$Pval[32]))
 
-intpval8 <-  c("P-value", pval(res_sub$intP[10]), pval(res_sub$intP[12]), pval(res_sub$intP[14]), pval(res_sub$intP[16]), pval(res_sub$intP[18]), pval(res_sub$intP[20]), pval(res_sub$intP[22]), pval(res_sub$intP[24]), pval(res_sub$intP[26]), pval(res_sub$intP[28]), pval(res_sub$intP[30]), pval(res_sub$intP[32]))
+intpval8 <-  c(" ", pval(res_sub$intP[10]), pval(res_sub$intP[12]), pval(res_sub$intP[14]), pval(res_sub$intP[16]), pval(res_sub$intP[18]), pval(res_sub$intP[20]), pval(res_sub$intP[22]), pval(res_sub$intP[24]), pval(res_sub$intP[26]), pval(res_sub$intP[28]), pval(res_sub$intP[30]), pval(res_sub$intP[32]))
 
 #Combine RD and CI vectors
 RD_CI_8.0 <- paste0(rd8.0, " (", lb8.0, ",", ub8.0,")")
