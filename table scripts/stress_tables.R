@@ -245,9 +245,14 @@ n <- function(str, str1, tbl){
 #pval
 pval <- function(str, tbl){
   filter<-tbl[tbl$Y == str,]
+  if(filter[5] < 0.01){
+    if(filter[5]<0.001){
+      return("<0.001")
+    }
+    return("<0.01")
+  }
   paste(round(filter[5], 2))
 }
-
 
 outcomes2<-c("", "iPF(2a)-III (ng/mg creatinine)", "Control", "Nutrition + WSH", "2,3-dinor-iPF(2a)-III (ng/mg creatinine)", 
               "Control", "Nutrition + WSH", "iPF(2a)-VI (ng/mg creatinine)", "Control", "Nutrition + WSH", "8,12-iso-iPF(2a)-VI (ng/mg creatinine)", 

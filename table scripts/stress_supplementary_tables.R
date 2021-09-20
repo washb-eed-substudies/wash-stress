@@ -192,6 +192,12 @@ n <- function(str, str1, tbl){
 #pval
 pval <- function(str, tbl){
   filter<-tbl[tbl$Y == str,]
+  if(filter[5] < 0.01){
+    if(filter[5]<0.001){
+      return("<0.001")
+    }
+    return("<0.01")
+  }
   paste(round(filter[5], 2))
 }
 
@@ -417,7 +423,15 @@ write.csv(tbls2, here('tables/supplementary/miso9-stress-supplementarytable2.csv
 write.csv(tbls3, here('tables/supplementary/miso9-stress-supplementarytable3.csv'))
 
 ####Table S 7: subgroup analyses by sex at t2#####
-
+pval <- function(num){
+  if(num < 0.01){
+    if(num<0.001){
+      return("<0.001")
+    }
+    return("<0.01")
+  }
+  as.character(round(num, 2))
+}
 #Outcomes
 
 outcomes7 <- c( "Biomarker", "iPF(2α)-III (ng/mg creatinine)", "2,3-dinor-iPF(2α±)-III (ng/mg creatinine)", "iPF(2α±)-VI (ng/mg creatinine)", "8,12-iso-iPF(2α±)-VI (ng/mg creatinine)")
@@ -454,7 +468,9 @@ lb7.0 <- c(as.character(round(res_sub$ci.l[1], 2)), as.character(round(res_sub$c
 ub7.0 <- c(as.character(round(res_sub$ci.u[1], 2)), as.character(round(res_sub$ci.u[3], 2)), as.character(round(res_sub$ci.u[5], 2)), as.character(round(res_sub$ci.u[7], 2)))
 
 #P value
-pval7.0 <- c("P-value", as.character(round(res_sub$Pval[1], 2)), as.character(round(res_sub$Pval[3], 2)), as.character(round(res_sub$Pval[5], 2)), as.character(round(res_sub$Pval[7], 2)))
+pval7.0 <- c("P-value", pval(res_sub$Pval[1]), pval(res_sub$Pval[3]), pval(res_sub$Pval[5]), pval(res_sub$Pval[7]))
+
+intp7 <- c(" ", pval(res_sub$intP[1]), pval(res_sub$intP[3]), pval(res_sub$intP[5]), pval(res_sub$intP[7]))
 
 #Combine RD and CI vectors
 RD_CI_7.0 <- paste0(rd7.0, "(", lb7.0, ",", ub7.0,")")
@@ -475,29 +491,12 @@ lb7.1 <- c(as.character(round(res_sub$ci.l[2], 2)), as.character(round(res_sub$c
 ub7.1 <- c(as.character(round(res_sub$ci.u[2], 2)), as.character(round(res_sub$ci.u[4], 2)), as.character(round(res_sub$ci.u[6], 2)), as.character(round(res_sub$ci.u[8], 2)))
 
 #P value
-pval7.1 <- c("P-value", as.character(round(res_sub$Pval[2], 2)), as.character(round(res_sub$Pval[4], 2)), as.character(round(res_sub$Pval[6], 2)), as.character(round(res_sub$Pval[8], 2)))
+pval7.1 <- c("P-value", pval(res_sub$Pval[2]), pval(res_sub$Pval[4]), pval(res_sub$Pval[6]), pval(res_sub$Pval[8]))
 
 #Combine RD and CI vectors
 RD_CI_7.1 <- paste0(rd7.1, "(", lb7.1, ",", ub7.1,")")
 RD_CI_7.1 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_7.1)
 
-
-
-####
-#RD (mean difference) (for interaction or main effect? res_sex)
-
-rd7 <- c(as.character(round(res_sex$`Mean difference`[1], 2)), as.character(round(res_sex$`Mean difference`[2], 2)), as.character(round(res_sex$`Mean difference`[3], 2)), as.character(round(res_sex$`Mean difference`[4], 2)))
-
-#lb
-
-lb7 <- c(as.character(round(res_sex$ci.l[1], 2)), as.character(round(res_sex$ci.l[2], 2)), as.character(round(res_sex$ci.l[3], 2)), as.character(round(res_sex$ci.l[4], 2)))
-
-#ub
-
-ub7 <- c(as.character(round(res_sex$ci.u[1], 2)), as.character(round(res_sex$ci.u[2], 2)), as.character(round(res_sex$ci.u[3], 2)), as.character(round(res_sex$ci.u[4], 2)))
-
-#P value
-pval7 <- c("P-value", as.character(round(res_sex$Pval[1], 2)), as.character(round(res_sex$Pval[2], 2)), as.character(round(res_sex$Pval[3], 2)), as.character(round(res_sex$Pval[4], 2)))
 
 #Combine RD and CI vectors
 RD_CI_7 <- paste0(rd7, " (", lb7, ",", ub7,")")
@@ -516,7 +515,8 @@ tbls7 <- data.table(
   " " = mean7.1,
   " " = sd7.1,
   " " = RD_CI_7.1,
-  " " = pval7.1
+  " " = pval7.1,
+  "Interaction P-value" = intp7
   # " " = RD_CI_7,
   # " " = pval7
 )
@@ -574,9 +574,11 @@ ub8.1 <- c(as.character(round(res_sub$ci.u[10], 2)), as.character(round(res_sub$
 #P value
 pval7.0 <- c("P-value", as.character(round(res_sub$Pval[1], 2)), as.character(round(res_sub$Pval[3], 2)), as.character(round(res_sub$Pval[5], 2)), as.character(round(res_sub$Pval[7], 2)))
 
-pval8.0 <- c("P-value", as.character(round(res_sub$Pval[9], 2)), as.character(round(res_sub$Pval[11], 2)), as.character(round(res_sub$Pval[13], 2)), as.character(round(res_sub$Pval[15], 2)), as.character(round(res_sub$Pval[17], 2)), as.character(round(res_sub$Pval[19], 2)), as.character(round(res_sub$Pval[21], 2)), as.character(round(res_sub$Pval[23], 2)), as.character(round(res_sub$Pval[25], 2)), as.character(round(res_sub$Pval[27], 2)), as.character(round(res_sub$Pval[29], 2)), as.character(round(res_sub$Pval[31], 2)))
+pval8.0 <- c("P-value", pval(res_sub$Pval[9]), pval(res_sub$Pval[11]), pval(res_sub$Pval[13]), pval(res_sub$Pval[15]), pval(res_sub$Pval[17]), pval(res_sub$Pval[19]), pval(res_sub$Pval[21]), pval(res_sub$Pval[23]), pval(res_sub$Pval[25]), pval(res_sub$Pval[27]), pval(res_sub$Pval[29]), pval(res_sub$Pval[31]))
 
-pval8.1 <- c("P-value", as.character(round(res_sub$Pval[10], 2)), as.character(round(res_sub$Pval[12], 2)), as.character(round(res_sub$Pval[14], 2)), as.character(round(res_sub$Pval[16], 2)), as.character(round(res_sub$Pval[18], 2)), as.character(round(res_sub$Pval[20], 2)), as.character(round(res_sub$Pval[22], 2)), as.character(round(res_sub$Pval[24], 2)), as.character(round(res_sub$Pval[26], 2)), as.character(round(res_sub$Pval[28], 2)), as.character(round(res_sub$Pval[30], 2)), as.character(round(res_sub$Pval[32], 2)))
+pval8.1 <- c("P-value", pval(res_sub$Pval[10]), pval(res_sub$Pval[12]), pval(res_sub$Pval[14]), pval(res_sub$Pval[16]), pval(res_sub$Pval[18]), pval(res_sub$Pval[20]), pval(res_sub$Pval[22]), pval(res_sub$Pval[24]), pval(res_sub$Pval[26]), pval(res_sub$Pval[28]), pval(res_sub$Pval[30]), pval(res_sub$Pval[32]))
+
+intpval8 <-  c("P-value", pval(res_sub$intP[10]), pval(res_sub$intP[12]), pval(res_sub$intP[14]), pval(res_sub$intP[16]), pval(res_sub$intP[18]), pval(res_sub$intP[20]), pval(res_sub$intP[22]), pval(res_sub$intP[24]), pval(res_sub$intP[26]), pval(res_sub$intP[28]), pval(res_sub$intP[30]), pval(res_sub$intP[32]))
 
 #Combine RD and CI vectors
 RD_CI_8.0 <- paste0(rd8.0, " (", lb8.0, ",", ub8.0,")")
@@ -597,7 +599,8 @@ tbls8 <- data.table(
   " " = mean8.1,
   " " = sd8.1,
   " " = RD_CI_8.1,
-  " " = pval8.1
+  " " = pval8.1,
+  "Interaction P-value" = intpval8
   # " " = RD_CI_7,
   # " " = pval7
 )

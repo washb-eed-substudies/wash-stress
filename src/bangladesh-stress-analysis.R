@@ -514,9 +514,11 @@ res_sub <- as.data.frame(res_sub)
 res_sub
 
 
-colnames(res_sub)<-c("sex","RD","ci.l","ci.u", "Std. Error", "z value", "Pval")
+colnames(res_sub)<-c("sex","RD", "Std. Error", "ci.l","ci.u","z value", "Pval", "intP")
 res_sub$Y <-rep(outcomes, each=2)
 res_sub <- res_sub %>% mutate(subgroup = case_when(sex==1 ~ "male", sex==0 ~ "female", TRUE~""), subgroup=factor(subgroup))
+
+res_sub
 
 # #Compare to Audrie's objects
 # load(here("audrie results/immune_subgroup.RData"))
