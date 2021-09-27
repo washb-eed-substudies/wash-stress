@@ -51,7 +51,7 @@ raw_outcomes <- c("t2_f2_8ip_raw","t2_f2_23d_raw","t2_f2_VI_raw", "t2_f2_12i_raw
 #Function to count non-missing outcomes
 N_y <- function(x, na.rm=T){ sum(!is.na(x),na.rm=na.rm)}
 
-absolute_mean_sd <- d %>% subset(., select=c(raw_outcomes)) %>% 
+absolute_mean_sd <- d %>% filter(tr %in% c("Nutrition + WSH", "Control")) %>% subset(., select=c(raw_outcomes)) %>% 
   summarise_all(tibble::lst(mean, sd, N_y), na.rm=T) %>% 
   gather() %>% as.data.frame()
 n <-nrow(absolute_mean_sd)/3
@@ -67,7 +67,7 @@ absolute_mean_sd_tr <- d %>% group_by(tr) %>%
 
 
 #Mean and SD by sex
-absolute_mean_sd_sex <- d %>% group_by(sex) %>%
+absolute_mean_sd_sex <- d %>% filter(tr %in% c("Nutrition + WSH", "Control")) %>% group_by(sex) %>%
   subset(., select=c("sex",raw_outcomes))%>% 
   summarise_all(tibble::lst(mean, sd, N_y), na.rm=T) %>% 
   gather(.,  stat, measurement, t2_f2_8ip_raw_mean:t3_residual_cort_N_y, factor_key=TRUE) %>%
@@ -78,6 +78,7 @@ n <-nrow(absolute_mean_sd_tr)/3
 #split mean and SD into different columns
 absolute_mean_sd_tr <- data.frame(tr=absolute_mean_sd_tr[1:n,1], Y=gsub("_mean","",absolute_mean_sd_tr[1:n,2]), mean=absolute_mean_sd_tr[1:n,3], sd=absolute_mean_sd_tr[(n+1):(2*n),3],  n=absolute_mean_sd_tr[(2*n+1):(3*n),3]) 
 
+n<-nrow(absolute_mean_sd_sex)/3
 absolute_mean_sd_sex <- data.frame(sex=absolute_mean_sd_sex[1:n,1], Y=gsub("_mean","",absolute_mean_sd_sex[1:n,2]), mean=absolute_mean_sd_sex[1:n,3], sd=absolute_mean_sd_sex[(n+1):(2*n),3],  n=absolute_mean_sd_sex[(2*n+1):(3*n),3]) 
 
 
@@ -469,7 +470,7 @@ for(i in c("t3_hr_mean", "t3_map")){
     vitals_adj<-rbind(vitals_adj, unlist(temp$estimates$ATE))
   }
 }
-
+temp$fit
 vitals_adj <- as.data.frame(vitals_adj) %>% mutate(tr = rep(c("Nutrition", "WSH"), 2),
                                                                    Y = c("t3_hr_mean", "t3_hr_mean", "t3_map", "t3_map"))
 colnames(vitals_adj)<-c("Mean difference","var","ci.l","ci.u", "Pval","tr","Y")
@@ -502,14 +503,22 @@ vitals_adj
 #sex stratified glm models
 res_sub <- NULL
 for(i in outcomes){
-  temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex), V="sex", id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F)
-  res_sub<-rbind(res_sub, temp$lincom)
+  temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex), V="sex", id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, verbose = F)
+  lincom <- temp$lincom
+  fit <- temp$fit
+  int.P <- fit[grepl("\\:",rownames(fit)),6]
+  lincom$int.P <- int.P
+  res_sub<-rbind(res_sub, lincom)
 }
 res_sub <- as.data.frame(res_sub)
+res_sub
 
-colnames(res_sub)<-c("sex","RD","ci.l","ci.u", "Std. Error", "z value", "Pval")
+
+colnames(res_sub)<-c("sex","RD", "Std. Error", "ci.l","ci.u","z value", "Pval", "intP")
 res_sub$Y <-rep(outcomes, each=2)
 res_sub <- res_sub %>% mutate(subgroup = case_when(sex==1 ~ "male", sex==0 ~ "female", TRUE~""), subgroup=factor(subgroup))
+
+res_sub
 
 # #Compare to Audrie's objects
 # load(here("audrie results/immune_subgroup.RData"))
@@ -537,7 +546,7 @@ res_sub <- res_sub %>% mutate(subgroup = case_when(sex==1 ~ "male", sex==0 ~ "fe
 save(stress_age_t2_M, stress_age_t3_M, mean_sd, mean_sd_tr, mean_ci_tr, absolute_mean_sd, absolute_mean_sd_tr, absolute_mean_sd_sex,
      res_unadj, res_sex, res_adj, res_sub, file=here::here("results/stress_results.Rdata"))
 
-save(vitals_adj, vitals_unadj, vitals_adj, file=here('results/vitals_all_arms/vitals_results.Rdata'))
+save(vitals_age_sex_adj, vitals_unadj, vitals_adj, file=here('results/vitals_all_arms/vitals_results.Rdata'))
 
 # save(stress_age_t2_M, stress_age_t3_M, mean_sd, mean_sd_tr, mean_ci_tr, absolute_mean_sd, absolute_mean_sd_tr, absolute_mean_sd_sex,
 #      res_unadj, res_sex, res_adj, res_sub, file=here::here("results/stress_results_newcovariate.Rdata"))
