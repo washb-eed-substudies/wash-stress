@@ -10,6 +10,11 @@ library(e1071)
 d <- read.csv(paste0(dropboxDir,"Data/Cleaned/Audrie/washb-bangladesh-dm-ee-enrol-vital-saa-cortisol-f2-gcr.csv"))
 
 
+cor.test(d$t3_saa_slope, d$t3_residual_saa)
+cor.test(d$t3_cort_slope, d$t3_residual_cort)
+ggplot(d, aes(x=t3_saa_slope, y=t3_residual_saa)) + geom_smooth() +geom_point()
+ggplot(d, aes(x=t3_cort_slope, y=t3_residual_cort)) + geom_smooth()  +geom_point()
+
 
 #------------------------------------------------------------------------------------------------
 # Check distribution of outcomes
