@@ -275,11 +275,11 @@ tbls2 <- data.table(
 
 outcomes3<-c("", "Pre-stressor Salivary alpha-amylase (U/ml)" ,"Control", "Nutrition + WSH",
              "Post-stressor Salivary alpha-amylase (U/ml)","Control", "Nutrition + WSH",
-             "Change in slope between pre- and post-stressor alpha-amylase","Control", "Nutrition + WSH",
+             "Slope between pre- and post-stressor alpha-amylase (U/ml/min)","Control", "Nutrition + WSH",
              "Residualized gain score for alpha-amylase","Control", "Nutrition + WSH",
              "Pre-stressor salivary cortisol (ug/dl)","Control", "Nutrition + WSH",
              "Post-stressor salivary cortisol (ug/dl)","Control", "Nutrition + WSH",
-             "Change in slope between pre- and post-stressor cortisol","Control", "Nutrition + WSH",
+             "Slope between pre- and post-stressor cortisol (ug/dl/min)","Control", "Nutrition + WSH",
              "Residualized gain score for cortisol","Control", "Nutrition + WSH",
              "Mean arterial pressure (mmHg)","Control", "Nutrition + WSH",
              "Resting heart rate (bpm)","Control", "Nutrition + WSH",
@@ -531,7 +531,7 @@ print(xtable(tbls7), type="html", file=here('tables/supplementary/miso9-stress-s
 #outcomes
 
 
-outcomes8 <- c("Stress biomarker", "Mean arterial pressure (mmHg)", "Resting heart rate (bpm)", "Pre-stressor alpha-amylase (U/ml)", "Post-stressor alpha-amylase (U/ml)", "Pre-stressor cortisol (ug/dl)", "Post-stressor cortisol (ug/dl)", "NR3C1 exon 1F promoter methylation", "NGFI-A transcription factor binding site", "Change in slope between pre- and post-stressor alpha-amylase", "Change in slope between pre- and post-stressor cortisol", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
+outcomes8 <- c("Stress biomarker", "Mean arterial pressure (mmHg)", "Resting heart rate (bpm)", "Pre-stressor alpha-amylase (U/ml)", "Post-stressor alpha-amylase (U/ml)", "Pre-stressor cortisol (ug/dl)", "Post-stressor cortisol (ug/dl)", "NR3C1 exon 1F promoter methylation", "NGFI-A transcription factor binding site", "Slope between pre- and post-stressor alpha-amylase (U/ml/min)", "Slope between pre- and post-stressor cortisol (ug/dl/min)", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
 
 
 #N
