@@ -201,8 +201,8 @@ pval <- function(str, tbl){
   paste(round(filter[5], 2))
 }
 
-outcomes2<-c("", "iPF(2a)-III (ng/mg creatinine)", "Control", "Nutrition + WSH", "2,3-dinor-iPF(2a)-III (ng/mg creatinine)", 
-             "Control", "Nutrition + WSH", "iPF(2a)-VI (ng/mg creatinine)", "Control", "Nutrition + WSH", "8,12-iso-iPF(2a)-VI (ng/mg creatinine)", 
+outcomes2<-c("", "Ln iPF(2a)-III (ng/mg creatinine)", "Control", "Nutrition + WSH", "Ln 2,3-dinor-iPF(2a)-III (ng/mg creatinine)", 
+             "Control", "Nutrition + WSH", "Ln iPF(2a)-VI (ng/mg creatinine)", "Control", "Nutrition + WSH", "Ln 8,12-iso-iPF(2a)-VI (ng/mg creatinine)", 
              "Control","Nutrition + WSH")
 
 unadj_diff <-c("95% CI","","", ci_interval("t2_f2_8ip", res_unadj), "","", 
@@ -273,18 +273,18 @@ tbls2 <- data.table(
   " " = ipcw_pval
 )
 
-outcomes3<-c("", "Pre-stressor Salivary alpha-amylase (U/ml)" ,"Control", "Nutrition + WSH",
-             "Post-stressor Salivary alpha-amylase (U/ml)","Control", "Nutrition + WSH",
+outcomes3<-c("", "Ln Pre-stressor Salivary alpha-amylase (U/ml)" ,"Control", "Nutrition + WSH",
+             "Ln Post-stressor Salivary alpha-amylase (U/ml)","Control", "Nutrition + WSH",
              "Slope between pre- and post-stressor alpha-amylase (U/ml/min)","Control", "Nutrition + WSH",
              "Residualized gain score for alpha-amylase","Control", "Nutrition + WSH",
-             "Pre-stressor salivary cortisol (ug/dl)","Control", "Nutrition + WSH",
-             "Post-stressor salivary cortisol (ug/dl)","Control", "Nutrition + WSH",
+             "Ln Pre-stressor salivary cortisol (ug/dl)","Control", "Nutrition + WSH",
+             "Ln Post-stressor salivary cortisol (ug/dl)","Control", "Nutrition + WSH",
              "Slope between pre- and post-stressor cortisol (ug/dl/min)","Control", "Nutrition + WSH",
              "Residualized gain score for cortisol","Control", "Nutrition + WSH",
              "Mean arterial pressure (mmHg)","Control", "Nutrition + WSH",
              "Resting heart rate (bpm)","Control", "Nutrition + WSH",
-             "NR3C1 exon 1F promoter methylation","Control", "Nutrition + WSH",
-             "NGFI-A transcription factor binding site","Control", "Nutrition + WSH"
+             "Logit NR3C1 exon 1F promoter methylation","Control", "Nutrition + WSH",
+             "Logit NGFI-A transcription factor binding site","Control", "Nutrition + WSH"
 )
 
 unadj_diff3 <-c("95% CI","","", ci_interval("t3_saa_z01", res_unadj), "","", 
@@ -434,7 +434,7 @@ pval <- function(num){
 }
 #Outcomes
 
-outcomes7 <- c( "Biomarker", "iPF(2α)-III (ng/mg creatinine)", "2,3-dinor-iPF(2α±)-III (ng/mg creatinine)", "iPF(2α±)-VI (ng/mg creatinine)", "8,12-iso-iPF(2α±)-VI (ng/mg creatinine)")
+outcomes7 <- c( "Biomarker", "Ln iPF(2α)-III (ng/mg creatinine)", "Ln 2,3-dinor-iPF(2α±)-III (ng/mg creatinine)", "Ln iPF(2α±)-VI (ng/mg creatinine)", "Ln 8,12-iso-iPF(2α±)-VI (ng/mg creatinine)")
 
 #N
 n7.0 <- c("n", as.character(round(absolute_mean_sd_sex$n[1], 2)), as.character(round(absolute_mean_sd_sex$n[3], 2)), as.character(round(absolute_mean_sd_sex$n[5], 2)), as.character(round(absolute_mean_sd_sex$n[7], 2)))
@@ -531,7 +531,9 @@ print(xtable(tbls7), type="html", file=here('tables/supplementary/miso9-stress-s
 #outcomes
 
 
-outcomes8 <- c("Stress biomarker", "Mean arterial pressure (mmHg)", "Resting heart rate (bpm)", "Pre-stressor alpha-amylase (U/ml)", "Post-stressor alpha-amylase (U/ml)", "Pre-stressor cortisol (ug/dl)", "Post-stressor cortisol (ug/dl)", "NR3C1 exon 1F promoter methylation", "NGFI-A transcription factor binding site", "Slope between pre- and post-stressor alpha-amylase (U/ml/min)", "Slope between pre- and post-stressor cortisol (ug/dl/min)", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
+outcomes8 <- c("Stress biomarker", "Mean arterial pressure (mmHg)", "Resting heart rate (bpm)", "Ln Pre-stressor alpha-amylase (U/ml)", "Ln Post-stressor alpha-amylase (U/ml)", 
+               "Ln Pre-stressor cortisol (ug/dl)", "Ln Post-stressor cortisol (ug/dl)", "Logit NR3C1 exon 1F promoter methylation", "Logit NGFI-A transcription factor binding site", 
+               "Slope between pre- and post-stressor alpha-amylase (U/ml/min)", "Slope between pre- and post-stressor cortisol (ug/dl/min)", "Residualized gain score for alpha-amylase", "Residualized gain score for cortisol")
 
 
 #N
