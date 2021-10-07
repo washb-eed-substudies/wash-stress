@@ -586,7 +586,7 @@ intpval8 <-  c(" ", pval(res_sub$intP[10]), pval(res_sub$intP[12]), pval(res_sub
 RD_CI_8.0 <- paste0(rd8.0, " (", lb8.0, ",", ub8.0,")")
 RD_CI_8.0 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_8.0)
 
-RD_CI_8.1 <- paste0(rd8.0, " (", lb8.1, ",", ub8.1,")")
+RD_CI_8.1 <- paste0(rd8.1, " (", lb8.1, ",", ub8.1,")")
 RD_CI_8.1 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_8.1)
 
 #create table 8
