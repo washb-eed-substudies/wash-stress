@@ -30,17 +30,23 @@ d <- rbind(
   data.frame(readjustfunc(res_unadj, "t2_f2_12i"), name="8,12-iso-iPF(2a)-VI (ng/mg creatinine)", age=14, group="F2 Isoprostanes"),
   data.frame(readjustfunc(res_unadj, "t3_saa_z01"), name="Pre-stressor salivary alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis"),
   data.frame(readjustfunc(res_unadj, "t3_saa_z02"), name="Post-stressor salivary alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis"),
-  data.frame(readjustfunc(res_unadj, "t3_saa_slope"), name="Change in slope between pre- and \n post-stressor alpha-amylase)", age=28, group="Sympathetic adrenomedullary axis"),
+  data.frame(readjustfunc(res_unadj, "t3_saa_slope"), name="Slope between pre- and \n post-stressor alpha-amylase (U/ml/min)", age=28, group="Sympathetic adrenomedullary axis"),
   data.frame(readjustfunc(res_unadj, "t3_residual_saa"), name="Residualized gain score for alpha-amylase", age=28, group="Salimetrics\ngain scores"),
-  data.frame(readjustfunc(res_unadj, "t3_cort_z01"), name="Pre-stressor salivary cortisol (ug/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
-  data.frame(readjustfunc(res_unadj, "t3_cort_z03"), name="Post-stressor salivary cortisol (ug/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
-  data.frame(readjustfunc(res_unadj, "t3_cort_slope"), name="Change in slope between pre- and \n post-stressor cortisol", age=28, group="Hypothalamic-pituitary-adrenal axis"),
+  data.frame(readjustfunc(res_unadj, "t3_cort_z01"), name="Pre-stressor salivary cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
+  data.frame(readjustfunc(res_unadj, "t3_cort_z03"), name="Post-stressor salivary cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
+  data.frame(readjustfunc(res_unadj, "t3_cort_slope"), name="Slope between pre- and \n post-stressor cortisol \u03bcg/dl/min)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
   data.frame(readjustfunc(res_unadj, "t3_residual_cort"), name="Residualized gain score for cortisol", age=28, group="Salimetrics\ngain scores"),
   data.frame(readjustfunc(res_unadj, "t3_map"), name="Mean arterial pressure (mmHg)", age=28, group="Sympathetic adrenomedullary axis"),
   data.frame(readjustfunc(res_unadj, "t3_hr_mean"), name="Resting heart rate (bpm)", age=28, group="Sympathetic adrenomedullary axis"),
   data.frame(readjustfunc(res_unadj, "t3_gcr_mean"), name="NR3C1 exon 1F promoter methylation", age=28, group="Hypothalamic-pituitary-adrenal axis"),
   data.frame(readjustfunc(res_unadj, "t3_gcr_cpg12"), name="NGFI-A transcription factor binding site", age=28, group="Hypothalamic-pituitary-adrenal axis")
 ) %>% arrange(group)
+
+
+
+d$group[d$group=="F2 Isoprostanes"] <- paste0(d$group[d$group=="F2 Isoprostanes"], " (Year 1)")
+d$group[d$group=="Sympathetic adrenomedullary axis"] <- paste0(d$group[d$group=="Sympathetic adrenomedullary axis"], " (Year 2)")
+d$group[d$group=="Hypothalamic-pituitary-adrenal axis"] <- paste0(d$group[d$group=="Hypothalamic-pituitary-adrenal axis"], " (Year 2)")
 
 d$age <- as.factor(d$age)
 d$group <- factor(d$group, levels=unique(d$group))
@@ -57,7 +63,7 @@ p <- ggplot(plotdf, (aes(x=name, y=Mean.difference))) +
   geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
                 width = 0.3, size = 1) +
   geom_hline(yintercept = 0) +
-  facet_wrap(~group, ncol=1, scales="free_y") +
+  facet_wrap(~group, ncol=1, scales="free") +
   coord_flip() +
   labs(y = "Mean difference", x = "Biomarker") +
   theme(axis.ticks.x=element_blank(),
@@ -88,11 +94,11 @@ d <- rbind(
   data.frame(readjustfunc(mean_ci_tr, "t2_f2_12i"), name="8,12-iso-iPF(2a)-VI (ng/mg creatinine)", age=14, group="F2 Isoprostanes"),
   data.frame(readjustfunc(mean_ci_tr, "t3_saa_z01"), name="Pre-stressor salivary alpha-amylase (U/ml)", age=28, group="Salimetrics"),
   data.frame(readjustfunc(mean_ci_tr, "t3_saa_z02"), name="Post-stressor salivary alpha-amylase (U/ml)", age=28, group="Salimetrics"),
-  data.frame(readjustfunc(mean_ci_tr, "t3_saa_slope"), name="Change in slope between pre- and \n post-stressor alpha-amylase", age=28, group="Salimetrics"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_saa_slope"), name="Slope between pre- and \n post-stressor alpha-amylase", age=28, group="Salimetrics"),
   data.frame(readjustfunc(mean_ci_tr, "t3_residual_saa"), name="Residualized gain score for alpha-amylase", age=28, group="Salimetrics\ngain scores"),
   data.frame(readjustfunc(mean_ci_tr, "t3_cort_z01"), name="Pre-stressor salivary cortisol (ug/dl)", age=28, group="Salimetrics"),
   data.frame(readjustfunc(mean_ci_tr, "t3_cort_z03"), name="Post-stressor salivary cortisol (ug/dl)", age=28, group="Salimetrics"),
-  data.frame(readjustfunc(mean_ci_tr, "t3_cort_slope"), name="Change in slope between pre- and \n post-stressor cortisol", age=28, group="Salimetrics"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_cort_slope"), name="Slope between pre- and \n post-stressor cortisol", age=28, group="Salimetrics"),
   data.frame(readjustfunc(mean_ci_tr, "t3_residual_cort"), name="Residualized gain score for cortisol", age=28, group="Salimetrics\ngain scores"),
   data.frame(readjustfunc(mean_ci_tr, "t3_map"), name="Mean arterial pressure (mmHg)", age=28, group="Vitals"),
   data.frame(readjustfunc(mean_ci_tr, "t3_hr_mean"), name="Resting heart rate (bpm)", age=28, group="Vitals"),
