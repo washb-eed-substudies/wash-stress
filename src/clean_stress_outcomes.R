@@ -86,7 +86,7 @@ d <- d %>%
     t2_f2_23d=log(t2_f2_23d), 
     t2_f2_VI=log(t2_f2_VI),
     t2_f2_12i=log(t2_f2_12i), 
-    t3_gcr_mean2=logit(t3_gcr_mean/100), 
+    t3_gcr_mean=logit(t3_gcr_mean/100), 
     t3_gcr_cpg12=logit(t3_gcr_cpg12/100))
 
 
