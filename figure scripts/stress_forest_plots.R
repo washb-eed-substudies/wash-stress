@@ -23,6 +23,8 @@ readjustfunc <- function(data, var){
 #salivary alpha amylase/heart rate/mean arterial pressure.  
 #Aesthetically, it might make sense to include units in the legend.
 
+
+
 d <- rbind(
   data.frame(readjustfunc(res_unadj, "t2_f2_8ip"), name="iPF(2a)-III (ng/mg creatinine)", age=14, group="F2 Isoprostanes"),
   data.frame(readjustfunc(res_unadj, "t2_f2_23d"), name="2,3-dinor-iPF(2a)-III (ng/mg creatinine)", age=14, group="F2 Isoprostanes"),
@@ -31,22 +33,17 @@ d <- rbind(
   data.frame(readjustfunc(res_unadj, "t3_saa_z01"), name="Pre-stressor salivary alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis"),
   data.frame(readjustfunc(res_unadj, "t3_saa_z02"), name="Post-stressor salivary alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis"),
   data.frame(readjustfunc(res_unadj, "t3_saa_slope"), name="Slope between pre- and \n post-stressor alpha-amylase (U/ml/min)", age=28, group="Sympathetic adrenomedullary axis"),
-  data.frame(readjustfunc(res_unadj, "t3_residual_saa"), name="Residualized gain score for alpha-amylase", age=28, group="Salimetrics\ngain scores"),
+  data.frame(readjustfunc(res_unadj, "t3_residual_saa"), name="Residualized gain score\nfor alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis"),
   data.frame(readjustfunc(res_unadj, "t3_cort_z01"), name="Pre-stressor salivary cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
   data.frame(readjustfunc(res_unadj, "t3_cort_z03"), name="Post-stressor salivary cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
-  data.frame(readjustfunc(res_unadj, "t3_cort_slope"), name="Slope between pre- and \n post-stressor cortisol \u03bcg/dl/min)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
-  data.frame(readjustfunc(res_unadj, "t3_residual_cort"), name="Residualized gain score for cortisol", age=28, group="Salimetrics\ngain scores"),
+  data.frame(readjustfunc(res_unadj, "t3_cort_slope"), name="Slope between pre- and \n post-stressor cortisol (\u03bcg/dl/min)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
+  data.frame(readjustfunc(res_unadj, "t3_residual_cort"), name="Residualized gain score\nfor cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis"),
   data.frame(readjustfunc(res_unadj, "t3_map"), name="Mean arterial pressure (mmHg)", age=28, group="Sympathetic adrenomedullary axis"),
   data.frame(readjustfunc(res_unadj, "t3_hr_mean"), name="Resting heart rate (bpm)", age=28, group="Sympathetic adrenomedullary axis"),
-  data.frame(readjustfunc(res_unadj, "t3_gcr_mean"), name="NR3C1 exon 1F promoter methylation", age=28, group="Hypothalamic-pituitary-adrenal axis"),
-  data.frame(readjustfunc(res_unadj, "t3_gcr_cpg12"), name="NGFI-A transcription factor binding site", age=28, group="Hypothalamic-pituitary-adrenal axis")
+  data.frame(readjustfunc(res_unadj, "t3_gcr_mean"), name="Logit-transformed NR3C1 exon\n1F promoter methylation", age=28, group="Hypothalamic-pituitary-adrenal axis"),
+  data.frame(readjustfunc(res_unadj, "t3_gcr_cpg12"), name="Logit-transformed NGFI-A transcription\nfactor binding site methylation", age=28, group="Hypothalamic-pituitary-adrenal axis")
 ) %>% arrange(group)
 
-
-
-d$group[d$group=="F2 Isoprostanes"] <- paste0(d$group[d$group=="F2 Isoprostanes"], " (Year 1)")
-d$group[d$group=="Sympathetic adrenomedullary axis"] <- paste0(d$group[d$group=="Sympathetic adrenomedullary axis"], " (Year 2)")
-d$group[d$group=="Hypothalamic-pituitary-adrenal axis"] <- paste0(d$group[d$group=="Hypothalamic-pituitary-adrenal axis"], " (Year 2)")
 
 d$age <- as.factor(d$age)
 d$group <- factor(d$group, levels=unique(d$group))
@@ -55,13 +52,14 @@ d$name <- factor(d$name, levels=rev(unique(d$name)))
 d$tr <- c("Control v. Nutrition + Water + Sanitation + Handwashing")
 
 
-#drop salimetrics
-plotdf <- d %>% filter(group!="Salimetrics\ngain scores")
+#drop slope
+#plotdf <- d %>% filter(group!="Salimetrics\ngain scores")
+plotdf <- d %>% filter(!grepl("Slope", name))
 
 p <- ggplot(plotdf, (aes(x=name, y=Mean.difference))) + 
   geom_point(size=3) +
   geom_errorbar(aes(ymin=ci.l, ymax=ci.u),
-                width = 0.3, size = 1) +
+                width = 0.75, size = 1) +
   geom_hline(yintercept = 0) +
   facet_wrap(~group, ncol=1, scales="free") +
   coord_flip() +
@@ -71,7 +69,6 @@ p <- ggplot(plotdf, (aes(x=name, y=Mean.difference))) +
         plot.title = element_text(hjust = 0.5, face = "plain", size=9),
         panel.spacing = unit(0, "lines")) 
 p
-
 
 ggsave(p, file = here::here("figures/stress_forest_diff.png"), height=9, width=8)
 
