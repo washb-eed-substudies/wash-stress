@@ -98,7 +98,7 @@ Year 1 \n 68 clusters \n 376 children \n Year 2 \n 68 clusters \n 358 children '
   geom_rect(xmin = 9, xmax=25, ymin=10, ymax=18, color='black',
             fill='white', size=0.25) +
   annotate('text', x= 17, y=15,label= paste(
-"Year 1 \n ", 376-y1_ctrl_n, " missing outcome \n Year 2 \n ", 358-y2_ctrl_n, " missing outcome", sep=""), size=2.5) +
+"Year 1 \n ", 376-y1_ctrl_n, " missing outcome \n Year 2 \n ", 359-y2_ctrl_n, " missing outcome", sep=""), size=2.5) +
   annotate('text', x= 2.5, y=15,label= 'Specimen \n Collection', size=3.5) +
   annotate('text', x= 2.5, y=4,label= 'Analysis', size=3.5) +
   geom_rect(xmin = 9, xmax=25, ymin=-3, ymax=9, color='black',
@@ -175,4 +175,5 @@ p +
 p
 
 ggsave(p, file = here("figures/stress_enrollment.tiff"), height=14, width=9)
+ggsave(p, file = here("figures/stress_enrollment2.tiff"), height=11.5, width=8)
 
