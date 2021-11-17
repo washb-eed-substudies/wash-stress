@@ -32,16 +32,16 @@ d <- rbind(
   data.frame(readjustfunc(res_unadj, "t2_f2_12i"), name="8,12-iso-iPF(2a)-VI (ng/mg creatinine)", age=14, group="Oxidative stress (Year 1)"),
   data.frame(readjustfunc(res_unadj, "t3_saa_z01"), name="Pre-stressor salivary alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
   data.frame(readjustfunc(res_unadj, "t3_saa_z02"), name="Post-stressor salivary alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
-  data.frame(readjustfunc(res_unadj, "t3_saa_slope"), name="Slope between pre- and \n post-stressor alpha-amylase (U/ml/min)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
+  data.frame(readjustfunc(res_unadj, "t3_saa_slope"), name="Slope between pre- and  \n post-stressor alpha-amylase (U/ml/min)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
   data.frame(readjustfunc(res_unadj, "t3_residual_saa"), name="Residualized gain score\nfor alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
   data.frame(readjustfunc(res_unadj, "t3_cort_z01"), name="Pre-stressor salivary cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
   data.frame(readjustfunc(res_unadj, "t3_cort_z03"), name="Post-stressor salivary cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
-  data.frame(readjustfunc(res_unadj, "t3_cort_slope"), name="Slope between pre- and \n post-stressor cortisol (\u03bcg/dl/min)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
+  data.frame(readjustfunc(res_unadj, "t3_cort_slope"), name="Slope between pre- and  \n post-stressor cortisol (\u03bcg/dl/min)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
   data.frame(readjustfunc(res_unadj, "t3_residual_cort"), name="Residualized gain score\nfor cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
   data.frame(readjustfunc(res_unadj, "t3_map"), name="Mean arterial pressure (mmHg)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
   data.frame(readjustfunc(res_unadj, "t3_hr_mean"), name="Resting heart rate (bpm)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
-  data.frame(readjustfunc(res_unadj, "t3_gcr_mean"), name="Logit-transformed NR3C1 exon\n1F promoter methylation", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
-  data.frame(readjustfunc(res_unadj, "t3_gcr_cpg12"), name="Logit-transformed NGFI-A transcription\nfactor binding site methylation", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)")
+  data.frame(readjustfunc(res_unadj, "t3_gcr_mean"), name="Logit-transformed *NR3C1* exon  \n1F promoter methylation", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
+  data.frame(readjustfunc(res_unadj, "t3_gcr_cpg12"), name="Logit-transformed NGFI-A transcription  \nfactor binding site methylation", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)")
 ) %>% 
   mutate(group=factor(group, levels=c("Oxidative stress (Year 1)", "Hypothalamic-pituitary-adrenal axis (Year 2)", "Sympathetic adrenomedullary axis (Year 2)"))) %>%
   arrange(group)
@@ -69,11 +69,13 @@ p <- ggplot(plotdf, (aes(x=name, y=Mean.difference))) +
   labs(y = "Mean difference", x = "Biomarker") +
   theme(axis.ticks.x=element_blank(),
         legend.position = "bottom",
+        axis.text.y=ggtext::element_markdown(),
+        strip.text = element_text(vjust=1),
         plot.title = element_text(hjust = 0.5, face = "plain", size=9),
-        panel.spacing = unit(0, "lines")) 
+        panel.spacing = unit(1, "lines")) 
 p
 
-ggsave(p, file = here::here("figures/stress_forest_diff.png"), height=9, width=8)
+ggsave(p, file = here::here("figures/stress_forest_diff.png"), height=10, width=8)
 
 
 #### FIGURE TREATMENT SPECIFIC MEANS ####
@@ -95,16 +97,16 @@ d <- rbind(
   data.frame(readjustfunc(mean_ci_tr, "t2_f2_12i"), name="8,12-iso-iPF(2a)-VI (ng/mg creatinine)", age=14, group="Oxidative stress (Year 1)"),
   data.frame(readjustfunc(mean_ci_tr, "t3_saa_z01"), name="Pre-stressor salivary alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
   data.frame(readjustfunc(mean_ci_tr, "t3_saa_z02"), name="Post-stressor salivary alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
-  data.frame(readjustfunc(mean_ci_tr, "t3_saa_slope"), name="Slope between pre- and \n post-stressor alpha-amylase (U/ml/min)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_saa_slope"), name="Slope between pre- and  \n post-stressor alpha-amylase (U/ml/min)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
   data.frame(readjustfunc(mean_ci_tr, "t3_residual_saa"), name="Residualized gain score\nfor alpha-amylase (U/ml)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
   data.frame(readjustfunc(mean_ci_tr, "t3_cort_z01"), name="Pre-stressor salivary cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
   data.frame(readjustfunc(mean_ci_tr, "t3_cort_z03"), name="Post-stressor salivary cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
-  data.frame(readjustfunc(mean_ci_tr, "t3_cort_slope"), name="Slope between pre- and \n post-stressor cortisol (\u03bcg/dl/min)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_cort_slope"), name="Slope between pre- and  \n post-stressor cortisol (\u03bcg/dl/min)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
   data.frame(readjustfunc(mean_ci_tr, "t3_residual_cort"), name="Residualized gain score\nfor cortisol (\u03bcg/dl)", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
   data.frame(readjustfunc(mean_ci_tr, "t3_map"), name="Mean arterial pressure (mmHg)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
   data.frame(readjustfunc(mean_ci_tr, "t3_hr_mean"), name="Resting heart rate (bpm)", age=28, group="Sympathetic adrenomedullary axis (Year 2)"),
-  data.frame(readjustfunc(mean_ci_tr, "t3_gcr_mean"), name="Logit-transformed NR3C1 exon\n1F promoter methylation", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
-  data.frame(readjustfunc(mean_ci_tr, "t3_gcr_cpg12"), name="Logit-transformed NGFI-A transcription\nfactor binding site methylation", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)")
+  data.frame(readjustfunc(mean_ci_tr, "t3_gcr_mean"), name="Logit-transformed *NR3C1* exon  \n1F promoter methylation", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)"),
+  data.frame(readjustfunc(mean_ci_tr, "t3_gcr_cpg12"), name="Logit-transformed NGFI-A transcription  \nfactor binding site methylation", age=28, group="Hypothalamic-pituitary-adrenal axis (Year 2)")
 ) %>% 
   mutate(group=factor(group, levels=c("Oxidative stress (Year 1)", "Hypothalamic-pituitary-adrenal axis (Year 2)", "Sympathetic adrenomedullary axis (Year 2)"))) %>%
   arrange(group)
@@ -127,11 +129,13 @@ p <- ggplot(plotdf, (aes(x=name, y=Mean, group=Treatment, color=Treatment, fill=
   labs(y = "Log-transformed Mean", x = "Biomarker") +
   theme(axis.ticks.x=element_blank(),
         legend.position = "bottom",
+        axis.text.y=ggtext::element_markdown(),
+        strip.text = element_text(vjust=1),
         plot.title = element_text(hjust = 0.5, face = "plain", size=9),
-        panel.spacing = unit(0, "lines"))  +
+        panel.spacing = unit(1, "lines"))  +
   guides(colour=guide_legend(reverse=TRUE), fill=guide_legend(reverse=TRUE))
 
 p
 
-ggsave(p, file = here::here("figures/stress_forest_mean.png"), height=9, width=8)
+ggsave(p, file = here::here("figures/stress_forest_mean.png"), height=10, width=8)
 
