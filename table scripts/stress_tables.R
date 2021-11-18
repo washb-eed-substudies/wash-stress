@@ -251,7 +251,7 @@ pval <- function(str, tbl){
     }
     return("<0.01")
   }
-  paste(round(filter[5], 2))
+  paste(format(round(filter[5], 3), nsmall = 3))
 }
 
 outcomes2<-c("", "Ln iPF(2a)-III (ng/mg creatinine)", "Control", "Nutrition + WSH", "Ln 2,3-dinor-iPF(2a)-III (ng/mg creatinine)", 

@@ -198,7 +198,7 @@ pval <- function(str, tbl){
     }
     return("<0.01")
   }
-  paste(round(filter[5], 2))
+  paste(format(round(filter[5], 3), nsmall = 3))
 }
 
 outcomes2<-c("", "Ln iPF(2a)-III (ng/mg creatinine)", "Control", "Nutrition + WSH", "Ln 2,3-dinor-iPF(2a)-III (ng/mg creatinine)", 
@@ -430,7 +430,7 @@ pval <- function(num){
     }
     return("<0.01")
   }
-  as.character(round(num, 2))
+  as.character(format(round(num, 3), nsmall = 3))
 }
 #Outcomes
 
@@ -473,7 +473,7 @@ pval7.0 <- c("P-value", pval(res_sub$Pval[1]), pval(res_sub$Pval[3]), pval(res_s
 intp7 <- c(" ", pval(res_sub$intP[1]), pval(res_sub$intP[3]), pval(res_sub$intP[5]), pval(res_sub$intP[7]))
 
 #Combine RD and CI vectors
-RD_CI_7.0 <- paste0(rd7.0, "(", lb7.0, ",", ub7.0,")")
+RD_CI_7.0 <- paste0(rd7.0, " (", lb7.0, ", ", ub7.0,")")
 RD_CI_7.0 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_7.0)
 
 #Difference measures - Male (1)
@@ -494,12 +494,12 @@ ub7.1 <- c(as.character(round(res_sub$ci.u[2], 2)), as.character(round(res_sub$c
 pval7.1 <- c("P-value", pval(res_sub$Pval[2]), pval(res_sub$Pval[4]), pval(res_sub$Pval[6]), pval(res_sub$Pval[8]))
 
 #Combine RD and CI vectors
-RD_CI_7.1 <- paste0(rd7.1, "(", lb7.1, ",", ub7.1,")")
+RD_CI_7.1 <- paste0(rd7.1, " (", lb7.1, ", ", ub7.1,")")
 RD_CI_7.1 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_7.1)
 
 
 #Combine RD and CI vectors
-RD_CI_7 <- paste0(rd7, " (", lb7, ",", ub7,")")
+RD_CI_7 <- paste0(rd7, " (", lb7, ", ", ub7,")")
 RD_CI_7 <- c("Unadjusted difference: Male vs. Female (95% CI)", RD_CI_7)
 #Question - is the CI for res_sex the main effect of sex?
 
@@ -583,10 +583,10 @@ pval8.1 <- c("P-value", pval(res_sub$Pval[10]), pval(res_sub$Pval[12]), pval(res
 intpval8 <-  c(" ", pval(res_sub$intP[10]), pval(res_sub$intP[12]), pval(res_sub$intP[14]), pval(res_sub$intP[16]), pval(res_sub$intP[18]), pval(res_sub$intP[20]), pval(res_sub$intP[22]), pval(res_sub$intP[24]), pval(res_sub$intP[26]), pval(res_sub$intP[28]), pval(res_sub$intP[30]), pval(res_sub$intP[32]))
 
 #Combine RD and CI vectors
-RD_CI_8.0 <- paste0(rd8.0, " (", lb8.0, ",", ub8.0,")")
+RD_CI_8.0 <- paste0(rd8.0, " (", lb8.0, ", ", ub8.0,")")
 RD_CI_8.0 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_8.0)
 
-RD_CI_8.1 <- paste0(rd8.1, " (", lb8.1, ",", ub8.1,")")
+RD_CI_8.1 <- paste0(rd8.1, " (", lb8.1, ", ", ub8.1,")")
 RD_CI_8.1 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_8.1)
 
 #create table 8
