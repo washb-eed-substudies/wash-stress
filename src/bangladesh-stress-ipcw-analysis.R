@@ -52,6 +52,19 @@ table(d$tr)
 #Order for replication:
 d<-d[order(d$block,d$clusterid,d$dataid),]
 
+### save de-identified dataset
+public <- read.csv("/Users/sophiatan/Downloads/public-ids.csv")
+head(public)
+
+d <- left_join(d, public, by=c("dataid", "clusterid", "block")) %>% 
+  select(dataid_r, clusterid_r, block_r, everything()) %>% 
+  select(!c(dataid, childid, clusterid, block, dob, DOB)) %>%
+  rename(dataid=dataid_r, clusterid=clusterid_r, block=block_r)
+
+write.csv(d, "/Users/sophiatan/Documents/WASH/bangladesh-stress-analysis-ipcw-complete-dataset-public.csv", row.names=F)
+
+### load in public data here
+d <- read.csv("bangladesh-stress-analysis-dataset-public.csv")
 
 #Drop ID missing from Audrie
 #d<-d[d$dataid!=72003,]
