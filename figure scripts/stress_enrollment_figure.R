@@ -25,7 +25,7 @@ y2_ctrl_n<-nrow(y2_ctrl)
 y2_nwsh_n<-nrow(y2_nwsh)
 
 
-data <- tibble(x = 1:110, y= 1:100)
+data <- tibble(x = 1:100, y= 1:100)
 head(data)
 data %>% 
   ggplot(aes(x, y)) +
@@ -97,19 +97,11 @@ Year 1 \n 68 clusters \n 376 children \n Year 2 \n 68 clusters \n 359 children '
   annotate('text', x= 3, y=26,label= 'Subsample\nEnrollment', size=5) +
   geom_rect(xmin = 12, xmax=45, ymin=10, ymax=18, color='black',
             fill='white', size=0.25) +
-<<<<<<< HEAD
-  annotate('text', x= 17, y=15,label= paste(
-"Year 1 \n ", 376-y1_ctrl_n, " missing outcome \n Year 2 \n ", 359-y2_ctrl_n, " missing outcome", sep=""), size=2.5) +
-  annotate('text', x= 2.5, y=15,label= 'Specimen \n Collection', size=3.5) +
-  annotate('text', x= 2.5, y=4,label= 'Analysis', size=3.5) +
-  geom_rect(xmin = 9, xmax=25, ymin=-3, ymax=9, color='black',
-=======
   annotate('text', x= 29, y=14,label= paste(
 "Year 1 \n ", 376-y1_ctrl_n, " missing outcome \n Year 2 \n ", 359-y2_ctrl_n, " missing outcome", sep=""), size=4) +
   annotate('text', x= 3, y=15,label= 'Specimen\nCollection', size=5) +
   annotate('text', x= 3, y=4,label= 'Analysis', size=5) +
   geom_rect(xmin = 12, xmax=45, ymin=-3, ymax=9, color='black',
->>>>>>> a3eaf302bb93eec0ee24aedd4feec1964ee48003
             fill='white', size=0.25) +
   annotate('text', x= 29, y=4,label= paste('
 Year 1 \n ', y1_ctrl_clusters, ' clusters \n ', y1_ctrl_n, " children \n Year 2 \n ", y2_ctrl_clusters, " clusters \n ", y2_ctrl_n, " children", sep=""), size=4) ->
