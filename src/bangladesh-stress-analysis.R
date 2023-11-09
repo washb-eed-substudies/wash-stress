@@ -445,7 +445,7 @@ for(i in outcomes){
       temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_salimetrics_time, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
     }
     if(i %in% c("t3_residual_saa",  "t3_residual_cort")){
-      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_salimetrics, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_salimetrics_time, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
     }
     if(i %in% c("t3_gcr_mean", "t3_gcr_cpg12")){
       temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_oragene, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
