@@ -3,7 +3,7 @@ library("xtable")
 source(here::here("0-config.R"))
 
 load(here("results/stress_results.RData"))
-d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.RDS"))
+d <- readRDS(paste0(dropboxDir,"Data/Cleaned/Andrew/clean_stress_dataset_andrew.RDS")) %>% distinct(childid, .keep_all = TRUE)
 
 #### TABLE 1 ####
 
@@ -25,10 +25,10 @@ y2Nwsh<-length(y2$tr[y2$tr=="Nutrition + WSH"])
 
 #functions for calculating %/mean for all variables in table based on arm
 meansdfunc <- function(tbl, variable) {
-  ctrlmean<-round(mean(variable[tbl$tr=="Control"], na.rm=TRUE))
-  ctrlsd<-round(sd(variable[tbl$tr=="Control"], na.rm=TRUE))
-  wshmean<-round(mean(variable[tbl$tr=="Nutrition + WSH"], na.rm=TRUE))
-  wshsd<-round(sd(variable[tbl$tr=="Nutrition + WSH"], na.rm=TRUE))
+  ctrlmean<-round(mean(variable[tbl$tr=="Control"], na.rm=TRUE),1)
+  ctrlsd<-round(sd(variable[tbl$tr=="Control"], na.rm=TRUE),1)
+  wshmean<-round(mean(variable[tbl$tr=="Nutrition + WSH"], na.rm=TRUE),1)
+  wshsd<-round(sd(variable[tbl$tr=="Nutrition + WSH"], na.rm=TRUE),1)
   c(ctrlmean, ctrlsd, wshmean, wshsd)
 }
 
@@ -56,16 +56,16 @@ y2Nhh<-meansdfunc(y2, y2$Nhh)
 y2elec<-npercfunc(y2, y2$elec)
 y2cement<-npercfunc(y2, y2$cement)
 
-y1acresctrlm<-round(mean(y1$landacre[y1$tr=="Control"], na.rm=TRUE), 2)
-y1acresctrlsd<-round(sd(y1$landacre[y1$tr=="Control"], na.rm=TRUE), 2)
-y1acreswshm<-round(mean(y1$landacre[y1$tr=="Nutrition + WSH"], na.rm=TRUE), 2)
-y1acreswshsd<-round(mean(y1$landacre[y1$tr=="Nutrition + WSH"], na.rm=TRUE), 2)
+y1acresctrlm<-round(mean(y1$landacre[y1$tr=="Control"], na.rm=TRUE), 1)
+y1acresctrlsd<-round(sd(y1$landacre[y1$tr=="Control"], na.rm=TRUE), 1)
+y1acreswshm<-round(mean(y1$landacre[y1$tr=="Nutrition + WSH"], na.rm=TRUE), 1)
+y1acreswshsd<-round(mean(y1$landacre[y1$tr=="Nutrition + WSH"], na.rm=TRUE), 1)
 y1acres<-c(y1acresctrlm, y1acresctrlsd, y1acreswshm, y1acreswshsd)
 
-y2acresctrlm<-round(mean(y2$landacre[y2$tr=="Control"], na.rm=TRUE), 2)
-y2acresctrlsd<-round(sd(y2$landacre[y2$tr=="Control"], na.rm=TRUE), 2)
-y2acreswshm<-round(mean(y2$landacre[y2$tr=="Nutrition + WSH"], na.rm=TRUE), 2)
-y2acreswshsd<-round(mean(y2$landacre[y2$tr=="Nutrition + WSH"], na.rm=TRUE), 2)
+y2acresctrlm<-round(mean(y2$landacre[y2$tr=="Control"], na.rm=TRUE), 1)
+y2acresctrlsd<-round(sd(y2$landacre[y2$tr=="Control"], na.rm=TRUE), 1)
+y2acreswshm<-round(mean(y2$landacre[y2$tr=="Nutrition + WSH"], na.rm=TRUE), 1)
+y2acreswshsd<-round(mean(y2$landacre[y2$tr=="Nutrition + WSH"], na.rm=TRUE), 1)
 y2acres<-c(y2acresctrlm, y2acresctrlsd, y2acreswshm, y2acreswshsd)
 
 y1tubewell<-npercfunc(y1, y1$tubewell)

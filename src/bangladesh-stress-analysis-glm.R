@@ -174,13 +174,13 @@ for(i in outcomes){
   print(i)
   #compare to GLM
   #temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"))
-  temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
-  res_unadj<-rbind(res_unadj, unlist(temp$estimates$ATE))
+  temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F)
+  res_unadj<-rbind(res_unadj, unlist(temp$TR))
 }
 res_unadj <- as.data.frame(res_unadj)
 res_unadj
 
-colnames(res_unadj)<-c("Mean difference","var","ci.l","ci.u", "Pval")
+colnames(res_unadj)<-c("Mean difference","ci.l","ci.u","SE","Zval", "Pval")
 res_unadj$Y <- outcomes
 res_unadj
 
@@ -188,20 +188,20 @@ vitals_unadj <- NULL
 for(i in c("t3_hr_mean", "t3_map")){
   for (arm in c("Nutrition + WSH")){
     print(i)
-    temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="gaussian", contrast= c("Control",arm), print=F, seed=12345)
-    vitals_unadj<-rbind(vitals_unadj, unlist(temp$estimates$ATE))
+    temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="gaussian", contrast= c("Control",arm), print=F)
+    vitals_unadj<-rbind(vitals_unadj, unlist(temp$TR))
   }
 }
 
 vitals_unadj <- as.data.frame(vitals_unadj) %>% mutate(tr = rep(c("Nutrition + WSH"), 2),
                                                  Y = c("t3_hr_mean",  "t3_map"))
-colnames(vitals_unadj)<-c("Mean difference","var","ci.l","ci.u", "Pval","tr","Y")
+colnames(vitals_unadj)<-c("Mean difference","ci.l","ci.u","SE","Zval", "Pval","tr","Y")
 vitals_unadj
 
 # i="t3_gcr_cpg12_raw"
 # table(is.na(d$t3_gcr_cpg12))
 # d <- d %>% filter(!is.na(t3_gcr_cpg12_raw))
-# temp<-washb_tmle(Y=1*(d[,i]>0), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="binomial", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+# temp<-washb_glm(Y=1*(d[,i]>0), tr=d$tr, W=NULL, id=d$block, pair=NULL, family="binomial", contrast= c("Control","Nutrition + WSH"), print=F)
 
 
 # # #Compare to Audrie's objects
@@ -236,23 +236,23 @@ d$sex=relevel(factor(d$sex),ref="0")
 res_sex <- NULL
 for(i in outcomes){
   if(grepl("t2_", i)){
-    temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, age=d$ur_agem2), id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, pval = 1)
+    temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, age=d$ur_agem2), id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, pval = 1)
   }else{
     if(i %in% c("t3_map","t3_hr_mean" )){
-      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, age=d$vital_aged3), id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, pval = 1)
+      temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, age=d$vital_aged3), id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, pval = 1)
     }
     if(grepl("saa|cort", i)){
-      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, age=d$salimetrics_aged3), id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, pval = 1)
+      temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, age=d$salimetrics_aged3), id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, pval = 1)
     }
     if(i %in% c("t3_gcr_mean", "t3_gcr_cpg12")){
-      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, agem2=d$oragene_aged3), id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, pval = 1)
+      temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, agem2=d$oragene_aged3), id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, pval = 1)
     }
   }
-  res_sex<-rbind(res_sex, unlist(temp$estimates$ATE))
+  res_sex<-rbind(res_sex, unlist(temp$TR))
 }
 res_sex <- as.data.frame(res_sex)
 
-colnames(res_sex)<-c("Mean difference","var","ci.l","ci.u", "Pval")
+colnames(res_sex)<-c("Mean difference","ci.l","ci.u","SE","Zval", "Pval")
 res_sex$Y <- outcomes
 
 
@@ -260,14 +260,14 @@ vitals_age_sex_adj <- NULL
 for(i in c("t3_hr_mean", "t3_map")){
   for (arm in c("Nutrition + WSH")){
     print(i)
-    temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, age=d$vital_aged3), id=d$block, pair=NULL, family="gaussian", contrast= c("Control",arm), print=F, pval = 1)
-    vitals_age_sex_adj<-rbind(vitals_age_sex_adj, unlist(temp$estimates$ATE))
+    temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=data.frame(sex=d$sex, age=d$vital_aged3), id=d$block, pair=NULL, family="gaussian", contrast= c("Control",arm), print=F, pval = 1)
+    vitals_age_sex_adj<-rbind(vitals_age_sex_adj, unlist(temp$TR))
   }
 }
 
 vitals_age_sex_adj <- as.data.frame(vitals_age_sex_adj) %>% mutate(tr = rep(c("Nutrition + WSH"), 2),
                                                        Y = c("t3_hr_mean", "t3_map"))
-colnames(vitals_age_sex_adj)<-c("Mean difference","var","ci.l","ci.u", "Pval","tr","Y")
+colnames(vitals_age_sex_adj)<-c("Mean difference","ci.l","ci.u","SE","Zval", "Pval","tr","Y")
 vitals_age_sex_adj
 
 # #Compare to Audrie's objects
@@ -438,28 +438,28 @@ W3_oragene<- cbind(W, subset(d, select=Wvars3_oragene))
 res_adj <- NULL
 for(i in outcomes){
   if(grepl("t2_", i)){
-    temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W2, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+    temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=W2, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F)
   }else{
     if(i %in% c("t3_map","t3_hr_mean" )){
-      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_vital, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+      temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=W3_vital, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F)
     }
     if(i %in% c("t3_saa_z01","t3_saa_z02","t3_cort_z01","t3_cort_z03","t3_saa_slope","t3_cort_slope")){
-      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_salimetrics_time, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+      temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=W3_salimetrics_time, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F)
     }
     if(i %in% c("t3_residual_saa",  "t3_residual_cort")){
-      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_salimetrics, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+      temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=W3_salimetrics, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F)
     }
     if(i %in% c("t3_gcr_mean", "t3_gcr_cpg12")){
-      temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_oragene, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F, seed=12345)
+      temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=W3_oragene, id=d$block, pair=NULL, family="gaussian", contrast= c("Control","Nutrition + WSH"), print=F)
     }
   }
-  res_adj<-rbind(res_adj, unlist(temp$estimates$ATE))
+  res_adj<-rbind(res_adj, unlist(temp$TR))
 }
 res_adj <- as.data.frame(res_adj)
 
 
 
-colnames(res_adj)<-c("Mean difference","var","ci.l","ci.u", "Pval")
+colnames(res_adj)<-c("Mean difference","ci.l","ci.u","SE","Zval", "Pval")
 res_adj$Y <- outcomes
 
 
@@ -468,14 +468,14 @@ for(i in c("t3_hr_mean", "t3_map")){
   for (arm in c("Nutrition", "WSH")){
     print(i)
     print(arm)
-    temp<-washb_tmle(Y=(d[,i]), tr=d$tr, W=W3_vital, id=d$block, pair=NULL, family="gaussian", contrast= c("Control",arm), print=F, seed=12345)
-    vitals_adj<-rbind(vitals_adj, unlist(temp$estimates$ATE))
+    temp<-washb_glm(Y=(d[,i]), tr=d$tr, W=W3_vital, id=d$block, pair=NULL, family="gaussian", contrast= c("Control",arm), print=F)
+    vitals_adj<-rbind(vitals_adj, unlist(temp$TR))
   }
 }
 temp$fit
 vitals_adj <- as.data.frame(vitals_adj) %>% mutate(tr = rep(c("Nutrition", "WSH"), 2),
                                                                    Y = c("t3_hr_mean", "t3_hr_mean", "t3_map", "t3_map"))
-colnames(vitals_adj)<-c("Mean difference","var","ci.l","ci.u", "Pval","tr","Y")
+colnames(vitals_adj)<-c("Mean difference","ci.l","ci.u","SE","Zval", "Pval","tr","Y")
 vitals_adj
 
 

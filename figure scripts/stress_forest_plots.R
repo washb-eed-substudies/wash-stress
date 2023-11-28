@@ -78,6 +78,28 @@ p
 ggsave(p, file = here::here("figures/stress_forest_diff.png"), height=10, width=8)
 
 
+#Save as a table
+library(flextable)
+library(officer)
+tab <- plotdf %>% select(#name, 
+                         Y, Mean.difference,  ci.l, ci.u)
+
+tab <- data.frame(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 22),
+  Occupation = c("Engineer", "Doctor", "Artist")
+)
+ft <- flextable(tab)
+ft <- set_flextable_defaults(ft, header = list(jc = "center", color = "white", background.color = "navyblue"))
+ft <- color(ft, color = "navyblue", part = "all")
+ft <- fontsize(ft, size = 12, part = "all")
+doc <- read_docx() %>% 
+  body_add_flextable(ft) %>% 
+  print(target = "output_table.docx")
+
+
+
+
 #### FIGURE TREATMENT SPECIFIC MEANS ####
 
 mean_ci_tr <- mean_ci_tr %>% 
