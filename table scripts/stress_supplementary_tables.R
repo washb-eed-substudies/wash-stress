@@ -192,12 +192,12 @@ n <- function(str, str1, tbl){
 #pval
 pval <- function(str, tbl){
   filter<-tbl[tbl$Y == str,]
-  if(filter[5] < 0.01){
+  #if(filter[5] < 0.01){
     if(filter[5]<0.001){
       return("<0.001")
     }
-    return("<0.01")
-  }
+    #return("<0.01")
+  #}
   paste(format(round(filter[5], 3), nsmall = 3))
 }
 
@@ -424,12 +424,12 @@ write.csv(tbls3, here('tables/supplementary/miso9-stress-supplementarytable3.csv
 
 ####Table S 7: subgroup analyses by sex at t2#####
 pval <- function(num){
-  if(num < 0.01){
+  #if(num < 0.01){
     if(num<0.001){
       return("<0.001")
     }
-    return("<0.01")
-  }
+   # return("<0.01")
+  #}
   as.character(format(round(num, 3), nsmall = 3))
 }
 #Outcomes
@@ -498,10 +498,10 @@ RD_CI_7.1 <- paste0(rd7.1, " (", lb7.1, ", ", ub7.1,")")
 RD_CI_7.1 <- c("Unadjusted difference: Intervention vs. Control (95% CI)", RD_CI_7.1)
 
 
-#Combine RD and CI vectors
-RD_CI_7 <- paste0(rd7, " (", lb7, ", ", ub7,")")
-RD_CI_7 <- c("Unadjusted difference: Male vs. Female (95% CI)", RD_CI_7)
-#Question - is the CI for res_sex the main effect of sex?
+# #Combine RD and CI vectors
+# RD_CI_7 <- paste0(rd7, " (", lb7, ", ", ub7,")")
+# RD_CI_7 <- c("Unadjusted difference: Male vs. Female (95% CI)", RD_CI_7)
+# #Question - is the CI for res_sex the main effect of sex?
 
 #create table 7
 tbls7 <- data.table( 

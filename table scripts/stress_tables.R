@@ -245,12 +245,12 @@ n <- function(str, str1, tbl){
 #pval
 pval <- function(str, tbl){
   filter<-tbl[tbl$Y == str,]
-  if(filter[5] < 0.01){
+  #if(filter[5] < 0.01){
     if(filter[5]<0.001){
       return("<0.001")
     }
-    return("<0.01")
-  }
+    #return("<0.01")
+  #}
   paste(format(round(filter[5], 3), nsmall = 3))
 }
 

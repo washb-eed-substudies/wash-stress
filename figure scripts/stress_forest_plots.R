@@ -77,6 +77,9 @@ p
 
 ggsave(p, file = here::here("figures/stress_forest_diff.png"), height=10, width=8)
 
+#save for R01
+saveRDS(d, file="C:/Users/andre/Documents/EE/washb_r01/figure_data/stress_figure_data.RDS")
+
 
 #Save as a table
 library(flextable)

@@ -17,13 +17,8 @@ library(SuperLearner)
 library(devtools)
 library(kableExtra)
 library(here)
-<<<<<<< HEAD
 library(boxr)
-#try(box_auth())
-=======
-# library(boxr)
-# box_auth()
->>>>>>> 0b0c7d52d2b03d3772a2269d7a8c027f0f72c2d1
+
 
 dropboxDir <- NULL
 if(dir.exists("C:/Users/andre/Dropbox/WASHB-EE-analysis/WBB-EE-analysis/")){ 

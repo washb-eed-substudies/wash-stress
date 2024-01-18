@@ -21,8 +21,8 @@ y2_ctrl<-y2_has_outcomes[y2_has_outcomes$tr=="Control",]
 y2_nwsh<-y2_has_outcomes[y2_has_outcomes$tr=="Nutrition + WSH",]
 y2_ctrl_clusters<-length(unique(y2_ctrl$clusterid))
 y2_nwsh_clusters<-length(unique(y2_nwsh$clusterid))
-y2_ctrl_n<-nrow(y2_ctrl)
-y2_nwsh_n<-nrow(y2_nwsh)
+y2_ctrl_n<-nrow(distinct(y2_ctrl))
+y2_nwsh_n<-nrow(distinct(y2_nwsh))
 
 
 data <- tibble(x = 1:100, y= 1:100)
@@ -170,4 +170,7 @@ p
 
 ggsave(p, file = here("figures/stress_enrollment.tiff"), height=14, width=9)
 ggsave(p, file = here("figures/stress_enrollment2.tiff"), height=11.5, width=8)
+
+ggsave(p, file = here("figures/stress_enrollment.pdf"), height=14, width=9)
+ggsave(p, file = here("figures/stress_enrollment2.pdf"), height=11.5, width=8)
 
