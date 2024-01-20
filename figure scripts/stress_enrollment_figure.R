@@ -24,6 +24,12 @@ y2_nwsh_clusters<-length(unique(y2_nwsh$clusterid))
 y2_ctrl_n<-nrow(distinct(y2_ctrl))
 y2_nwsh_n<-nrow(distinct(y2_nwsh))
 
+dim(d %>% filter(tr=="Control") %>% distinct(childid, t3_saa_slope, t3_residual_saa, t3_cort_slope, t3_residual_cort, t3_map, t3_hr_mean, t3_gcr_mean, t3_gcr_cpg12))
+temp <- d %>% filter(tr=="Control") %>% distinct(childid, t3_saa_slope, t3_residual_saa, t3_cort_slope, t3_residual_cort, t3_map, t3_hr_mean, t3_gcr_mean, t3_gcr_cpg12)
+temp <- temp[apply(select(temp, tr, t3_saa_slope, t3_residual_saa, t3_cort_slope, t3_residual_cort, t3_map, t3_hr_mean, t3_gcr_mean, t3_gcr_cpg12), 1, filtering),]
+length(unique(temp$childid))
+write.csv(temp, file='C:/Users/andre/Downloads/washb_stress_y2_control.csv')
+
 
 data <- tibble(x = 1:100, y= 1:100)
 head(data)
