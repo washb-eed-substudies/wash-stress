@@ -164,3 +164,4 @@ p
 
 ggsave(p, file = here::here("figures/stress_forest_mean.png"), height=10, width=8)
 
+plotdf %>% select(name, group, Treatment, N, Mean, ci.l, ci.u) %>% write_csv("/Users/sophiatan/Documents/WASH/wash-stress-source-suppfig1.csv")

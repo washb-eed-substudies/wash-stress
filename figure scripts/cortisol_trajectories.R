@@ -24,7 +24,8 @@ p_facet <- p1 + facet_wrap(~tr)
 
 d_before <- d %>% select(childid, t3_cort_z01, tr) %>% rename(cort=t3_cort_z01) %>% mutate(time="Pre-stressor")
 d_after <- d %>% select(childid, t3_cort_z03, tr) %>% rename(cort=t3_cort_z03) %>% mutate(time="Post-stressor")
-plotdf <- bind_rows(d_before, d_after) %>% mutate(time=factor(time, levels=c("Pre-stressor","Post-stressor")))
+plotdf <- bind_rows(d_before, d_after) %>% mutate(time=factor(time, levels=c("Pre-stressor","Post-stressor"))) %>% 
+  filter(!cort%>%is.na())
 ptraj <- ggplot(plotdf, aes(x=time, y=cort, color=tr, group=childid )) + 
   geom_point(size=2, alpha=0.5, position = position_dodge(0.1)) + 
   geom_line(size=1.5, alpha=0.05, position = position_dodge(0.1)) + 
@@ -32,7 +33,7 @@ ptraj <- ggplot(plotdf, aes(x=time, y=cort, color=tr, group=childid )) +
 
 ptraj +  facet_wrap(~tr)
 
-
+plotdf %>% mutate(id=match(childid, unique(childid))) %>% select(!childid) %>% write_csv("/Users/sophiatan/Documents/WASH/wash-stress-source-suppfig2.csv")
 #proportion of non-responders
 
 
